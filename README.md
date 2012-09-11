@@ -1,6 +1,6 @@
-# Flipper::Ui
+# Flipper::UI
 
-TODO: Write a gem description
+UI for the Flipper gem.
 
 ## Installation
 
@@ -15,10 +15,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install flipper-ui
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## Contributing
 

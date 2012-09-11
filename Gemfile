@@ -1,4 +1,17 @@
 source 'https://rubygems.org'
-
-# Specify your gem's dependencies in flipper-ui.gemspec
 gemspec
+
+gem 'rake'
+
+group(:guard) do
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'guard-bundler'
+  gem 'terminal-notifier-guard'
+  gem 'rb-fsevent'
+end
+
+group(:test) do
+  gem 'rspec'
+  gem 'rack-test'
+end

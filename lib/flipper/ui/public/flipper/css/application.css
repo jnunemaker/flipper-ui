@@ -1,0 +1,7 @@
+#header h1 a {
+  display:block;
+  width:75px;
+  height:42px;
+  text-indent: -9999px;
+  background:url(/flipper/images/logo.png) 0 0 no-repeat;
+}
