@@ -2,6 +2,8 @@
 
 UI for the Flipper gem.
 
+__NOTE__: This is not functional yet. Just starting to get things wired up.
+
 ## Installation
 
 Add this line to your application's Gemfile:
