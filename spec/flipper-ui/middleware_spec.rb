@@ -38,8 +38,8 @@ describe Flipper::UI::Middleware do
 
     it "renders view" do
       last_response.body.should match(/Flipper/)
-      last_response.body.should match(/stats/)
-      last_response.body.should match(/search/)
+      last_response.body.should match(/stats/i)
+      last_response.body.should match(/search/i)
     end
   end
 
