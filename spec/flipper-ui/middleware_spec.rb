@@ -62,4 +62,12 @@ describe Flipper::UI::Middleware do
       last_response.status.should be(200)
     end
   end
+
+  context "Request method unsupported by action" do
+    it "raises error" do
+      expect {
+        post '/flipper/images/logo.png'
+      }.to raise_error(Flipper::UI::Middleware::Action::MethodNotSupported)
+    end
+  end
 end

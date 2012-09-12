@@ -5,6 +5,8 @@ require 'rack'
 module Flipper
   module UI
     class Middleware
+      Error = Class.new(StandardError)
+
       def initialize(app, flipper)
         @app = app
         @flipper = flipper
@@ -17,6 +19,9 @@ module Flipper
       end
 
       class Action
+        Error = Class.new(Middleware::Error)
+        MethodNotSupported = Class.new(Error)
+
         include Helpers
 
         def self.views_path
@@ -105,7 +110,7 @@ module Flipper
           if action.respond_to?(method_name)
             action.send method_name
           else
-            raise "#{request.request_method} not supported by #{action.class}"
+            raise Action::MethodNotSupported, "#{action.class} does not support #{method_name}"
           end
         else
           @app.call(env)
