@@ -40,7 +40,7 @@ module Flipper
             render_without_layout name
           end
 
-          Rack::Response.new(body)
+          Rack::Response.new(body, @code, @headers)
         end
 
         def render_with_layout(&block)
