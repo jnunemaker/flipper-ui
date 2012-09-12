@@ -89,9 +89,7 @@ module Flipper
           case request.path_info
           when /\/flipper\/?$/
             Index
-          when /\/flipper\/images\/(.*)/
-            File
-          when /\/flipper\/css\/(.*)/
+          when /\/flipper\/images|css\/(.*)/
             File
           end
         end
