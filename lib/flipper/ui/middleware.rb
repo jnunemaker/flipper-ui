@@ -52,10 +52,18 @@ module Flipper
         end
 
         def render_template(name)
-          path = self.class.views_path.join("#{name}.erb")
+          path = views_path.join("#{name}.erb")
           contents = path.read
           compiled = ERB.new(contents)
           compiled.result Proc.new {}.binding
+        end
+
+        def views_path
+          self.class.views_path
+        end
+
+        def public_path
+          self.class.public_path
         end
       end
 
