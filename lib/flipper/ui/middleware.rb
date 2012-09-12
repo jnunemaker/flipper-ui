@@ -78,7 +78,7 @@ module Flipper
 
       class File < Action
         def get(flipper)
-          Rack::File.new(self.class.public_path).call(request.env)
+          Rack::File.new(public_path).call(request.env)
         end
       end
 
