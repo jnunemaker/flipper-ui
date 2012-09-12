@@ -10,7 +10,15 @@ module Flipper
         @flipper = flipper
       end
 
+      module Helpers
+        def titleize(str)
+          str.to_s.split('_').map { |word| word.capitalize }.join ' '
+        end
+      end
+
       class Action
+        include Helpers
+
         def self.views_path
           Flipper::UI.root.join('views')
         end
@@ -52,13 +60,16 @@ module Flipper
       end
 
       class Index < Action
-        def get
+        Feature = Struct.new(:name)
+
+        def get(flipper)
+          @features = flipper.adapter.set_members('features').map { |name| Feature.new(name) }
           render :index
         end
       end
 
       class File < Action
-        def get
+        def get(flipper)
           Rack::File.new(self.class.public_path).call(request.env)
         end
       end
@@ -84,7 +95,7 @@ module Flipper
         if action = Route.detect(request)
           case request.request_method.downcase
           when 'get'
-            action.get
+            action.get(@flipper)
           else
             raise "#{request.request_method} not supported at this time"
           end

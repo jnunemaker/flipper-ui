@@ -27,6 +27,8 @@ describe Flipper::UI::Middleware do
 
   describe "GET /flipper" do
     before do
+      flipper[:stats].enable
+      flipper[:search].enable
       get '/flipper'
     end
 
@@ -36,6 +38,8 @@ describe Flipper::UI::Middleware do
 
     it "renders view" do
       last_response.body.should match(/Flipper/)
+      last_response.body.should match(/stats/)
+      last_response.body.should match(/search/)
     end
   end
 
