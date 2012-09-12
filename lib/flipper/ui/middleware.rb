@@ -20,11 +20,11 @@ module Flipper
         include Helpers
 
         def self.views_path
-          Flipper::UI.root.join('views')
+          @views_path ||= Flipper::UI.root.join('views')
         end
 
         def self.public_path
-          Flipper::UI.root.join('public')
+          @public_path ||= Flipper::UI.root.join('public')
         end
 
         attr_reader :request
