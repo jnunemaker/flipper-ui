@@ -10,8 +10,16 @@ $:.unshift(lib_path)
 require 'flipper-ui'
 require 'flipper/adapters/memory'
 
+Flipper.register(:admins) { |actor| actor.admin? }
+
 adapter = Flipper::Adapters::Memory.new({})
 flipper = Flipper.new(adapter)
+
+flipper[:search_performance].enable
+flipper[:gauges_tracking].enable
+flipper[:secrets].enable flipper.group(:admins)
+flipper[:logging].enable flipper.random(5)
+flipper[:new_cache].enable flipper.actors(15)
 
 use Flipper::UI::Middleware, flipper
 run lambda { |env|
