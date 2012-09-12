@@ -27,10 +27,10 @@ module Flipper
           @public_path ||= Flipper::UI.root.join('public')
         end
 
-        attr_reader :request
+        attr_reader :flipper, :request
 
-        def initialize(request)
-          @request = request
+        def initialize(flipper, request)
+          @flipper, @request = flipper, request
           @code = 200
           @headers = {'Content-Type' => 'text/html'}
         end
@@ -70,14 +70,14 @@ module Flipper
       class Index < Action
         Feature = Struct.new(:name)
 
-        def get(flipper)
+        def get
           @features = flipper.adapter.set_members('features').map { |name| Feature.new(name) }
           render :index
         end
       end
 
       class File < Action
-        def get(flipper)
+        def get
           Rack::File.new(public_path).call(request.env)
         end
       end
@@ -88,11 +88,11 @@ module Flipper
 
           case request.path_info
           when /\/flipper\/?$/
-            Index.new(request)
+            Index
           when /\/flipper\/images\/(.*)/
-            File.new(request)
+            File
           when /\/flipper\/css\/(.*)/
-            File.new(request)
+            File
           end
         end
       end
@@ -100,12 +100,14 @@ module Flipper
       def call(env)
         request = Rack::Request.new(env)
 
-        if action = Route.detect(request)
-          case request.request_method.downcase
-          when 'get'
-            action.get(@flipper)
+        if action_class = Route.detect(request)
+          action = action_class.new(@flipper, request)
+          method_name = request.request_method.downcase
+
+          if action.respond_to?(method_name)
+            action.send method_name
           else
-            raise "#{request.request_method} not supported at this time"
+            raise "#{request.request_method} not supported by #{action.class}"
           end
         else
           @app.call(env)
