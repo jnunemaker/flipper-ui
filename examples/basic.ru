@@ -1,5 +1,7 @@
-# Nothing to see here... move along.
-# Sets up load path for examples and requires some stuff
+#
+# Usage: bundle exec rackup examples/basic.ru
+#
+# Visit: http://localhost:9292/flipper in browser.
 require 'pp'
 require 'pathname'
 
