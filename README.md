@@ -1,6 +1,8 @@
 # Flipper::UI
 
-UI for the [Flipper](https://github.com/jnunemaker/flipper) gem.
+UI for the [Flipper](https://github.com/jnunemaker/flipper) gem. The basic idea is this:
+
+![flipper web](http://dribbble.s3.amazonaws.com/users/59/screenshots/704704/attachments/65188/flipper.png)
 
 __NOTE__: This is not functional yet. Just starting to get things wired up.
 
