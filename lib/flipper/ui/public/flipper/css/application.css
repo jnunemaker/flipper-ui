@@ -136,6 +136,7 @@ div.feature div.actions a {
   background: #f8f8f8;
   border: 1px solid #e8e8e8;
   -webkit-border-radius: 2px;
+  margin:0 2px 0 0;
   padding: 7px 13px;
   color: #888;
   text-decoration: none;
