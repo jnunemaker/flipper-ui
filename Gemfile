@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'rake'
+gem 'flipper', :git => 'git@github.com:jnunemaker/flipper.git'
 
 group(:guard) do
   gem 'guard'
