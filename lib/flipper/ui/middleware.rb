@@ -16,6 +16,21 @@ module Flipper
         def titleize(str)
           str.to_s.split('_').map { |word| word.capitalize }.join ' '
         end
+
+        def h(str)
+          Rack::Utils.escape_html(str)
+        end
+
+        def state_class(feature)
+          case feature.state
+          when :on
+            'enabled'
+          when :off
+            'disabled'
+          when :conditional
+            'partially-enabled'
+          end
+        end
       end
 
       class Action
@@ -76,7 +91,7 @@ module Flipper
         Feature = Struct.new(:name)
 
         def get
-          @features = flipper.adapter.set_members('features').map { |name| Feature.new(name) }
+          @features = flipper.adapter.set_members('features').map { |name| flipper[name] }
           render :index
         end
       end

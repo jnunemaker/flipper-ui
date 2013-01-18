@@ -1,9 +1,9 @@
 <% @features.each do |feature| %>
   <div class="feature">
-    <h3><span class="state enabled"></span><%= titleize feature.name %></h3>
+    <h3><span class="state <%= state_class feature %>"></span><%= titleize feature.name %></h3>
 
     <div class="description">
-      Enabled
+      <%=h feature.description %>
     </div>
 
     <div class="actions">
