@@ -101,17 +101,17 @@ div.feature h3 span.state {
   -webkit-border-radius: 2px;
 }
 
-div.feature h3 span.state.enabled {
+div.feature h3 span.state.on {
   background:#396;
   border-color:#396;
 }
 
-div.feature h3 span.state.partially-enabled {
+div.feature h3 span.state.conditional {
   background:#fc0;
   border-color:#fc0;
 }
 
-div.feature h3 span.state.disabled {
+div.feature h3 span.state.off {
   background:#900;
   border-color:#900;
 }

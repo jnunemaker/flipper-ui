@@ -20,17 +20,6 @@ module Flipper
         def h(str)
           Rack::Utils.escape_html(str)
         end
-
-        def state_class(feature)
-          case feature.state
-          when :on
-            'enabled'
-          when :off
-            'disabled'
-          when :conditional
-            'partially-enabled'
-          end
-        end
       end
 
       class Action
