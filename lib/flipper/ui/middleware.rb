@@ -1,122 +1,31 @@
-require 'pathname'
-require 'erb'
 require 'rack'
-require 'flipper/ui/decorators/feature'
-require 'erubis'
+require 'flipper/ui/action_collection'
+
+# Require all actions automatically.
+Flipper::UI.root.join('actions').each_child(false) do |name|
+  require "flipper/ui/actions/#{name}"
+end
 
 module Flipper
   module UI
     class Middleware
-
-      # Version of erubis just for flipper.
-      class Eruby < Erubis::Eruby
-        # switches '<%= ... %>' to escaped and '<%== ... %>' to unescaped.
-        include Erubis::EscapeEnhancer
-      end
-
-      Error = Class.new(StandardError)
-
       def initialize(app, flipper)
         @app = app
         @flipper = flipper
-      end
 
-      class Action
-        Error = Class.new(Middleware::Error)
-        MethodNotSupported = Class.new(Error)
-
-        def self.views_path
-          @views_path ||= Flipper::UI.root.join('views')
-        end
-
-        def self.public_path
-          @public_path ||= Flipper::UI.root.join('public')
-        end
-
-        attr_reader :flipper, :request
-
-        def initialize(flipper, request)
-          @flipper, @request = flipper, request
-          @code = 200
-          @headers = {'Content-Type' => 'text/html'}
-        end
-
-        def render(name)
-          body = render_with_layout do
-            render_without_layout name
-          end
-
-          Rack::Response.new(body, @code, @headers)
-        end
-
-        def render_with_layout(&block)
-          render_template :layout, &block
-        end
-
-        def render_without_layout(name)
-          render_template name
-        end
-
-        def render_template(name)
-          path = views_path.join("#{name}.erb")
-          contents = path.read
-          compiled = Eruby.new(contents)
-          compiled.result Proc.new {}.binding
-        end
-
-        def views_path
-          self.class.views_path
-        end
-
-        def public_path
-          self.class.public_path
-        end
-      end
-
-      class Index < Action
-        Feature = Struct.new(:name)
-
-        def get
-          @features = flipper.features.map { |feature|
-            Decorators::Feature.new(feature)
-          }
-          render :index
-        end
-      end
-
-      class File < Action
-        def get
-          Rack::File.new(public_path).call(request.env)
-        end
-      end
-
-      class Route
-        def self.detect(request)
-          return unless request.path_info =~ /^\/flipper/
-
-          case request.path_info
-          when /\/flipper\/?$/
-            Index
-          when /\/flipper\/images|css|js\/(.*)/
-            File
-          end
-        end
+        @action_collection = ActionCollection.new
+        @action_collection.add UI::Actions::Index
+        @action_collection.add UI::Actions::File
       end
 
       def call(env)
         request = Rack::Request.new(env)
+        action_class = @action_collection.action_for_request(request)
 
-        if action_class = Route.detect(request)
-          action = action_class.new(@flipper, request)
-          method_name = request.request_method.downcase
-
-          if action.respond_to?(method_name)
-            action.send method_name
-          else
-            raise Action::MethodNotSupported, "#{action.class} does not support #{method_name}"
-          end
-        else
+        if action_class.nil?
           @app.call(env)
+        else
+          action_class.run(@flipper, request)
         end
       end
     end

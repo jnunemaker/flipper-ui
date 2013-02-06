@@ -67,7 +67,7 @@ describe Flipper::UI::Middleware do
     it "raises error" do
       expect {
         post '/flipper/images/logo.png'
-      }.to raise_error(Flipper::UI::Middleware::Action::MethodNotSupported)
+      }.to raise_error(Flipper::UI::RequestMethodNotSupported)
     end
   end
 end

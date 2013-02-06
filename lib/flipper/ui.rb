@@ -1,5 +1,5 @@
+require 'pathname'
 require 'flipper'
-require 'flipper/ui/middleware'
 
 module Flipper
   module UI
@@ -8,3 +8,5 @@ module Flipper
     end
   end
 end
+
+require 'flipper/ui/middleware'
