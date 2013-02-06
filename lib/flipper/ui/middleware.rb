@@ -2,10 +2,18 @@ require 'pathname'
 require 'erb'
 require 'rack'
 require 'flipper/ui/decorators/feature'
+require 'erubis'
 
 module Flipper
   module UI
     class Middleware
+
+      # Version of erubis just for flipper.
+      class FlipperEruby < Erubis::Eruby
+        # switches '<%= ... %>' to escaped and '<%== ... %>' to unescaped.
+        include Erubis::EscapeEnhancer
+      end
+
       Error = Class.new(StandardError)
 
       def initialize(app, flipper)
@@ -13,17 +21,9 @@ module Flipper
         @flipper = flipper
       end
 
-      module Helpers
-        def h(str)
-          Rack::Utils.escape_html(str)
-        end
-      end
-
       class Action
         Error = Class.new(Middleware::Error)
         MethodNotSupported = Class.new(Error)
-
-        include Helpers
 
         def self.views_path
           @views_path ||= Flipper::UI.root.join('views')
@@ -60,7 +60,7 @@ module Flipper
         def render_template(name)
           path = views_path.join("#{name}.erb")
           contents = path.read
-          compiled = ERB.new(contents)
+          compiled = FlipperEruby.new(contents)
           compiled.result Proc.new {}.binding
         end
 
