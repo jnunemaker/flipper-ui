@@ -44,5 +44,6 @@ flipper[:new_cache].enable flipper.actors(15)
 
 use Flipper::UI::Middleware, flipper
 run lambda { |env|
-  [200, {'Content-Type' => 'text/html'}, ['Go here for <a href="/flipper">Flipper!</a>']]
+  body = 'Go here for <a href="/flipper">Flipper!</a>'
+  [200, {'Content-Type' => 'text/html'}, [body]]
 }
