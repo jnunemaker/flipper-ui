@@ -1,6 +1,7 @@
 require 'pathname'
 require 'erb'
 require 'rack'
+require 'flipper/ui/decorators/feature'
 
 module Flipper
   module UI
@@ -13,10 +14,6 @@ module Flipper
       end
 
       module Helpers
-        def titleize(str)
-          str.to_s.split('_').map { |word| word.capitalize }.join ' '
-        end
-
         def h(str)
           Rack::Utils.escape_html(str)
         end
@@ -80,7 +77,9 @@ module Flipper
         Feature = Struct.new(:name)
 
         def get
-          @features = flipper.adapter.set_members('features').map { |name| flipper[name] }
+          @features = flipper.features.map { |feature|
+            Decorators::Feature.new(feature)
+          }
           render :index
         end
       end
