@@ -9,7 +9,7 @@ module Flipper
     class Middleware
 
       # Version of erubis just for flipper.
-      class FlipperEruby < Erubis::Eruby
+      class Eruby < Erubis::Eruby
         # switches '<%= ... %>' to escaped and '<%== ... %>' to unescaped.
         include Erubis::EscapeEnhancer
       end
@@ -60,7 +60,7 @@ module Flipper
         def render_template(name)
           path = views_path.join("#{name}.erb")
           contents = path.read
-          compiled = FlipperEruby.new(contents)
+          compiled = Eruby.new(contents)
           compiled.result Proc.new {}.binding
         end
 
