@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = Flipper::UI::VERSION
 
   gem.add_dependency 'rack'
-  gem.add_dependency 'flipper'
+  gem.add_dependency 'flipper', '~> 0.4.0'
 end
