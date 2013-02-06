@@ -11,3 +11,10 @@ guard 'rspec' do
   watch(%r{^lib/(.+)\.rb$}) { "spec" }
   watch('spec/helper.rb')  { "spec" }
 end
+
+coffee_options = {
+  :input => 'lib/flipper/ui/assets/javascripts',
+  :output => 'lib/flipper/ui/public/flipper/js',
+  :all_on_start => false,
+}
+guard 'coffeescript', coffee_options
