@@ -3,9 +3,10 @@ gemspec
 
 gem 'rake'
 gem 'shotgun'
-gem 'flipper'
 gem 'rspec'
 gem 'rack-test'
+
+gem 'flipper', :git => 'https://github.com/jnunemaker/flipper.git'
 
 group(:guard) do
   gem 'guard'
