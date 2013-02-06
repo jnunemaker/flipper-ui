@@ -1,7 +1,14 @@
 #
-# Usage: bundle exec rackup examples/basic.ru
+# Usage:
+#   bundle exec rackup examples/basic.ru
+#   http://localhost:9292/flipper
 #
-# Visit: http://localhost:9292/flipper in browser.
+# OR, you can use shotgun to get auto-reloading.
+#
+# Shotgun Usage:
+#   bundle exec shotgun examples/basic.ru
+#   http://localhost:9393/flipper
+#
 require 'pp'
 require 'pathname'
 
