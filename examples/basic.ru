@@ -12,8 +12,13 @@ $:.unshift(lib_path)
 require 'flipper-ui'
 require 'flipper/adapters/memory'
 
-Flipper.register(:admins) { |actor| actor.respond_to?(:admin?) && actor.admin? }
-Flipper.register(:early_access) { |actor| actor.respond_to?(:early?) && actor.early? }
+Flipper.register(:admins) { |actor|
+  actor.respond_to?(:admin?) && actor.admin?
+}
+
+Flipper.register(:early_access) { |actor|
+  actor.respond_to?(:early?) && actor.early?
+}
 
 adapter = Flipper::Adapters::Memory.new({})
 flipper = Flipper.new(adapter)
@@ -29,11 +34,6 @@ flipper[:secrets].enable flipper.group(:admins)
 flipper[:secrets].enable flipper.group(:early_access)
 flipper[:logging].enable flipper.random(5)
 flipper[:new_cache].enable flipper.actors(15)
-
-flipper[:complex].enable Actor.new('1')
-flipper[:complex].enable flipper.group(:admins)
-flipper[:complex].enable flipper.random(22)
-flipper[:complex].enable flipper.actors(10)
 
 use Flipper::UI::Middleware, flipper
 run lambda { |env|
