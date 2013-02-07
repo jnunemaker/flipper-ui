@@ -1,5 +1,6 @@
 require 'pathname'
 require 'flipper'
+require 'multi_json'
 
 module Flipper
   module UI

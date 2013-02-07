@@ -72,6 +72,16 @@ module Flipper
         Rack::Response.new(body, @code, @headers)
       end
 
+      def render_json(object)
+        body = MultiJson.dump(object)
+
+        headers = @headers.merge({
+          'Content-Type' => 'application/json',
+        })
+
+        Rack::Response.new(body, @code, headers)
+      end
+
       # Private
       def render_with_layout(&block)
         render_template :layout, &block
