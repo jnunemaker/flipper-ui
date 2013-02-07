@@ -38,8 +38,39 @@ describe Flipper::UI::Middleware do
 
     it "renders view" do
       last_response.body.should match(/Flipper/)
-      last_response.body.should match(/stats/i)
-      last_response.body.should match(/search/i)
+    end
+  end
+
+  describe "GET /flipper/features" do
+    before do
+      flipper[:new_stats].enable
+      flipper[:search].disable
+      get '/flipper/features'
+    end
+
+    it "responds with 200" do
+      last_response.status.should be(200)
+    end
+
+    it "responds with content type of json" do
+      last_response.content_type.should eq('application/json')
+    end
+
+    it "renders view" do
+      features = json_response
+      features.should be_instance_of(Array)
+
+      feature = features[0]
+      feature['id'].should eq('new-stats')
+      feature['name'].should eq('New Stats')
+      feature['state'].should eq('on')
+      feature['description'].should eq('Enabled')
+
+      feature = features[1]
+      feature['id'].should eq('search')
+      feature['name'].should eq('Search')
+      feature['state'].should eq('off')
+      feature['description'].should eq('Disabled')
     end
   end
 

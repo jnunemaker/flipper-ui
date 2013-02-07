@@ -15,6 +15,7 @@ module Flipper
 
         @action_collection = ActionCollection.new
         @action_collection.add UI::Actions::Index
+        @action_collection.add UI::Actions::Features
         @action_collection.add UI::Actions::File
       end
 
