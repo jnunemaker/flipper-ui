@@ -16,6 +16,15 @@ module Flipper
           @pretty_name ||= titleize(name)
         end
 
+        def as_json
+          {
+            'id' => html_id.to_s,
+            'name' => pretty_name,
+            'state' => state.to_s,
+            'description' => description,
+          }
+        end
+
         # Private
         def titleize(str)
           str.to_s.split('_').map { |word| word.capitalize }.join(' ')

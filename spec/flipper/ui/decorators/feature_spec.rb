@@ -26,4 +26,30 @@ describe Flipper::UI::Decorators::Feature do
       subject.pretty_name.should eq('Some Awesome Feature')
     end
   end
+
+  describe "#as_json" do
+    before do
+      @result = subject.as_json
+    end
+
+    it "returns Hash" do
+      @result.should be_instance_of(Hash)
+    end
+
+    it "includes id" do
+      @result['id'].should eq('some-awesome-feature')
+    end
+
+    it "includes pretty name" do
+      @result['name'].should eq('Some Awesome Feature')
+    end
+
+    it "includes state" do
+      @result['state'].should eq('off')
+    end
+
+    it "includes description" do
+      @result['description'].should eq('Disabled')
+    end
+  end
 end
