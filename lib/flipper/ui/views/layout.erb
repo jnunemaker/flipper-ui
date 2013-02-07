@@ -4,15 +4,38 @@
     <title>Flipper</title>
     <link rel="stylesheet" type="text/css" href="/flipper/css/application.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+    <script src="/flipper/js/handlebars.js"></script>
+    <script src="/flipper/js/spine/spine.js"></script>
+    <script src="/flipper/js/spine/ajax.js"></script>
+    <script src="/flipper/js/spine/route.js"></script>
+    <script src="/flipper/js/spine/relation.js"></script>
+
     <script src="/flipper/js/application.js"></script>
   </head>
   <body>
-    <div id="header">
-      <h1><a href="/">Flipper</a></h1>
+    <div id="app">
+      <div id="header">
+        <h1><a href="/">Flipper</a></h1>
+      </div>
+
+      <div id="content">
+        <%== yield %>
+      </div>
     </div>
 
-    <div id="content">
-      <%== yield %>
-    </div>
+    <script id="feature-template" type="text/x-handlebars-template">
+      <div class="feature" id="{{id}}">
+        <h3><span class="state {{state}}"></span>{{name}}</h3>
+
+        <div class="description">
+          {{description}}
+        </div>
+
+        <div class="actions">
+          <a href="#">Change Settings</a>
+        </div>
+      </div>
+    </script>
   </body>
 </html>
