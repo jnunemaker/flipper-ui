@@ -18,3 +18,9 @@ coffee_options = {
   :all_on_start => false,
 }
 guard 'coffeescript', coffee_options
+
+sass_options = {
+  :input => 'lib/flipper/ui/assets/stylesheets',
+  :output => 'lib/flipper/ui/public/flipper/css',
+}
+guard 'sass', sass_options

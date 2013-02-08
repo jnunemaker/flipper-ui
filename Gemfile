@@ -13,6 +13,6 @@ group(:guard) do
   gem 'guard-rspec'
   gem 'guard-bundler'
   gem 'guard-coffeescript'
-  gem 'terminal-notifier-guard'
+  gem 'guard-sass'
   gem 'rb-fsevent'
 end
