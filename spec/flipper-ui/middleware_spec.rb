@@ -64,7 +64,7 @@ describe Flipper::UI::Middleware do
       features.should be_instance_of(Array)
 
       feature = features[0]
-      feature['id'].should eq('new-stats')
+      feature['id'].should eq('new_stats')
       feature['name'].should eq('New Stats')
       feature['state'].should eq('on')
       feature['description'].should eq('Enabled')
