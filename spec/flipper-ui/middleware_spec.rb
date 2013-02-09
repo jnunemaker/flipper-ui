@@ -8,7 +8,10 @@ describe Flipper::UI::Middleware do
 
   let(:source)  { {} }
   let(:adapter) { Flipper::Adapters::Memory.new(source) }
-  let(:flipper) { Flipper.new(adapter) }
+
+  let(:flipper) {
+    Flipper.new(adapter, :instrumenter => ActiveSupport::Notifications)
+  }
 
   def app
     @app ||= begin
