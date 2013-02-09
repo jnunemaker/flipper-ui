@@ -45,5 +45,12 @@ describe Flipper::UI::Decorators::Feature do
     it "includes description" do
       @result['description'].should eq('Disabled')
     end
+
+    it "includes gates" do
+      gates = subject.gates.map { |gate|
+        Flipper::UI::Decorators::Gate.new(gate).as_json
+      }
+      @result['gates'].should eq(gates)
+    end
   end
 end

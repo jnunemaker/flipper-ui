@@ -1,4 +1,5 @@
 require 'delegate'
+require 'flipper/ui/decorators/gate'
 
 module Flipper
   module UI
@@ -17,6 +18,9 @@ module Flipper
             'name' => pretty_name,
             'state' => state.to_s,
             'description' => description,
+            'gates' => gates.map { |gate|
+              Decorators::Gate.new(gate).as_json
+            },
           }
         end
 
