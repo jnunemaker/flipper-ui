@@ -37,7 +37,7 @@ flipper = Flipper.new(adapter, :instrumenter => ActiveSupport::Notifications)
 
 Actor = Struct.new(:flipper_id)
 
-flipper[:search_performance].enable
+flipper[:search_performance_another_long_thing].enable
 flipper[:gauges_tracking].enable
 flipper[:unused].disable
 flipper[:suits].enable Actor.new('1')
