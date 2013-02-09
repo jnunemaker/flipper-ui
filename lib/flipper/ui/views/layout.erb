@@ -26,16 +26,51 @@
 
     <script id="feature-template" type="text/x-handlebars-template">
       <div class="feature" id="feature-{{id}}">
-        <h3><span class="state {{state}}"></span>{{name}}</h3>
+        <div class="show">
+          <h3>
+            <span class="state {{state}}"></span>
+            {{name}}
+            <span class="description">{{description}}</span>
+          </h3>
 
-        <div class="description">
-          {{description}}
+          <div class="actions">
+            <a href="#" class="show-settings">Change Settings</a>
+          </div>
         </div>
 
-        <div class="actions">
-          <a href="#" class="settings-toggle">Change Settings</a>
+        <div class="edit">
+          <h3>
+            {{name}}
+            <span class="description">Settings</span>
+          </h3>
+
+          <div class="actions">
+            <a href="#" class="hide-settings">Cancel</a>
+          </div>
+
+          <div class="tabs">
+            <ul>
+              <li><a href="#" data-tab="boolean">All On/All Off</a></li>
+              <li><a href="#" data-tab="percentage_of_actors">Percentage Of Actors</a></li>
+            </ul>
+          </div>
+
+          <div class="gates"></div>
         </div>
       </div>
     </script>
+
+    <script id="gate-boolean-template" type="text/x-handlebars-template">
+      <form action="/flipper/features/{{feature_id}}" method="POST">
+        <input type="radio" name="value" value="true" {{#value}}checked="checked"{{/value}} /> On
+        <input type="radio" name="value" value="false" {{^value}}checked="checked"{{/value}} /> Off
+        <button>Save Settings</button>
+      </form>
+    </script>
+
+    <script id="gate-percentage-of-actors-template" type="text/x-handlebars-template">
+      slider...
+    </script>
+
   </body>
 </html>

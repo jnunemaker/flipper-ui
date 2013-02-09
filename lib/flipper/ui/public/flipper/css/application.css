@@ -75,7 +75,7 @@ div.feature {
 
 div.feature h3 {
   float: left;
-  width: 275px;
+  width: 575px;
   font-size: 17px;
   line-height: 17px;
   font-weight: bold;
@@ -104,15 +104,45 @@ div.feature h3 span.state.off {
   background: #900;
   border-color: #900; }
 
-div.feature div.description {
-  float: left;
-  width: 300px;
-  margin: 9px 0 0;
+div.feature .description {
   font-size: 12px;
+  font-weight: normal;
   color: #888; }
 
-div.feature.settings div.description {
+div.feature .edit {
   display: none; }
+div.feature.settings .show {
+  display: none; }
+div.feature.settings .edit {
+  display: block; }
+div.feature .stack > div {
+  display: none; }
+  div.feature .stack > div.active {
+    display: block; }
+
+div.tabs ul {
+  clear: both;
+  margin: 0 -10px 0 -17px;
+  padding: 10px 0 0 17px;
+  border-bottom: 1px solid #e8e8e8; }
+  div.tabs ul li {
+    display: inline-block; }
+    div.tabs ul li a {
+      display: block;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 30px;
+      color: #999;
+      text-decoration: none;
+      margin: 0 5px -1px 0;
+      padding: 0 12px 0;
+      border: 1px solid #e8e8e8;
+      -webkit-border-radius: 3px 3px 0 0;
+      -webkit-font-smoothing: antialiased; }
+      div.tabs ul li a.active {
+        color: #555;
+        background: #fff;
+        border-bottom: 1px solid white; }
 
 div.feature div.actions {
   float: left;
