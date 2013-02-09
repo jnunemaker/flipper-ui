@@ -77,6 +77,25 @@ describe Flipper::UI::Middleware do
     end
   end
 
+  describe "GET /flipper/features/:id/:gate" do
+    before do
+      feature = flipper[:some_thing]
+      feature.enable
+      params = {
+        'value' => 'false',
+      }
+      post "/flipper/features/#{feature.name}/boolean", params
+    end
+
+    it "responds with 200" do
+      last_response.status.should be(200)
+    end
+
+    it "updates gate state" do
+      flipper[:some_thing].state.should be(:off)
+    end
+  end
+
   describe "GET /flipper/images/logo.png" do
     before do
       get '/flipper/images/logo.png'

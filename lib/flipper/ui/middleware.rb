@@ -14,9 +14,12 @@ module Flipper
         @flipper = flipper
 
         @action_collection = ActionCollection.new
-        @action_collection.add UI::Actions::Index
-        @action_collection.add UI::Actions::Features
         @action_collection.add UI::Actions::File
+        @action_collection.add UI::Actions::Features
+        @action_collection.add UI::Actions::Gate
+
+        # Catch all, always last.
+        @action_collection.add UI::Actions::Index
       end
 
       def call(env)
