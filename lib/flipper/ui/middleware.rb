@@ -20,6 +20,10 @@ module Flipper
       end
 
       def call(env)
+        dup.call!(env)
+      end
+
+      def call!(env)
         request = Rack::Request.new(env)
         action_class = @action_collection.action_for_request(request)
 
