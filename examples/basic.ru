@@ -10,6 +10,7 @@
 #   http://localhost:9393/flipper
 #
 require 'pp'
+require 'logger'
 require 'pathname'
 
 root_path = Pathname(__FILE__).dirname.join('..').expand_path
@@ -27,8 +28,12 @@ Flipper.register(:early_access) { |actor|
   actor.respond_to?(:early?) && actor.early?
 }
 
+# Setup logging of flipper calls.
+require 'flipper/instrumentation/log_subscriber'
+Flipper::Instrumentation::LogSubscriber.logger = Logger.new(STDOUT)
+
 adapter = Flipper::Adapters::Memory.new({})
-flipper = Flipper.new(adapter)
+flipper = Flipper.new(adapter, :instrumenter => ActiveSupport::Notifications)
 
 Actor = Struct.new(:flipper_id)
 

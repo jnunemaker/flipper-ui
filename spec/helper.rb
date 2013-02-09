@@ -6,6 +6,17 @@ Bundler.setup :default
 
 require 'flipper-ui'
 
+require 'flipper/instrumentation/log_subscriber'
+require 'logger'
+
+root = Pathname(__FILE__).dirname.join('..').expand_path
+log_path = root.join('log')
+log_path.mkpath
+
+logger = Logger.new(log_path.join('test.log'))
+logger.formatter = proc { |severity, datetime, progname, msg| "#{msg}\n" }
+Flipper::Instrumentation::LogSubscriber.logger = logger
+
 module JsonHelpers
   def json_response
     MultiJson.load(last_response.body)
