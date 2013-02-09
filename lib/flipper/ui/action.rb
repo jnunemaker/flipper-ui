@@ -1,9 +1,12 @@
+require 'forwardable'
 require 'flipper/ui/error'
 require 'flipper/ui/eruby'
 
 module Flipper
   module UI
     class Action
+      extend Forwardable
+
       # Public: Call this in subclasses so the action knows its route.
       #
       # regex - The Regexp that this action should run for.
@@ -44,6 +47,9 @@ module Flipper
 
       # Public: The Rack::Request to provide a response for.
       attr_reader :request
+
+      # Public: The params for the request.
+      def_delegator :@request, :params
 
       def initialize(flipper, request)
         @flipper, @request = flipper, request
