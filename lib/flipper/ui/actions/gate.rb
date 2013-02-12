@@ -103,11 +103,8 @@ module Flipper
             message: "#{value.inspect} is not a valid actor value.",
           }
 
-          options = {
-            code: 422,
-          }
-
-          halt json_response(response, options)
+          status 422
+          halt json_response(response)
         end
 
         # Private: Returns error response for invalid percentage value.
@@ -117,11 +114,8 @@ module Flipper
             message: exception.message,
           }
 
-          options = {
-            code: 422,
-          }
-
-          halt json_response(response, options)
+          status 422
+          halt json_response(response)
         end
 
         # Private: Returns error response that group was not registered.
@@ -131,11 +125,8 @@ module Flipper
             message: "The group named #{group_name.inspect} has not been registered.",
           }
 
-          options = {
-            code: 404,
-          }
-
-          halt json_response(response, options)
+          status 404
+          halt json_response(response)
         end
 
         # Private: Returns error response that gate update method is not defined.
@@ -145,11 +136,8 @@ module Flipper
             message: "I have no clue how to update the gate named #{gate_name.inspect}.",
           }
 
-          options = {
-            code: 404,
-          }
-
-          halt json_response(response, options)
+          status 404
+          halt json_response(response)
         end
       end
     end

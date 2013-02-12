@@ -54,11 +54,7 @@ module Flipper
       def initialize(flipper, request)
         @flipper, @request = flipper, request
         @code = 200
-        @headers = {'Content-Type' => 'text/html'}
-      end
-
-      def request_method_name
-        @request_method_name ||= @request.request_method.downcase
+        @headers = {}
       end
 
       # Public: Runs the request method for the provided request.
@@ -66,20 +62,10 @@ module Flipper
       # Returns whatever the request method returns in the action.
       def run
         if respond_to?(request_method_name)
-          catch(:halt) {
-            send(request_method_name)
-          }
+          catch(:halt) { send(request_method_name) }
         else
           raise UI::RequestMethodNotSupported, "#{self.class} does not support request method #{request_method_name.inspect}"
         end
-      end
-
-      # Public: Call this with a response to immediately stop the current action
-      # and respond however you want.
-      #
-      # response - The Rack::Response you would like to return.
-      def halt(response)
-        throw :halt, response
       end
 
       # Public: Runs another action from within the request method of a
@@ -97,21 +83,52 @@ module Flipper
         action_class.new(flipper, request).run
       end
 
+      # Public: Call this with a response to immediately stop the current action
+      # and respond however you want.
+      #
+      # response - The Rack::Response you would like to return.
+      def halt(response)
+        throw :halt, response
+      end
+
+      # Public: Compiles a view and returns rack response with that as the body.
+      #
+      # name - The Symbol name of the view.
+      #
+      # Returns a Rack::Response.
       def view_response(name)
+        header 'Content-Type', 'text/html'
         body = view_with_layout { view_without_layout name }
 
         Rack::Response.new(body, @code, @headers)
       end
 
-      def json_response(object, options = {})
+      # Public: Dumps an object as json and returns rack response with that as
+      # the body. Automatically sets Content-Type to "application/json".
+      #
+      # object - The Object that should be dumped as json.
+      #
+      # Returns a Rack::Response.
+      def json_response(object)
+        header 'Content-Type', 'application/json'
         body = MultiJson.dump(object)
-        code = options.fetch(:code, @code)
 
-        headers = @headers.merge({
-          'Content-Type' => 'application/json',
-        })
+        Rack::Response.new(body, @code, @headers)
+      end
 
-        Rack::Response.new(body, code, headers)
+      # Public: Set the status code for the response.
+      #
+      # code - The Integer code you would like the response to return.
+      def status(code)
+        @code = code.to_i
+      end
+
+      # Public: Set a header.
+      #
+      # name - The String name of the header.
+      # value - The value of the header.
+      def header(name, value)
+        @headers[name] = value
       end
 
       # Private
@@ -140,6 +157,11 @@ module Flipper
       # Private
       def public_path
         self.class.public_path
+      end
+
+      # Private: Returns the request method converted to an action method.
+      def request_method_name
+        @request_method_name ||= @request.request_method.downcase
       end
     end
   end
