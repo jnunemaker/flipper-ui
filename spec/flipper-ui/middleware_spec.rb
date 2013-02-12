@@ -110,7 +110,6 @@ describe Flipper::UI::Middleware do
     end
 
     it "updates gate state" do
-      flipper[:some_thing].state.should be(:conditional)
       flipper[:some_thing].gate(:percentage_of_actors).value.to_i.should be(5)
     end
   end
@@ -129,8 +128,97 @@ describe Flipper::UI::Middleware do
     end
 
     it "updates gate state" do
-      flipper[:some_thing].state.should be(:conditional)
       flipper[:some_thing].gate(:percentage_of_random).value.to_i.should be(5)
+    end
+  end
+
+  describe "POST /flipper/features/:id/actor" do
+    context "enable" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'operation' => 'enable',
+          'value' => '11',
+        }
+        post "/flipper/features/#{feature.name}/actor", params
+      end
+
+      it "responds with 200" do
+        last_response.status.should be(200)
+      end
+
+      it "updates gate state" do
+        flipper[:some_thing].gate(:actor).value.should include('11')
+      end
+    end
+
+    context "disable" do
+      before do
+        feature = flipper[:some_thing]
+        feature.enable Struct.new(:flipper_id).new('11')
+        params = {
+          'operation' => 'disable',
+          'value' => '11',
+        }
+        post "/flipper/features/#{feature.name}/actor", params
+      end
+
+      it "responds with 200" do
+        last_response.status.should be(200)
+      end
+
+      it "updates gate state" do
+        flipper[:some_thing].gate(:actor).value.should_not include('11')
+      end
+    end
+  end
+
+  describe "POST /flipper/features/:id/actor" do
+    before do
+      Flipper.register(:admins) { |user| user.admin? }
+    end
+
+    after do
+      Flipper.groups = nil
+    end
+
+    context "enable" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'operation' => 'enable',
+          'value' => 'admins',
+        }
+        post "/flipper/features/#{feature.name}/group", params
+      end
+
+      it "responds with 200" do
+        last_response.status.should be(200)
+      end
+
+      it "updates gate state" do
+        flipper[:some_thing].gate(:group).value.should include('admins')
+      end
+    end
+
+    context "disable" do
+      before do
+        feature = flipper[:some_thing]
+        feature.enable flipper.group(:admins)
+        params = {
+          'operation' => 'disable',
+          'value' => 'admins',
+        }
+        post "/flipper/features/#{feature.name}/group", params
+      end
+
+      it "responds with 200" do
+        last_response.status.should be(200)
+      end
+
+      it "updates gate state" do
+        flipper[:some_thing].gate(:group).value.should_not include('admins')
+      end
     end
   end
 

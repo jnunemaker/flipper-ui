@@ -15,19 +15,16 @@ module Flipper
         end
 
         # FIXME: Handle gate not found by name.
-        # FIXME: Handle gate updates other than boolean.
+        # FIXME: Return more than just the gate as json response?
         def post
           _, _, _, feature_name, gate_name = request.path.split('/')
 
           feature = flipper[feature_name.to_sym]
           gate = feature.gate(gate_name)
-
           method_name = "update_#{gate_name}"
 
           if respond_to?(method_name)
             send(method_name, feature, gate)
-          else
-            # TODO: raise error probably or output error message
           end
 
           decorated_gate = Decorators::Gate.new(gate)
@@ -42,19 +39,41 @@ module Flipper
           end
         end
 
-        def update_actors(feature, gate)
-          raise 'soon...'
+        # FIXME: protect against invalid operations
+        # FIXME: protect against invalid values (blank, empty, etc)
+        def update_actor(feature, gate)
+          thing = Struct.new(:flipper_id).new(params['value'])
+          actor = flipper.actor(thing)
+
+          case params['operation']
+          when 'enable'
+            feature.enable actor
+          when 'disable'
+            feature.disable actor
+          end
         end
 
-        def update_groups(feature, gate)
-          raise 'soon...'
+        # FIXME: protect against invalid operations
+        # FIXME: protect against invalid values (blank, empty, etc)
+        def update_group(feature, gate)
+          group_name = params['value'].to_sym
+          group = flipper.group(group_name)
+
+          case params['operation']
+          when 'enable'
+            feature.enable group
+          when 'disable'
+            feature.disable group
+          end
         end
 
+        # FIXME: guard against percentage that doesn't fit 0 <= p <= 100
         def update_percentage_of_actors(feature, gate)
           value = (params['value'] || 0).to_i
           feature.enable flipper.actors(value)
         end
 
+        # FIXME: guard against percentage that doesn't fit 0 <= p <= 100
         def update_percentage_of_random(feature, gate)
           value = (params['value'] || 0).to_i
           feature.enable flipper.random(value)
