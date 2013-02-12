@@ -193,7 +193,7 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "POST /flipper/features/:id/actor" do
+  describe "POST /flipper/features/:id/group" do
     before do
       Flipper.register(:admins) { |user| user.admin? }
     end
