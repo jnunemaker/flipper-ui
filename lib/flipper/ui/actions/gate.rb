@@ -1,3 +1,4 @@
+require 'flipper/ui/util'
 require 'flipper/ui/action'
 require 'flipper/ui/actions/index'
 require 'flipper/ui/decorators/feature'
@@ -6,6 +7,9 @@ module Flipper
   module UI
     module Actions
       class Gate < UI::Action
+
+        # Private: Struct to wrap actors so they can respond to flipper_id.
+        FakeActor = Struct.new(:flipper_id)
 
         route %r{^/flipper/features/.*/.*/?$}
 
@@ -44,7 +48,13 @@ module Flipper
         # FIXME: protect against invalid operations
         # FIXME: protect against invalid values (blank, empty, etc)
         def update_actor(feature)
-          thing = Struct.new(:flipper_id).new(params['value'])
+          value = params['value']
+
+          if Util.blank?(value)
+            invalid_actor_value(value)
+          end
+
+          thing = FakeActor.new(value)
           actor = flipper.actor(thing)
 
           case params['operation']
@@ -85,6 +95,20 @@ module Flipper
           feature.enable flipper.random(value)
         rescue ArgumentError => exception
           invalid_percentage value, exception
+        end
+
+        # Private: Returns error response for invalid actor value.
+        def invalid_actor_value(value)
+          response = {
+            status: 'error',
+            message: "#{value.inspect} is not a valid actor value.",
+          }
+
+          options = {
+            code: 422,
+          }
+
+          halt render_json(response, options)
         end
 
         # Private: Returns error response for invalid percentage value.

@@ -235,6 +235,27 @@ describe Flipper::UI::Middleware do
         flipper[:some_thing].gate(:actor).value.should_not include('11')
       end
     end
+
+    context "invalid value" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'operation' => 'enable',
+          'value' => '',
+        }
+        post "/flipper/features/#{feature.name}/actor", params
+      end
+
+      it "responds with 422" do
+        last_response.status.should be(422)
+      end
+
+      it "updates gate state" do
+        result = json_response
+        result['status'].should eq('error')
+        result['message'].should eq('"" is not a valid actor value.')
+      end
+    end
   end
 
   describe "POST /flipper/features/:id/group" do
