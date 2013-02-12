@@ -57,16 +57,18 @@ module Flipper
         @headers = {'Content-Type' => 'text/html'}
       end
 
+      def request_method_name
+        @request_method_name ||= @request.request_method.downcase
+      end
+
       # Public: Runs the request method for the provided request.
       #
       # Returns whatever the request method returns in the action.
       def run
-        method_name = @request.request_method.downcase
-
-        if respond_to?(method_name)
-          send(method_name)
+        if respond_to?(request_method_name)
+          send(request_method_name)
         else
-          raise UI::RequestMethodNotSupported, "#{self.class} does not support request method #{method_name.inspect}"
+          raise UI::RequestMethodNotSupported, "#{self.class} does not support request method #{request_method_name.inspect}"
         end
       end
 
