@@ -72,6 +72,21 @@ module Flipper
         end
       end
 
+      # Public: Runs another action from within the request method of a
+      # different action.
+      #
+      # action_class - The class of the other action to run.
+      #
+      # Examples
+      #
+      #   run_other_action Index
+      #   # => result of running Index action
+      #
+      # Returns result of other action.
+      def run_other_action(action_class)
+        action_class.new(flipper, request).run
+      end
+
       def render(name)
         body = render_with_layout do
           render_without_layout name
