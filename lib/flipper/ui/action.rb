@@ -105,7 +105,7 @@ module Flipper
         Rack::Response.new(body, @code, @headers)
       end
 
-      def render_json(object, options = {})
+      def json_response(object, options = {})
         body = MultiJson.dump(object)
         code = options.fetch(:code, @code)
 

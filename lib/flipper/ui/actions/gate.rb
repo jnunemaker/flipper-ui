@@ -33,7 +33,7 @@ module Flipper
           send(update_gate_method_name, feature)
           gate = feature.gate(gate_name)
 
-          render_json Decorators::Gate.new(gate).as_json
+          json_response Decorators::Gate.new(gate).as_json
         end
 
         def update_boolean(feature)
@@ -107,7 +107,7 @@ module Flipper
             code: 422,
           }
 
-          halt render_json(response, options)
+          halt json_response(response, options)
         end
 
         # Private: Returns error response for invalid percentage value.
@@ -121,7 +121,7 @@ module Flipper
             code: 422,
           }
 
-          halt render_json(response, options)
+          halt json_response(response, options)
         end
 
         # Private: Returns error response that group was not registered.
@@ -135,7 +135,7 @@ module Flipper
             code: 404,
           }
 
-          halt render_json(response, options)
+          halt json_response(response, options)
         end
 
         # Private: Returns error response that gate update method is not defined.
@@ -149,7 +149,7 @@ module Flipper
             code: 404,
           }
 
-          halt render_json(response, options)
+          halt json_response(response, options)
         end
       end
     end

@@ -13,7 +13,7 @@ module Flipper
             Decorators::Feature.new(feature)
           }
 
-          render_json features.map(&:as_json)
+          json_response features.map(&:as_json)
         end
       end
     end
