@@ -117,38 +117,82 @@ describe Flipper::UI::Middleware do
   end
 
   describe "POST /flipper/features/:id/percentage_of_actors" do
-    before do
-      feature = flipper[:some_thing]
-      params = {
-        'value' => '5',
-      }
-      post "/flipper/features/#{feature.name}/percentage_of_actors", params
+    context "valid value" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'value' => '5',
+        }
+        post "/flipper/features/#{feature.name}/percentage_of_actors", params
+      end
+
+      it "responds with 200" do
+        last_response.status.should be(200)
+      end
+
+      it "updates gate state" do
+        flipper[:some_thing].gate(:percentage_of_actors).value.to_i.should be(5)
+      end
     end
 
-    it "responds with 200" do
-      last_response.status.should be(200)
-    end
+    context "invalid value" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'value' => '555',
+        }
+        post "/flipper/features/#{feature.name}/percentage_of_actors", params
+      end
 
-    it "updates gate state" do
-      flipper[:some_thing].gate(:percentage_of_actors).value.to_i.should be(5)
+      it "responds with 422" do
+        last_response.status.should be(422)
+      end
+
+      it "includes status and message in response" do
+        result = json_response
+        result['status'].should eq('error')
+        result['message'].should eq('value must be a positive number less than or equal to 100, but was 555')
+      end
     end
   end
 
   describe "POST /flipper/features/:id/percentage_of_random" do
-    before do
-      feature = flipper[:some_thing]
-      params = {
-        'value' => '5',
-      }
-      post "/flipper/features/#{feature.name}/percentage_of_random", params
+    context "valid value" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'value' => '5',
+        }
+        post "/flipper/features/#{feature.name}/percentage_of_random", params
+      end
+
+      it "responds with 200" do
+        last_response.status.should be(200)
+      end
+
+      it "updates gate state" do
+        flipper[:some_thing].gate(:percentage_of_random).value.to_i.should be(5)
+      end
     end
 
-    it "responds with 200" do
-      last_response.status.should be(200)
-    end
+    context "invalid value" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'value' => '555',
+        }
+        post "/flipper/features/#{feature.name}/percentage_of_random", params
+      end
 
-    it "updates gate state" do
-      flipper[:some_thing].gate(:percentage_of_random).value.to_i.should be(5)
+      it "responds with 422" do
+        last_response.status.should be(422)
+      end
+
+      it "includes status and message in response" do
+        result = json_response
+        result['status'].should eq('error')
+        result['message'].should eq('value must be a positive number less than or equal to 100, but was 555')
+      end
     end
   end
 
