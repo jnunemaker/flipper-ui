@@ -77,6 +77,26 @@ describe Flipper::UI::Middleware do
     end
   end
 
+  describe "POST /flipper/features/:id/non_existent_gate_name" do
+    before do
+      feature = flipper[:some_thing]
+      params = {
+        'value' => 'something',
+      }
+      post "/flipper/features/#{feature.name}/non_existent_gate_name", params
+    end
+
+    it "responds with 404" do
+      last_response.status.should be(404)
+    end
+
+    it "includes status and message" do
+      result = json_response
+      result['status'].should eq('error')
+      result['message'].should eq('I have no clue how to update the gate named "non_existent_gate_name".')
+    end
+  end
+
   describe "POST /flipper/features/:id/boolean" do
     before do
       feature = flipper[:some_thing]

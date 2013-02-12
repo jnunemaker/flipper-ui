@@ -20,19 +20,28 @@ module Flipper
         def post
           _, _, _, feature_name, gate_name = request.path.split('/')
 
-          feature = flipper[feature_name.to_sym]
-          gate = feature.gate(gate_name)
-          method_name = "update_#{gate_name}"
+          update_gate_method_name = "update_#{gate_name}"
 
-          if respond_to?(method_name)
-            send(method_name, feature, gate)
+          unless respond_to?(update_gate_method_name)
+            response = {
+              status: 'error',
+              message: "I have no clue how to update the gate named #{gate_name.inspect}.",
+            }
+            options = {
+              code: 404,
+            }
+
+            return render_json(response, options)
           end
 
-          decorated_gate = Decorators::Gate.new(gate)
-          render_json decorated_gate.as_json
+          feature = flipper[feature_name.to_sym]
+          send(update_gate_method_name, feature)
+          gate = feature.gate(gate_name)
+
+          render_json Decorators::Gate.new(gate).as_json
         end
 
-        def update_boolean(feature, gate)
+        def update_boolean(feature)
           if params['value'] == 'true'
             feature.enable
           else
@@ -42,7 +51,7 @@ module Flipper
 
         # FIXME: protect against invalid operations
         # FIXME: protect against invalid values (blank, empty, etc)
-        def update_actor(feature, gate)
+        def update_actor(feature)
           thing = Struct.new(:flipper_id).new(params['value'])
           actor = flipper.actor(thing)
 
@@ -56,7 +65,7 @@ module Flipper
 
         # FIXME: protect against invalid operations
         # FIXME: protect against invalid values (blank, empty, etc)
-        def update_group(feature, gate)
+        def update_group(feature)
           group_name = params['value'].to_sym
           group = flipper.group(group_name)
 
@@ -69,15 +78,17 @@ module Flipper
         end
 
         # FIXME: guard against percentage that doesn't fit 0 <= p <= 100
-        def update_percentage_of_actors(feature, gate)
-          value = (params['value'] || 0).to_i
-          feature.enable flipper.actors(value)
+        def update_percentage_of_actors(feature)
+          feature.enable flipper.actors(value_param_as_int)
         end
 
         # FIXME: guard against percentage that doesn't fit 0 <= p <= 100
-        def update_percentage_of_random(feature, gate)
-          value = (params['value'] || 0).to_i
-          feature.enable flipper.random(value)
+        def update_percentage_of_random(feature)
+          feature.enable flipper.random(value_param_as_int)
+        end
+
+        def value_param_as_int
+          (params['value'] || 0).to_i
         end
       end
     end
