@@ -75,6 +75,8 @@ module Flipper
           when 'disable'
             feature.disable group
           end
+        rescue Flipper::GroupNotRegistered => e
+          group_not_registered(group_name)
         end
 
         # FIXME: guard against percentage that doesn't fit 0 <= p <= 100
@@ -87,6 +89,21 @@ module Flipper
           feature.enable flipper.random(value_param_as_int)
         end
 
+        def group_not_registered(group_name)
+          response = {
+            status: 'error',
+            message: "The group named #{group_name.inspect} has not been registered.",
+          }
+
+          options = {
+            code: 404,
+          }
+
+          halt render_json(response, options)
+        end
+
+        # Private: Returns params['value'] as an integer. Defaults to 0 if not
+        # param missing.
         def value_param_as_int
           (params['value'] || 0).to_i
         end

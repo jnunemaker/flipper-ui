@@ -240,6 +240,21 @@ describe Flipper::UI::Middleware do
         flipper[:some_thing].gate(:group).value.should_not include('admins')
       end
     end
+
+    context "when group is not found" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'operation' => 'enable',
+          'value' => 'not_here',
+        }
+        post "/flipper/features/#{feature.name}/group", params
+      end
+
+      it "responds with 404" do
+        last_response.status.should be(404)
+      end
+    end
   end
 
   describe "GET /flipper/images/logo.png" do
