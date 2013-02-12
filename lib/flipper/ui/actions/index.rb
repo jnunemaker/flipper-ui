@@ -12,7 +12,8 @@ module Flipper
           @features = flipper.features.map { |feature|
             Decorators::Feature.new(feature)
           }
-          render :index
+
+          view_response :index
         end
       end
     end

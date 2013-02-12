@@ -97,10 +97,8 @@ module Flipper
         action_class.new(flipper, request).run
       end
 
-      def render(name)
-        body = render_with_layout do
-          render_without_layout name
-        end
+      def view_response(name)
+        body = view_with_layout { view_without_layout name }
 
         Rack::Response.new(body, @code, @headers)
       end
@@ -117,17 +115,17 @@ module Flipper
       end
 
       # Private
-      def render_with_layout(&block)
-        render_template :layout, &block
+      def view_with_layout(&block)
+        view :layout, &block
       end
 
       # Private
-      def render_without_layout(name)
-        render_template name
+      def view_without_layout(name)
+        view name
       end
 
       # Private
-      def render_template(name)
+      def view(name)
         path = views_path.join("#{name}.erb")
         contents = path.read
         compiled = Eruby.new(contents)
