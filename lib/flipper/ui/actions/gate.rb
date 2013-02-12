@@ -1,4 +1,5 @@
 require 'flipper/ui/action'
+require 'flipper/ui/actions/index'
 require 'flipper/ui/decorators/feature'
 
 module Flipper
@@ -11,7 +12,7 @@ module Flipper
         # Get should run the index route. All the url does is control what is
         # opened and closed when the page is loaded.
         def get
-          Index.new(flipper, request).get
+          run_other_action Index
         end
 
         # FIXME: Handle gate not found by name.
