@@ -6,7 +6,7 @@ module Flipper
     module Actions
       class Features < UI::Action
 
-        route /^\/flipper\/features\/?$/
+        route %r{^/flipper/features/?$}
 
         def get
           features = flipper.features.map { |feature|

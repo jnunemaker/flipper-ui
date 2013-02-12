@@ -6,7 +6,7 @@ module Flipper
     module Actions
       class File < UI::Action
 
-        route /^\/flipper\/images|css|js\/(.*)/
+        route %r{^/flipper/(images|css|js)/.*$}
 
         def get
           Rack::File.new(public_path).call(request.env)

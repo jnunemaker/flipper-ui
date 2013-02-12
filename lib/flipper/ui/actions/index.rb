@@ -6,7 +6,7 @@ module Flipper
     module Actions
       class Index < UI::Action
 
-        route /^\/flipper.*$/
+        route %r{^/flipper.*$}
 
         def get
           @features = flipper.features.map { |feature|
