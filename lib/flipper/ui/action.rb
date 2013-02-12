@@ -66,10 +66,20 @@ module Flipper
       # Returns whatever the request method returns in the action.
       def run
         if respond_to?(request_method_name)
-          send(request_method_name)
+          catch(:halt) {
+            send(request_method_name)
+          }
         else
           raise UI::RequestMethodNotSupported, "#{self.class} does not support request method #{request_method_name.inspect}"
         end
+      end
+
+      # Public: Call this with a response to immediately stop the current action
+      # and respond however you want.
+      #
+      # response - The Rack::Response you would like to return.
+      def halt(response)
+        throw :halt, response
       end
 
       # Public: Runs another action from within the request method of a
