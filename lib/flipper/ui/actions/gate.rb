@@ -22,8 +22,7 @@ module Flipper
         # FIXME: Handle gate not found by name.
         # FIXME: Return more than just the gate as json response?
         def post
-          _, _, _, feature_name, gate_name = request.path.split('/')
-
+          feature_name, gate_name = request.path.split('/').pop(2)
           update_gate_method_name = "update_#{gate_name}"
 
           unless respond_to?(update_gate_method_name)
