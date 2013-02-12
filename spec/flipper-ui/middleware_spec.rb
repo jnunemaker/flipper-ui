@@ -77,7 +77,7 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "GET /flipper/features/:id/:gate" do
+  describe "POST /flipper/features/:id/boolean" do
     before do
       feature = flipper[:some_thing]
       feature.enable
