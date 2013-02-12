@@ -23,15 +23,7 @@ module Flipper
           update_gate_method_name = "update_#{gate_name}"
 
           unless respond_to?(update_gate_method_name)
-            response = {
-              status: 'error',
-              message: "I have no clue how to update the gate named #{gate_name.inspect}.",
-            }
-            options = {
-              code: 404,
-            }
-
-            return render_json(response, options)
+            update_gate_method_undefined(gate_name)
           end
 
           feature = flipper[feature_name.to_sym]
@@ -89,10 +81,25 @@ module Flipper
           feature.enable flipper.random(value_param_as_int)
         end
 
+        # Private: Returns error response that group was not registered.
         def group_not_registered(group_name)
           response = {
             status: 'error',
             message: "The group named #{group_name.inspect} has not been registered.",
+          }
+
+          options = {
+            code: 404,
+          }
+
+          halt render_json(response, options)
+        end
+
+        # Private: Returns error response that gate update method is not defined.
+        def update_gate_method_undefined(gate_name)
+          response = {
+            status: 'error',
+            message: "I have no clue how to update the gate named #{gate_name.inspect}.",
           }
 
           options = {
