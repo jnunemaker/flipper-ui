@@ -80,14 +80,15 @@ module Flipper
         Rack::Response.new(body, @code, @headers)
       end
 
-      def render_json(object)
+      def render_json(object, options = {})
         body = MultiJson.dump(object)
+        code = options.fetch(:code, @code)
 
         headers = @headers.merge({
           'Content-Type' => 'application/json',
         })
 
-        Rack::Response.new(body, @code, headers)
+        Rack::Response.new(body, code, headers)
       end
 
       # Private
