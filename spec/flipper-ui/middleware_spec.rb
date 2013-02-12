@@ -96,6 +96,44 @@ describe Flipper::UI::Middleware do
     end
   end
 
+  describe "POST /flipper/features/:id/percentage_of_actors" do
+    before do
+      feature = flipper[:some_thing]
+      params = {
+        'value' => '5',
+      }
+      post "/flipper/features/#{feature.name}/percentage_of_actors", params
+    end
+
+    it "responds with 200" do
+      last_response.status.should be(200)
+    end
+
+    it "updates gate state" do
+      flipper[:some_thing].state.should be(:conditional)
+      flipper[:some_thing].gate(:percentage_of_actors).value.to_i.should be(5)
+    end
+  end
+
+  describe "POST /flipper/features/:id/percentage_of_random" do
+    before do
+      feature = flipper[:some_thing]
+      params = {
+        'value' => '5',
+      }
+      post "/flipper/features/#{feature.name}/percentage_of_random", params
+    end
+
+    it "responds with 200" do
+      last_response.status.should be(200)
+    end
+
+    it "updates gate state" do
+      flipper[:some_thing].state.should be(:conditional)
+      flipper[:some_thing].gate(:percentage_of_random).value.to_i.should be(5)
+    end
+  end
+
   describe "GET /flipper/images/logo.png" do
     before do
       get '/flipper/images/logo.png'

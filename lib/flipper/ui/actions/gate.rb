@@ -42,20 +42,22 @@ module Flipper
           end
         end
 
-        def update_actors
+        def update_actors(feature, gate)
           raise 'soon...'
         end
 
-        def update_groups
+        def update_groups(feature, gate)
           raise 'soon...'
         end
 
-        def update_percentage_of_actors
-          raise 'soon...'
+        def update_percentage_of_actors(feature, gate)
+          value = (params['value'] || 0).to_i
+          feature.enable flipper.actors(value)
         end
 
-        def update_percentage_of_random
-          raise 'soon...'
+        def update_percentage_of_random(feature, gate)
+          value = (params['value'] || 0).to_i
+          feature.enable flipper.random(value)
         end
       end
     end
