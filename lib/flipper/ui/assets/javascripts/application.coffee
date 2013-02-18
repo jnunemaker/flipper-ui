@@ -170,37 +170,27 @@ class App.Gate.Actor extends App.Gate
     @name = 'actor'
     super
 
-class App.Gate.PercentageOfActors extends App.Gate
+class App.Gate.Percentage extends App.Gate
   elements:
     'input[type=text]': 'input'
 
   events:
     'submit form': 'submit'
 
+  submit: (event) ->
+    event.preventDefault()
+    @gate.value = @input.val()
+    @gate.save()
+
+class App.Gate.PercentageOfActors extends App.Gate.Percentage
   constructor: ->
     @name = 'percentage_of_actors'
     super
 
-  submit: (event) ->
-    event.preventDefault()
-    @gate.value = @input.val()
-    @gate.save()
-
-class App.Gate.PercentageOfRandom extends App.Gate
-  elements:
-    'input[type=text]': 'input'
-
-  events:
-    'submit form': 'submit'
-
+class App.Gate.PercentageOfRandom extends App.Gate.Percentage
   constructor: ->
     @name = 'percentage_of_random'
     super
-
-  submit: (event) ->
-    event.preventDefault()
-    @gate.value = @input.val()
-    @gate.save()
 
 class App.GateList extends Spine.Stack
   controllers:
