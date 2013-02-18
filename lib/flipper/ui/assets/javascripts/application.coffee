@@ -46,13 +46,6 @@ class App extends Spine.Controller
     super
     @features = new App.FeatureList(el: $('#features'))
 
-# /flipper
-# /flipper/features
-# /flipper/features/:id
-# /flipper/features/:id/:gate
-# /flipper/css/...
-# /flipper/js/...
-# /flipper/images/...
 
 window.App = App
 
