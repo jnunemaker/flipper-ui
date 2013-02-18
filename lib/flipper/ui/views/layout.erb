@@ -73,18 +73,52 @@
       </form>
     </script>
 
+    <script id="gate-member-template" type="text/x-handlebars-template">
+      <li class="member" data-value="{{this}}">
+        {{this}}
+        <a href="#" class="disable">
+          x</a>
+      </li>
+    </script>
+
     <script id="gate-group-template" type="text/x-handlebars-template">
-      <ul>
+      <ul class="members">
         {{#each value}}
-          <li>
+          <li class="member" data-value="{{this}}">
             {{this}}
+            <a href="#" class="disable">x</a>
           </li>
         {{/each}}
       </ul>
+
+      <form action="/flipper/features/{{feature_id}}/group" method="POST">
+        <input type="hidden" name="operation" value="enable" />
+        <label>
+          Group Name
+          <input type="text" name="value" value="" />
+        </label>
+        <button>Enable Group</button>
+      </form>
     </script>
 
     <script id="gate-actor-template" type="text/x-handlebars-template">
-      actor
+      <ul class="members">
+        {{#each value}}
+          <li class="member" data-value="{{this}}">
+            {{this}}
+            <a href="#" class="disable">x</a>
+          </li>
+        {{/each}}
+      </ul>
+
+      <form action="/flipper/features/{{feature_id}}/actor" method="POST">
+        <input type="hidden" name="operation" value="enable" />
+        <label>
+          Flipper Id
+          <input type="text" name="value" value="" />
+        </label>
+        <button>Enable Actor</button>
+      </form>
     </script>
 
     <script id="gate-percentage-of-actors-template" type="text/x-handlebars-template">

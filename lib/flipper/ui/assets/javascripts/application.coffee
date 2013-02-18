@@ -23,14 +23,36 @@ class Gate extends Spine.Model
     super
 
   url: ->
-    "/flipper/features/#{encodeURIComponent @feature_id}/#{encodeURIComponent @key}"
+    "/flipper/features/#{encodeURIComponent @feature_id}/#{encodeURIComponent @name}"
 
-  save: ->
+  disableSetMember: (member) ->
+    options =
+      type: 'POST'
+      url: @url()
+      data:
+        operation: 'disable'
+        value: member
+      success: (data, status, xhr) =>
+        @value = data.value
+    $.ajax options
+
+  enableSetMember: (member) ->
+    options =
+      type: 'POST'
+      url: @url()
+      data:
+        operation: 'enable'
+        value: member
+      success: (data, status, xhr) =>
+        @value = data.value
+    $.ajax options
+
+  save: (opts) ->
     result = super
-    @ajaxSave()
+    @ajaxSave(opts)
     result
 
-  ajaxSave: ->
+  ajaxSave: (opts) ->
     options =
       type: 'POST'
       url: @url()
@@ -131,18 +153,24 @@ class App.Feature extends Spine.Controller
 class App.Gate extends Spine.Controller
   constructor: ->
     super
-    @active @render
+    @active @renderForParams
+    Gate.bind 'save', @saved
 
-  render: (params) ->
+  saved: (data) ->
+    console.log 'saved', data
+
+  renderForParams: (params) ->
     @feature = Feature.find(params.id)
     @gate = @feature.gate(params.gate)
-    @html @template()
+    @render()
 
-  template: ->
-    html_id = "#gate-#{@name.replace(/_/g, '-')}-template"
+  render: ->
+    @html @template("#gate-#{@name.replace(/_/g, '-')}-template", @gate)
+
+  template: (html_id, context) ->
     source   = $(html_id).html()
     template = Handlebars.compile(source)
-    template(@gate)
+    template(context)
 
 class App.Gate.Boolean extends App.Gate
   elements:
@@ -160,12 +188,37 @@ class App.Gate.Boolean extends App.Gate
     @gate.value = @input.is(':checked')
     @gate.save()
 
-class App.Gate.Group extends App.Gate
+class App.Gate.Set extends App.Gate
+  elements:
+    '.disable': 'dom_disable'
+    '.members': 'dom_members'
+    'input[type=text]': 'dom_input'
+
+  events:
+    'click .disable': 'disable'
+    'submit form': 'submit'
+
+  disable: (event) ->
+    event.preventDefault()
+    member = $(event.currentTarget).closest('.member')
+    value = member.attr('data-value')
+    @gate.disableSetMember value
+    member.remove()
+
+  submit: (event) ->
+    event.preventDefault()
+    value = @dom_input.val()
+    @gate.enableSetMember value
+    html = @template "#gate-member-template", value
+    @dom_members.append html
+    @dom_input.val ''
+
+class App.Gate.Group extends App.Gate.Set
   constructor: ->
     @name = 'group'
     super
 
-class App.Gate.Actor extends App.Gate
+class App.Gate.Actor extends App.Gate.Set
   constructor: ->
     @name = 'actor'
     super
