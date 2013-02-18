@@ -51,7 +51,12 @@
           <div class="tabs">
             <ul>
               <li><a href="#" data-tab="boolean">All On/All Off</a></li>
-              <li><a href="#" data-tab="percentage_of_actors">Percentage Of Actors</a></li>
+              <li><a href="#" data-tab="group">Groups</a></li>
+              <li><a href="#" data-tab="actor">Actors</a></li>
+              <li><a href="#" data-tab="percentage_of_actors">
+                Percentage Of Actors</a></li>
+              <li><a href="#" data-tab="percentage_of_random">
+                Percentage Of Random</a></li>
             </ul>
           </div>
 
@@ -61,15 +66,39 @@
     </script>
 
     <script id="gate-boolean-template" type="text/x-handlebars-template">
-      <form action="/flipper/features/{{feature_id}}" method="POST">
+      <form action="/flipper/features/{{feature_id}}/boolean" method="POST">
         <input type="radio" name="value" value="true" {{#value}}checked="checked"{{/value}} /> On
         <input type="radio" name="value" value="false" {{^value}}checked="checked"{{/value}} /> Off
         <button>Save Settings</button>
       </form>
     </script>
 
+    <script id="gate-group-template" type="text/x-handlebars-template">
+      group
+    </script>
+
+    <script id="gate-actor-template" type="text/x-handlebars-template">
+      actor
+    </script>
+
     <script id="gate-percentage-of-actors-template" type="text/x-handlebars-template">
-      slider...
+      <form action="/flipper/features/{{feature_id}}/percentage_of_actors" method="POST">
+        <label>
+          Percentage
+          <input type="text" name="value" value="{{value}}" />
+        </label>
+        <button>Save Settings</button>
+      </form>
+    </script>
+
+    <script id="gate-percentage-of-random-template" type="text/x-handlebars-template">
+      <form action="/flipper/features/{{feature_id}}/percentage_of_random" method="POST">
+        <label>
+          Percentage
+          <input type="text" name="value" value="{{value}}" />
+        </label>
+        <button>Save Settings</button>
+      </form>
     </script>
 
   </body>
