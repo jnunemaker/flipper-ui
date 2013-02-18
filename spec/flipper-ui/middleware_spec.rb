@@ -84,6 +84,11 @@ describe Flipper::UI::Middleware do
       feature['name'].should eq('Search')
       feature['state'].should eq('off')
       feature['description'].should eq('Disabled')
+      feature['gates'].first.should eq({
+        'name' => 'boolean',
+        'key' => 'boolean',
+        'value' => false,
+      })
     end
   end
 
