@@ -74,7 +74,13 @@
     </script>
 
     <script id="gate-group-template" type="text/x-handlebars-template">
-      group
+      <ul>
+        {{#each value}}
+          <li>
+            {{this}}
+          </li>
+        {{/each}}
+      </ul>
     </script>
 
     <script id="gate-actor-template" type="text/x-handlebars-template">
