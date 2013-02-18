@@ -7,14 +7,20 @@ describe Flipper::UI::Decorators::Gate do
   let(:adapter) { Flipper::Adapters::Memory.new(source) }
   let(:flipper) { Flipper.new(adapter) }
   let(:feature) { flipper[:some_awesome_feature] }
-  let(:gate) { feature.gates.first }
+  let(:gate) { feature.gate(:boolean) }
 
   subject {
-    described_class.new(gate)
+    described_class.new(gate, 'false')
   }
 
-  it "initializes with gate" do
-    subject.gate.should be(gate)
+  describe "#initialize" do
+    it "sets gate" do
+      subject.gate.should be(gate)
+    end
+
+    it "sets value" do
+      subject.value.should eq('false')
+    end
   end
 
   describe "#as_json" do
@@ -35,7 +41,7 @@ describe Flipper::UI::Decorators::Gate do
     end
 
     it "includes value" do
-      @result['value'].should eq(false)
+      @result['value'].should eq('false')
     end
   end
 end

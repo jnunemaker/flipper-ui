@@ -28,6 +28,11 @@ describe Flipper::UI::Middleware do
     end
   end
 
+  def gate_value(feature_name, gate_key)
+    values = flipper.adapter.get(flipper[feature_name])
+    values[gate_key]
+  end
+
   describe "GET /flipper" do
     before do
       flipper[:stats].enable
@@ -131,7 +136,7 @@ describe Flipper::UI::Middleware do
       end
 
       it "updates gate state" do
-        flipper[:some_thing].gate(:percentage_of_actors).value.to_i.should be(5)
+        gate_value(:some_thing, :percentage_of_actors).to_i.should be(5)
       end
     end
 
@@ -171,7 +176,7 @@ describe Flipper::UI::Middleware do
       end
 
       it "updates gate state" do
-        flipper[:some_thing].gate(:percentage_of_random).value.to_i.should be(5)
+        gate_value(:some_thing, :percentage_of_random).to_i.should be(5)
       end
     end
 
@@ -212,7 +217,7 @@ describe Flipper::UI::Middleware do
       end
 
       it "updates gate state" do
-        flipper[:some_thing].gate(:actor).value.should include('11')
+        gate_value(:some_thing, :actors).should include('11')
       end
     end
 
@@ -232,7 +237,7 @@ describe Flipper::UI::Middleware do
       end
 
       it "updates gate state" do
-        flipper[:some_thing].gate(:actor).value.should_not include('11')
+        gate_value(:some_thing, :actors).should_not include('11')
       end
     end
 
@@ -282,7 +287,7 @@ describe Flipper::UI::Middleware do
       end
 
       it "updates gate state" do
-        flipper[:some_thing].gate(:group).value.should include('admins')
+        gate_value(:some_thing, :groups).should include('admins')
       end
     end
 
@@ -302,7 +307,7 @@ describe Flipper::UI::Middleware do
       end
 
       it "updates gate state" do
-        flipper[:some_thing].gate(:group).value.should_not include('admins')
+        gate_value(:some_thing, :groups).should_not include('admins')
       end
     end
 

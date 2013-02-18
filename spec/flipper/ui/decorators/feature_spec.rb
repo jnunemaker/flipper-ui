@@ -8,11 +8,21 @@ describe Flipper::UI::Decorators::Feature do
   let(:feature) { flipper[:some_awesome_feature] }
 
   subject {
-    described_class.new(feature)
+    described_class.new(feature, {
+      boolean: 'false',
+    })
   }
 
-  it "initializes with feature" do
-    subject.feature.should be(feature)
+  describe "#initialize" do
+    it "sets the feature" do
+      subject.feature.should be(feature)
+    end
+
+    it "sets the gate values" do
+      subject.gate_values.should eq({
+        boolean: 'false',
+      })
+    end
   end
 
   describe "#pretty_name" do
@@ -48,7 +58,8 @@ describe Flipper::UI::Decorators::Feature do
 
     it "includes gates" do
       gates = subject.gates.map { |gate|
-        Flipper::UI::Decorators::Gate.new(gate).as_json
+        value = subject.gate_values[gate.key]
+        Flipper::UI::Decorators::Gate.new(gate, value).as_json
       }
       @result['gates'].should eq(gates)
     end

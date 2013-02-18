@@ -7,8 +7,6 @@ gem 'rspec'
 gem 'rack-test'
 gem 'activesupport'
 
-gem 'flipper', :git => 'https://github.com/jnunemaker/flipper.git'
-
 group(:guard) do
   gem 'guard'
   gem 'guard-rspec'
