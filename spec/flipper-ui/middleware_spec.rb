@@ -28,11 +28,6 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  def gate_value(feature_name, gate_key)
-    values = flipper.adapter.get(flipper[feature_name])
-    values[gate_key]
-  end
-
   describe "GET /flipper" do
     before do
       flipper[:stats].enable
@@ -363,5 +358,11 @@ describe Flipper::UI::Middleware do
         post '/flipper/images/logo.png'
       }.to raise_error(Flipper::UI::RequestMethodNotSupported)
     end
+  end
+
+  # Gets the adapter value for a given feature name and gate key.
+  def gate_value(feature_name, gate_key)
+    values = flipper.adapter.get(flipper[feature_name])
+    values[gate_key]
   end
 end
