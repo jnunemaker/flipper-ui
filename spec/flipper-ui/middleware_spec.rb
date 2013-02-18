@@ -121,6 +121,14 @@ describe Flipper::UI::Middleware do
       last_response.status.should be(200)
     end
 
+    it "responds with json" do
+      result = json_response
+      result.should be_instance_of(Hash)
+      result['name'].should eq('boolean')
+      result['key'].should eq('boolean')
+      result['value'].should eq(false)
+    end
+
     it "updates gate state" do
       flipper[:some_thing].state.should be(:off)
     end
@@ -138,6 +146,14 @@ describe Flipper::UI::Middleware do
 
       it "responds with 200" do
         last_response.status.should be(200)
+      end
+
+      it "responds with json" do
+        result = json_response
+        result.should be_instance_of(Hash)
+        result['name'].should eq('percentage_of_actors')
+        result['key'].should eq('percentage_of_actors')
+        result['value'].should eq(5)
       end
 
       it "updates gate state" do
@@ -178,6 +194,14 @@ describe Flipper::UI::Middleware do
 
       it "responds with 200" do
         last_response.status.should be(200)
+      end
+
+      it "responds with json" do
+        result = json_response
+        result.should be_instance_of(Hash)
+        result['name'].should eq('percentage_of_random')
+        result['key'].should eq('percentage_of_random')
+        result['value'].should eq(5)
       end
 
       it "updates gate state" do
@@ -221,6 +245,14 @@ describe Flipper::UI::Middleware do
         last_response.status.should be(200)
       end
 
+      it "responds with json" do
+        result = json_response
+        result.should be_instance_of(Hash)
+        result['name'].should eq('actor')
+        result['key'].should eq('actors')
+        result['value'].should eq(['11'])
+      end
+
       it "updates gate state" do
         gate_value(:some_thing, :actors).should include('11')
       end
@@ -239,6 +271,14 @@ describe Flipper::UI::Middleware do
 
       it "responds with 200" do
         last_response.status.should be(200)
+      end
+
+      it "responds with json" do
+        result = json_response
+        result.should be_instance_of(Hash)
+        result['name'].should eq('actor')
+        result['key'].should eq('actors')
+        result['value'].should eq([])
       end
 
       it "updates gate state" do
@@ -291,6 +331,14 @@ describe Flipper::UI::Middleware do
         last_response.status.should be(200)
       end
 
+      it "responds with json" do
+        result = json_response
+        result.should be_instance_of(Hash)
+        result['name'].should eq('group')
+        result['key'].should eq('groups')
+        result['value'].should eq(['admins'])
+      end
+
       it "updates gate state" do
         gate_value(:some_thing, :groups).should include('admins')
       end
@@ -309,6 +357,14 @@ describe Flipper::UI::Middleware do
 
       it "responds with 200" do
         last_response.status.should be(200)
+      end
+
+      it "responds with json" do
+        result = json_response
+        result.should be_instance_of(Hash)
+        result['name'].should eq('group')
+        result['key'].should eq('groups')
+        result['value'].should eq([])
       end
 
       it "updates gate state" do
