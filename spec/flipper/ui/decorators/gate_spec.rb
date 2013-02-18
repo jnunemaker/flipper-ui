@@ -41,7 +41,7 @@ describe Flipper::UI::Decorators::Gate do
     end
 
     it "includes value" do
-      @result['value'].should eq('false')
+      @result['value'].should be(false)
     end
   end
 end
