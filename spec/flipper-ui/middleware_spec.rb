@@ -73,6 +73,11 @@ describe Flipper::UI::Middleware do
       feature['name'].should eq('New Stats')
       feature['state'].should eq('on')
       feature['description'].should eq('Enabled')
+      feature['gates'].first.should eq({
+        'name' => 'boolean',
+        'key' => 'boolean',
+        'value' => true,
+      })
 
       feature = features[1]
       feature['id'].should eq('search')
