@@ -38,16 +38,10 @@ class Gate extends Spine.Model
         value: @value
     $.ajax options
 
-
-window.Gate = Gate
-
 class App extends Spine.Controller
   constructor: ->
     super
     @features = new App.FeatureList(el: $('#features'))
-
-
-window.App = App
 
 class App.FeatureList extends Spine.Controller
   constructor: ->
