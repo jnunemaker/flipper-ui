@@ -9,9 +9,14 @@ end
 module Flipper
   module UI
     class Middleware
-      def initialize(app, flipper)
+      def initialize(app, flipper_or_block)
         @app = app
-        @flipper = flipper
+
+        if flipper_or_block.respond_to?(:call)
+          @flipper_block = flipper_or_block
+        else
+          @flipper = flipper_or_block
+        end
 
         @action_collection = ActionCollection.new
         @action_collection.add UI::Actions::File
@@ -20,6 +25,10 @@ module Flipper
 
         # Catch all, always last.
         @action_collection.add UI::Actions::Index
+      end
+
+      def flipper
+        @flipper ||= @flipper_block.call
       end
 
       def call(env)
@@ -33,7 +42,7 @@ module Flipper
         if action_class.nil?
           @app.call(env)
         else
-          action_class.run(@flipper, request)
+          action_class.run(flipper, request)
         end
       end
     end

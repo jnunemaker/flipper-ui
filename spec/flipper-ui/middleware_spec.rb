@@ -26,6 +26,26 @@ describe Flipper::UI::Middleware do
     end.to_app
   }
 
+  describe "Initializing middleware lazily with a block" do
+    let(:app) {
+      middleware = described_class
+      instance = flipper
+
+      Rack::Builder.new do
+        use middleware, lambda { instance }
+
+        map "/" do
+          run lambda {|env| [404, {}, []] }
+        end
+      end.to_app
+    }
+
+    it "works" do
+      get '/flipper/features'
+      last_response.status.should be(200)
+    end
+  end
+
   describe "GET /flipper" do
     before do
       flipper[:stats].enable
