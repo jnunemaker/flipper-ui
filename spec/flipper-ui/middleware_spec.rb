@@ -13,20 +13,18 @@ describe Flipper::UI::Middleware do
     Flipper.new(adapter, :instrumenter => ActiveSupport::Notifications)
   }
 
-  def app
-    @app ||= begin
-      middleware = described_class
-      instance = flipper
+  let(:app) {
+    middleware = described_class
+    instance = flipper
 
-      Rack::Builder.new do
-        use middleware, instance
+    Rack::Builder.new do
+      use middleware, instance
 
-        map "/" do
-          run lambda {|env| [404, {}, []] }
-        end
-      end.to_app
-    end
-  end
+      map "/" do
+        run lambda {|env| [404, {}, []] }
+      end
+    end.to_app
+  }
 
   describe "GET /flipper" do
     before do
