@@ -21,7 +21,7 @@ module Flipper
       # flipper - The Flipper::DSL instance.
       # request - The Rack::Request that was sent.
       #
-      # Returns result of Action#run (should be a Rack::Response usually).
+      # Returns result of Action#run.
       def self.run(flipper, request)
         new(flipper, request).run
       end
@@ -86,7 +86,7 @@ module Flipper
       # Public: Call this with a response to immediately stop the current action
       # and respond however you want.
       #
-      # response - The Rack::Response you would like to return.
+      # response - The response you would like to return.
       def halt(response)
         throw :halt, response
       end
@@ -95,12 +95,11 @@ module Flipper
       #
       # name - The Symbol name of the view.
       #
-      # Returns a Rack::Response.
+      # Returns a response.
       def view_response(name)
         header 'Content-Type', 'text/html'
         body = view_with_layout { view_without_layout name }
-
-        Rack::Response.new(body, @code, @headers)
+        [@code, @headers, body]
       end
 
       # Public: Dumps an object as json and returns rack response with that as
@@ -108,12 +107,11 @@ module Flipper
       #
       # object - The Object that should be dumped as json.
       #
-      # Returns a Rack::Response.
+      # Returns a response.
       def json_response(object)
         header 'Content-Type', 'application/json'
         body = MultiJson.dump(object)
-
-        Rack::Response.new(body, @code, @headers)
+        [@code, @headers, body]
       end
 
       # Public: Set the status code for the response.
