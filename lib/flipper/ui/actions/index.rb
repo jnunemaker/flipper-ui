@@ -9,11 +9,6 @@ module Flipper
         route %r{^/flipper.*$}
 
         def get
-          @features = flipper.features.map { |feature|
-            gate_values = flipper.adapter.get(feature)
-            Decorators::Feature.new(feature, gate_values)
-          }
-
           view_response :index
         end
       end
