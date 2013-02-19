@@ -9,6 +9,22 @@ end
 module Flipper
   module UI
     class Middleware
+      # Public: Initializes an instance of the UI middleware.
+      #
+      # app - The app this middleware is included in.
+      # flipper_or_block - The Flipper::DSL instance or a block that yields a
+      #                    Flipper::DSL instance to use for all operations.
+      #
+      # Examples
+      #
+      #   flipper = Flipper.new(...)
+      #
+      #   # using with a normal flipper instance
+      #   use Flipper::UI::Middleware, flipper
+      #
+      #   # using with a block that yields a flipper instance
+      #   use Flipper::UI::Middleware, lambda { Flipper.new(...) }
+      #
       def initialize(app, flipper_or_block)
         @app = app
 
