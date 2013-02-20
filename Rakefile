@@ -8,5 +8,6 @@ task :default => :spec
 
 desc "Starts a server up"
 task :start do
-  `bundle exec shotgun examples/basic.ru`
+  puts 'Starting flipper on port 9999'
+  `bundle exec rackup examples/basic.ru -p 9999`
 end

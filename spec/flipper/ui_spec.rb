@@ -3,7 +3,7 @@ require 'rack/test'
 require 'flipper'
 require 'flipper/adapters/memory'
 
-describe Flipper::UI::Middleware do
+describe Flipper::UI do
   include Rack::Test::Methods
 
   let(:source)  { {} }
@@ -14,43 +14,25 @@ describe Flipper::UI::Middleware do
   }
 
   let(:app) {
-    middleware = described_class
-    instance = flipper
-
-    Rack::Builder.new do
-      use middleware, instance
-
-      map "/" do
-        run lambda {|env| [404, {}, []] }
-      end
-    end.to_app
+    described_class.new(flipper)
   }
 
   describe "Initializing middleware lazily with a block" do
     let(:app) {
-      middleware = described_class
-      instance = flipper
-
-      Rack::Builder.new do
-        use middleware, lambda { instance }
-
-        map "/" do
-          run lambda {|env| [404, {}, []] }
-        end
-      end.to_app
+      described_class.new(lambda { flipper })
     }
 
     it "works" do
-      get '/flipper/features'
+      get '/features'
       last_response.status.should be(200)
     end
   end
 
-  describe "GET /flipper" do
+  describe "GET /" do
     before do
       flipper[:stats].enable
       flipper[:search].enable
-      get '/flipper'
+      get '/'
     end
 
     it "responds with 200" do
@@ -62,11 +44,11 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "GET /flipper/features" do
+  describe "GET /features" do
     before do
       flipper[:new_stats].enable
       flipper[:search].disable
-      get '/flipper/features'
+      get '/features'
     end
 
     it "responds with 200" do
@@ -105,13 +87,13 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "POST /flipper/features/:id/non_existent_gate_name" do
+  describe "POST /features/:id/non_existent_gate_name" do
     before do
       feature = flipper[:some_thing]
       params = {
         'value' => 'something',
       }
-      post "/flipper/features/#{feature.name}/non_existent_gate_name", params
+      post "/features/#{feature.name}/non_existent_gate_name", params
     end
 
     it "responds with 404" do
@@ -125,14 +107,14 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "POST /flipper/features/:id/boolean" do
+  describe "POST /features/:id/boolean" do
     before do
       feature = flipper[:some_thing]
       feature.enable
       params = {
         'value' => 'false',
       }
-      post "/flipper/features/#{feature.name}/boolean", params
+      post "/features/#{feature.name}/boolean", params
     end
 
     it "responds with 200" do
@@ -152,14 +134,14 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "POST /flipper/features/:id/percentage_of_actors" do
+  describe "POST /features/:id/percentage_of_actors" do
     context "valid value" do
       before do
         feature = flipper[:some_thing]
         params = {
           'value' => '5',
         }
-        post "/flipper/features/#{feature.name}/percentage_of_actors", params
+        post "/features/#{feature.name}/percentage_of_actors", params
       end
 
       it "responds with 200" do
@@ -185,7 +167,7 @@ describe Flipper::UI::Middleware do
         params = {
           'value' => '555',
         }
-        post "/flipper/features/#{feature.name}/percentage_of_actors", params
+        post "/features/#{feature.name}/percentage_of_actors", params
       end
 
       it "responds with 422" do
@@ -200,14 +182,14 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "POST /flipper/features/:id/percentage_of_random" do
+  describe "POST /features/:id/percentage_of_random" do
     context "valid value" do
       before do
         feature = flipper[:some_thing]
         params = {
           'value' => '5',
         }
-        post "/flipper/features/#{feature.name}/percentage_of_random", params
+        post "/features/#{feature.name}/percentage_of_random", params
       end
 
       it "responds with 200" do
@@ -233,7 +215,7 @@ describe Flipper::UI::Middleware do
         params = {
           'value' => '555',
         }
-        post "/flipper/features/#{feature.name}/percentage_of_random", params
+        post "/features/#{feature.name}/percentage_of_random", params
       end
 
       it "responds with 422" do
@@ -248,7 +230,7 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "POST /flipper/features/:id/actor" do
+  describe "POST /features/:id/actor" do
     context "enable" do
       before do
         feature = flipper[:some_thing]
@@ -256,7 +238,7 @@ describe Flipper::UI::Middleware do
           'operation' => 'enable',
           'value' => '11',
         }
-        post "/flipper/features/#{feature.name}/actor", params
+        post "/features/#{feature.name}/actor", params
       end
 
       it "responds with 200" do
@@ -284,7 +266,7 @@ describe Flipper::UI::Middleware do
           'operation' => 'disable',
           'value' => '11',
         }
-        post "/flipper/features/#{feature.name}/actor", params
+        post "/features/#{feature.name}/actor", params
       end
 
       it "responds with 200" do
@@ -311,7 +293,7 @@ describe Flipper::UI::Middleware do
           'operation' => 'enable',
           'value' => '',
         }
-        post "/flipper/features/#{feature.name}/actor", params
+        post "/features/#{feature.name}/actor", params
       end
 
       it "responds with 422" do
@@ -326,7 +308,7 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "POST /flipper/features/:id/group" do
+  describe "POST /features/:id/group" do
     before do
       Flipper.register(:admins) { |user| user.admin? }
     end
@@ -342,7 +324,7 @@ describe Flipper::UI::Middleware do
           'operation' => 'enable',
           'value' => 'admins',
         }
-        post "/flipper/features/#{feature.name}/group", params
+        post "/features/#{feature.name}/group", params
       end
 
       it "responds with 200" do
@@ -370,7 +352,7 @@ describe Flipper::UI::Middleware do
           'operation' => 'disable',
           'value' => 'admins',
         }
-        post "/flipper/features/#{feature.name}/group", params
+        post "/features/#{feature.name}/group", params
       end
 
       it "responds with 200" do
@@ -397,7 +379,7 @@ describe Flipper::UI::Middleware do
           'operation' => 'enable',
           'value' => 'not_here',
         }
-        post "/flipper/features/#{feature.name}/group", params
+        post "/features/#{feature.name}/group", params
       end
 
       it "responds with 404" do
@@ -406,9 +388,9 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "GET /flipper/images/logo.png" do
+  describe "GET /images/logo.png" do
     before do
-      get '/flipper/images/logo.png'
+      get '/images/logo.png'
     end
 
     it "responds with 200" do
@@ -416,9 +398,9 @@ describe Flipper::UI::Middleware do
     end
   end
 
-  describe "GET /flipper/css/application.css" do
+  describe "GET /css/application.css" do
     before do
-      get '/flipper/css/application.css'
+      get '/css/application.css'
     end
 
     it "responds with 200" do
@@ -429,7 +411,7 @@ describe Flipper::UI::Middleware do
   context "Request method unsupported by action" do
     it "raises error" do
       expect {
-        post '/flipper/images/logo.png'
+        post '/images/logo.png'
       }.to raise_error(Flipper::UI::RequestMethodNotSupported)
     end
   end

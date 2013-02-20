@@ -11,7 +11,7 @@ module Flipper
         # Private: Struct to wrap actors so they can respond to flipper_id.
         FakeActor = Struct.new(:flipper_id)
 
-        route %r{^/flipper/features/.*/.*/?$}
+        route %r{features/.*/.*/?\Z}
 
         # Get should run the index route. All the url does is control what is
         # opened and closed when the page is loaded.

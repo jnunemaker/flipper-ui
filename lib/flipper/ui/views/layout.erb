@@ -2,16 +2,16 @@
 <html lang="en">
   <head>
     <title>Flipper</title>
-    <link rel="stylesheet" type="text/css" href="/flipper/css/application.css">
-    <script src="/flipper/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/application.css">
+    <script src="/js/jquery.min.js"></script>
 
-    <script src="/flipper/js/handlebars.js"></script>
-    <script src="/flipper/js/spine/spine.js"></script>
-    <script src="/flipper/js/spine/ajax.js"></script>
-    <script src="/flipper/js/spine/route.js"></script>
-    <script src="/flipper/js/spine/manager.js"></script>
+    <script src="/js/handlebars.js"></script>
+    <script src="/js/spine/spine.js"></script>
+    <script src="/js/spine/ajax.js"></script>
+    <script src="/js/spine/route.js"></script>
+    <script src="/js/spine/manager.js"></script>
 
-    <script src="/flipper/js/application.js"></script>
+    <script src="/js/application.js"></script>
   </head>
   <body>
     <div id="app">
@@ -66,7 +66,7 @@
     </script>
 
     <script id="gate-boolean-template" type="text/x-handlebars-template">
-      <form action="/flipper/features/{{feature_id}}/boolean" method="POST">
+      <form action="/features/{{feature_id}}/boolean" method="POST">
         <input type="radio" name="value" value="true" {{#value}}checked="checked"{{/value}} /> On
         <input type="radio" name="value" value="false" {{^value}}checked="checked"{{/value}} /> Off
         <button>Save Settings</button>
@@ -91,7 +91,7 @@
         {{/each}}
       </ul>
 
-      <form action="/flipper/features/{{feature_id}}/group" method="POST">
+      <form action="/features/{{feature_id}}/group" method="POST">
         <input type="hidden" name="operation" value="enable" />
         <label>
           Group Name
@@ -111,7 +111,7 @@
         {{/each}}
       </ul>
 
-      <form action="/flipper/features/{{feature_id}}/actor" method="POST">
+      <form action="/features/{{feature_id}}/actor" method="POST">
         <input type="hidden" name="operation" value="enable" />
         <label>
           Flipper Id
@@ -122,7 +122,7 @@
     </script>
 
     <script id="gate-percentage-of-actors-template" type="text/x-handlebars-template">
-      <form action="/flipper/features/{{feature_id}}/percentage_of_actors" method="POST">
+      <form action="/features/{{feature_id}}/percentage_of_actors" method="POST">
         <label>
           Percentage
           <input type="text" name="value" value="{{value}}" />
@@ -132,7 +132,7 @@
     </script>
 
     <script id="gate-percentage-of-random-template" type="text/x-handlebars-template">
-      <form action="/flipper/features/{{feature_id}}/percentage_of_random" method="POST">
+      <form action="/features/{{feature_id}}/percentage_of_random" method="POST">
         <label>
           Percentage
           <input type="text" name="value" value="{{value}}" />

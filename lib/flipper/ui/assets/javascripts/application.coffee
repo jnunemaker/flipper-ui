@@ -1,7 +1,7 @@
 class Feature extends Spine.Model
   @configure "Feature", "id", "name", "state", "description", "gates"
   @extend Spine.Model.Ajax
-  @extend url: "/flipper/features"
+  @extend url: "/features"
 
   constructor: ->
     super
@@ -23,7 +23,7 @@ class Gate extends Spine.Model
     super
 
   url: ->
-    "/flipper/features/#{encodeURIComponent @feature_id}/#{encodeURIComponent @name}"
+    "/features/#{encodeURIComponent @feature_id}/#{encodeURIComponent @name}"
 
   disableSetMember: (member) ->
     options =
@@ -78,12 +78,12 @@ class App.FeatureList extends Spine.Controller
     Feature.fetch()
 
     @routes
-      '/flipper/features/:id': (params) ->
+      '/features/:id': (params) ->
         if controller = @features[params.id]
           controller.edit()
           controller.openDefaultGate()
 
-      '/flipper/features/:id/:gate': (params) ->
+      '/features/:id/:gate': (params) ->
         if controller = @features[params.id]
           controller.edit()
           controller.activateGate(params)
@@ -119,10 +119,10 @@ class App.Feature extends Spine.Controller
 
   openFeature: (event) ->
     event.preventDefault() if event
-    @navigate "/flipper/features/#{@feature.id}"
+    @navigate "/features/#{@feature.id}"
 
   openDefaultGate: ->
-    @navigate "/flipper/features/#{@feature.id}/boolean"
+    @navigate "/features/#{@feature.id}/boolean"
 
   template: (feature) ->
     source   = $("#feature-template").html()
@@ -133,7 +133,7 @@ class App.Feature extends Spine.Controller
     event.preventDefault()
     tab = $(event.currentTarget)
     name = tab.attr('data-tab')
-    @navigate "/flipper/features/#{@feature.id}/#{name}"
+    @navigate "/features/#{@feature.id}/#{name}"
 
   activateGate: (params) ->
     name = params.gate
@@ -148,7 +148,7 @@ class App.Feature extends Spine.Controller
   hide: (event) ->
     event.preventDefault() if event
     @dom_feature.removeClass('settings')
-    @navigate '/flipper'
+    @navigate '/'
 
 class App.Gate extends Spine.Controller
   constructor: ->

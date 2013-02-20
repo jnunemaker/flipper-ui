@@ -6,7 +6,7 @@ module Flipper
     module Actions
       class Index < UI::Action
 
-        route %r{^/flipper.*$}
+        route %r{.*}
 
         def get
           view_response :index

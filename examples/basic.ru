@@ -1,13 +1,7 @@
 #
 # Usage:
 #   bundle exec rackup examples/basic.ru
-#   http://localhost:9292/flipper
-#
-# OR, you can use shotgun to get auto-reloading.
-#
-# Shotgun Usage:
-#   bundle exec shotgun examples/basic.ru
-#   http://localhost:9393/flipper
+#   http://localhost:9292/
 #
 require 'pp'
 require 'logger'
@@ -47,8 +41,4 @@ flipper[:secrets].enable flipper.group(:early_access)
 flipper[:logging].enable flipper.random(5)
 flipper[:new_cache].enable flipper.actors(15)
 
-use Flipper::UI::Middleware, flipper
-run lambda { |env|
-  body = 'Go here for <a href="/flipper">Flipper!</a>'
-  [200, {'Content-Type' => 'text/html'}, [body]]
-}
+run Flipper::UI.new(flipper)
