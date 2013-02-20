@@ -99,7 +99,7 @@ module Flipper
       def view_response(name)
         header 'Content-Type', 'text/html'
         body = view_with_layout { view_without_layout name }
-        [@code, @headers, body]
+        [@code, @headers, [body]]
       end
 
       # Public: Dumps an object as json and returns rack response with that as
@@ -111,7 +111,7 @@ module Flipper
       def json_response(object)
         header 'Content-Type', 'application/json'
         body = MultiJson.dump(object)
-        [@code, @headers, body]
+        [@code, @headers, [body]]
       end
 
       # Public: Set the status code for the response.
