@@ -41,4 +41,4 @@ flipper[:secrets].enable flipper.group(:early_access)
 flipper[:logging].enable flipper.random(5)
 flipper[:new_cache].enable flipper.actors(15)
 
-run Flipper::UI.new(flipper)
+run Flipper::UI.app(flipper)

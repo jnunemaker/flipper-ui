@@ -8,7 +8,7 @@ module Flipper
       @root ||= Pathname(__FILE__).dirname.expand_path.join('ui')
     end
 
-    def self.new(flipper)
+    def self.app(flipper)
       app = lambda { |env|
         [200, {'Content-Type' => 'text/html'}, ['']]
       }

@@ -13,14 +13,10 @@ describe Flipper::UI do
     Flipper.new(adapter, :instrumenter => ActiveSupport::Notifications)
   }
 
-  let(:app) {
-    described_class.new(flipper)
-  }
+  let(:app) { described_class.app(flipper) }
 
   describe "Initializing middleware lazily with a block" do
-    let(:app) {
-      described_class.new(lambda { flipper })
-    }
+    let(:app) { described_class.app(lambda { flipper }) }
 
     it "works" do
       get '/features'
