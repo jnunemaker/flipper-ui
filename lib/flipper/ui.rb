@@ -9,10 +9,12 @@ module Flipper
     end
 
     def self.app(flipper)
-      app = lambda { |env|
-        [200, {'Content-Type' => 'text/html'}, ['']]
-      }
-      Middleware.new(app, flipper)
+      app = lambda { |env| [200, {'Content-Type' => 'text/html'}, ['']] }
+      builder = Rack::Builder.new
+      yield builder if block_given?
+      builder.use Middleware, flipper
+      builder.run app
+      builder
     end
   end
 end
