@@ -1,7 +1,7 @@
 class Feature extends Spine.Model
   @configure "Feature", "id", "name", "state", "description", "gates"
   @extend Spine.Model.Ajax
-  @extend url: "/features"
+  @extend url: "#{Flipper.Config.url}/features"
 
   constructor: ->
     super
@@ -23,7 +23,7 @@ class Gate extends Spine.Model
     super
 
   url: ->
-    "/features/#{encodeURIComponent @feature_id}/#{encodeURIComponent @name}"
+    "#{Flipper.Config.url}/features/#{encodeURIComponent @feature_id}/#{encodeURIComponent @name}"
 
   disableSetMember: (member) ->
     options =
@@ -63,12 +63,12 @@ class Gate extends Spine.Model
 class App extends Spine.Controller
   constructor: ->
     super
-    @features = new App.FeatureList(el: $('#features'))
+    @feature_list = new App.FeatureList(el: $('#features'))
 
 class App.FeatureList extends Spine.Controller
   constructor: ->
     super
-    @features = {}
+    @feature_controllers = {}
     Feature.bind "refresh", @addAll
 
     Feature.one 'refresh', ->
@@ -77,20 +77,24 @@ class App.FeatureList extends Spine.Controller
 
     Feature.fetch()
 
-    @routes
-      '/features/:id': (params) ->
-        if controller = @features[params.id]
-          controller.edit()
-          controller.openDefaultGate()
+    Spine.Route.add /features\/(.*)\/(.*)\/?/, (matches) =>
+      params =
+        id: matches.match[1]
+        gate: matches.match[2]
+      if controller = @feature_controllers[params.id]
+        controller.edit()
+        controller.activateGate(params)
 
-      '/features/:id/:gate': (params) ->
-        if controller = @features[params.id]
-          controller.edit()
-          controller.activateGate(params)
+    Spine.Route.add /features\/(.*)\/?/, (matches) =>
+      params =
+        id: matches.match[1]
+      if controller = @feature_controllers[params.id]
+        controller.edit()
+        controller.openDefaultGate()
 
   addOne: (feature) =>
     controller = new App.Feature(feature: feature)
-    @features[feature.id] = controller
+    @feature_controllers[feature.id] = controller
     @append controller.render()
 
   addAll: =>
@@ -119,10 +123,10 @@ class App.Feature extends Spine.Controller
 
   openFeature: (event) ->
     event.preventDefault() if event
-    @navigate "/features/#{@feature.id}"
+    @navigate "#{Flipper.Config.url}/features/#{@feature.id}"
 
   openDefaultGate: ->
-    @navigate "/features/#{@feature.id}/boolean"
+    @navigate "#{Flipper.Config.url}/features/#{@feature.id}/boolean"
 
   template: (feature) ->
     source   = $("#feature-template").html()
@@ -133,7 +137,7 @@ class App.Feature extends Spine.Controller
     event.preventDefault()
     tab = $(event.currentTarget)
     name = tab.attr('data-tab')
-    @navigate "/features/#{@feature.id}/#{name}"
+    @navigate "#{Flipper.Config.url}/features/#{@feature.id}/#{name}"
 
   activateGate: (params) ->
     name = params.gate
@@ -148,16 +152,12 @@ class App.Feature extends Spine.Controller
   hide: (event) ->
     event.preventDefault() if event
     @dom_feature.removeClass('settings')
-    @navigate '/'
+    @navigate Flipper.Config.url
 
 class App.Gate extends Spine.Controller
   constructor: ->
     super
     @active @renderForParams
-    Gate.bind 'save', @saved
-
-  saved: (data) ->
-    console.log 'saved', data
 
   renderForParams: (params) ->
     @feature = Feature.find(params.id)

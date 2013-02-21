@@ -147,6 +147,11 @@ module Flipper
         compiled.result Proc.new {}.binding
       end
 
+      # Internal: The path the app is mounted at.
+      def script_name
+        request.env['SCRIPT_NAME']
+      end
+
       # Private
       def views_path
         self.class.views_path

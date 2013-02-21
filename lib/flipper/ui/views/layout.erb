@@ -2,21 +2,33 @@
 <html lang="en">
   <head>
     <title>Flipper</title>
-    <link rel="stylesheet" type="text/css" href="/css/application.css">
-    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+      href="<%= script_name %>/css/application.css">
 
-    <script src="/js/handlebars.js"></script>
-    <script src="/js/spine/spine.js"></script>
-    <script src="/js/spine/ajax.js"></script>
-    <script src="/js/spine/route.js"></script>
-    <script src="/js/spine/manager.js"></script>
+    <script>
+      var Flipper = {};
+      Flipper.Config = {
+        url: "<%= script_name %>"
+      }
+    </script>
+    <script src="<%= script_name %>/js/jquery.min.js"></script>
 
-    <script src="/js/application.js"></script>
+    <script src="<%= script_name %>/js/handlebars.js"></script>
+    <script src="<%= script_name %>/js/spine/spine.js"></script>
+    <script src="<%= script_name %>/js/spine/ajax.js"></script>
+    <script src="<%= script_name %>/js/spine/route.js"></script>
+    <script src="<%= script_name %>/js/spine/manager.js"></script>
+
+    <script src="<%= script_name %>/js/application.js"></script>
   </head>
   <body>
     <div id="app">
       <div id="header">
-        <h1><a href="/">Flipper</a></h1>
+        <h1>
+          <a href="<%= script_name %>/">
+            <img src="<%= script_name %>/images/logo.png" alt="Flipper" />
+          </a>
+        </h1>
       </div>
 
       <div id="content">
