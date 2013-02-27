@@ -58,6 +58,15 @@ body {
 #header {
   padding: 29px 0 22px; }
 
+div#no_features {
+  display: none; }
+  div#no_features h1 {
+    font-size: 2em;
+    padding-bottom: 15px; }
+  div#no_features p {
+    font-size: 1.25em;
+    padding-bottom: 5px; }
+
 div.feature {
   float: left;
   width: 723px;
