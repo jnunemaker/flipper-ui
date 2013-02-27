@@ -18,6 +18,58 @@ Or install it yourself as:
 
     $ gem install flipper-ui
 
+## Usage
+
+### Rails
+
+Given that you've already initialized `Flipper` as per the [flipper](https://github.com/jnunemaker/flipper) readme:
+
+```ruby
+# config/initializers/flipper.rb
+$flipper = Flipper.new(...)
+```
+
+you can mount `Flipper::UI` to a route of your choice:
+```ruby
+# config/routes.rb
+
+YourRailsApp::Application.routes.draw do
+  mount Flipper::UI.app($flipper) => '/flipper'
+end
+```
+
+#### Security
+
+You almost certainly want to limit access when using Flipper::UI in production. Using [routes constraints](http://guides.rubyonrails.org/routing.html#request-based-constraints) is one way to achieve this:
+
+```ruby
+# config/routes.rb
+
+flipper_constraint = lambda { |request| request.remote_ip == '127.0.0.1' }
+constraints flipper_constraint do
+  mount Flipper::UI.app($flipper) => '/flipper'
+end
+```
+
+
+### Standalone
+
+Minimal example for Rack:
+
+```ruby
+# config.ru
+
+require 'flipper-ui'
+require 'flipper/adapters/memory'
+
+adapter = Flipper::Adapters::Memory.new
+flipper = Flipper.new(adapter)
+
+run Flipper::UI.app(flipper)
+```
+
+See [examples/basic.ru](https://github.com/jnunemaker/flipper-ui/blob/master/examples/basic.ru) for a more full example
+
 ## Contributing
 
 1. Fork it
