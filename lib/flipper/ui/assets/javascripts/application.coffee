@@ -99,7 +99,12 @@ class App.FeatureList extends Spine.Controller
 
   addAll: =>
     @html ''
-    @addOne feature for feature in Feature.all()
+    $('#no_features').hide()
+    all_features = Feature.all()
+    if all_features.length > 0
+      @addOne feature for feature in all_features
+    else
+      $('#no_features').show()
 
 class App.Feature extends Spine.Controller
   elements:
