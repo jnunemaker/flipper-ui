@@ -2,6 +2,7 @@ require 'helper'
 require 'rack/test'
 require 'flipper'
 require 'flipper/adapters/memory'
+require 'open-uri'
 
 describe Flipper::UI do
   include Rack::Test::Methods
@@ -127,6 +128,34 @@ describe Flipper::UI do
 
     it "updates gate state" do
       flipper[:some_thing].state.should be(:off)
+    end
+  end
+
+  describe "POST /features/:id/boolean for values that are URI encoded" do
+    before do
+      feature = flipper["feature:v1"]
+      feature.enable
+      params = {
+        'value' => 'false',
+      }
+      feature_encoded_name = URI.encode_www_form_component(feature.name)
+      post "/features/#{feature_encoded_name}/boolean", params
+    end
+
+    it "responds with 200" do
+      last_response.status.should be(200)
+    end
+
+    it "responds with json" do
+      result = json_response
+      result.should be_instance_of(Hash)
+      result['name'].should eq('boolean')
+      result['key'].should eq('boolean')
+      result['value'].should eq(false)
+    end
+
+    it "updates gate state" do
+      flipper["feature:v1"].state.should be(:off)
     end
   end
 
