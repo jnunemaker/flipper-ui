@@ -1,4 +1,5 @@
 require 'pathname'
+require 'rack'
 require 'flipper'
 require 'multi_json'
 

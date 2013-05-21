@@ -2,7 +2,6 @@ require 'flipper/ui/util'
 require 'flipper/ui/action'
 require 'flipper/ui/actions/index'
 require 'flipper/ui/decorators/feature'
-require 'open-uri'
 
 module Flipper
   module UI
@@ -23,7 +22,7 @@ module Flipper
         # FIXME: Handle gate not found by name.
         # FIXME: Return more than just the gate as json response?
         def post
-          feature_name, gate_name = request.path.split('/').pop(2).map{|value| URI.unescape value }
+          feature_name, gate_name = request.path.split('/').pop(2).map{|value| Rack::Utils.unescape value }
           update_gate_method_name = "update_#{gate_name}"
 
           unless respond_to?(update_gate_method_name)
