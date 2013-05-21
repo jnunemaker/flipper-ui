@@ -25,26 +25,27 @@ class Gate extends Spine.Model
   url: ->
     "#{Flipper.Config.url}/features/#{encodeURIComponent @feature_id}/#{encodeURIComponent @name}"
 
-  disableSetMember: (member) ->
-    options =
-      type: 'POST'
-      url: @url()
-      data:
-        operation: 'disable'
-        value: member
-      success: (data, status, xhr) =>
-        @value = data.value
-    $.ajax options
+  disableSetMember: (member, success_callback, error_callback) ->
+    @setMember('disable', member, success_callback, error_callback)
 
-  enableSetMember: (member) ->
+  enableSetMember: (member, success_callback, error_callback) ->
+    @setMember('enable', member, success_callback, error_callback)
+
+  setMember: (operation, member, success_callback, error_callback) ->
     options =
       type: 'POST'
       url: @url()
       data:
-        operation: 'enable'
+        operation: operation
         value: member
       success: (data, status, xhr) =>
         @value = data.value
+        success_callback(data, status, xhr) if success_callback
+      error: (data, status, error) =>
+        response = if data.responseText then $.parseJSON data.responseText else message: "Something went wrong..."
+        alert "ERROR: #{response.message}"
+        error_callback(data, status) if error_callback
+
     $.ajax options
 
   save: (opts) ->
@@ -58,6 +59,10 @@ class Gate extends Spine.Model
       url: @url()
       data:
         value: @value
+      error: (data, status, error) =>
+        response = if data.responseText then $.parseJSON data.responseText else message: "Something went wrong..."
+        alert "ERROR: #{response.message}"
+
     $.ajax options
 
 class App extends Spine.Controller
@@ -207,16 +212,18 @@ class App.Gate.Set extends App.Gate
     event.preventDefault()
     member = $(event.currentTarget).closest('.member')
     value = member.attr('data-value')
-    @gate.disableSetMember value
-    member.remove()
+    @gate.disableSetMember value, (data, status, xhr) ->
+      member.remove()
 
   submit: (event) ->
     event.preventDefault()
     value = @dom_input.val()
-    @gate.enableSetMember value
-    html = @template "#gate-member-template", value
-    @dom_members.append html
-    @dom_input.val ''
+    self = @
+
+    @gate.enableSetMember value, (data, status, xhr) -> 
+      html = self.template "#gate-member-template", value
+      self.dom_members.append html
+      self.dom_input.val ''
 
 class App.Gate.Group extends App.Gate.Set
   constructor: ->
@@ -235,9 +242,20 @@ class App.Gate.Percentage extends App.Gate
   events:
     'submit form': 'submit'
 
+  validate: ()->
+    float_value = parseFloat(@gate.value)
+    valid = true
+
+    if isNaN(float_value) || float_value < 0 || float_value > 100
+      alert "The percentage value provided is not valid"
+      valid = false
+
+    return valid
+
   submit: (event) ->
     event.preventDefault()
     @gate.value = @input.val()
+    return unless @validate()
     @gate.save()
 
 class App.Gate.PercentageOfActors extends App.Gate.Percentage
