@@ -115,6 +115,14 @@ div.feature h3 span.state.conditional {
   border-color:#fc0;
 }
 
+div.feature form {
+  padding: 10px 0;
+}
+
+div.feature .slider-range {
+  margin: 15px 0;
+}
+
 div.feature h3 span.state.off {
   background:#900;
   border-color:#900;
@@ -189,7 +197,7 @@ div.feature div.actions {
   font-size: 12px;
 }
 
-div.feature div.actions a {
+div.feature div.actions a, div.feature button {
   float:right;
   display: block;
   background: #f8f8f8;
@@ -201,4 +209,5 @@ div.feature div.actions a {
   text-decoration: none;
   font-weight: bold;
   line-height:12px;
+  cursor: pointer;
 }

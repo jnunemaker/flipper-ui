@@ -91,7 +91,7 @@ div.feature h3 span.state {
   height: 12px;
   margin: 2px 10px 0 0;
   background: #333;
-  border: 1px solid #333333;
+  border: 1px solid #333;
   -webkit-border-radius: 2px; }
 
 div.feature h3 span.state.on {
@@ -101,6 +101,12 @@ div.feature h3 span.state.on {
 div.feature h3 span.state.conditional {
   background: #fc0;
   border-color: #fc0; }
+
+div.feature form {
+  padding: 10px 0; }
+
+div.feature .slider-range {
+  margin: 15px 0; }
 
 div.feature h3 span.state.off {
   background: #900;
@@ -144,14 +150,14 @@ div.tabs ul {
       div.tabs ul li a.active {
         color: #555;
         background: #fff;
-        border-bottom: 1px solid white; }
+        border-bottom: 1px solid #fff; }
 
 div.feature div.actions {
   float: left;
   width: 148px;
   font-size: 12px; }
 
-div.feature div.actions a {
+div.feature div.actions a, div.feature button {
   float: right;
   display: block;
   background: #f8f8f8;
@@ -162,4 +168,5 @@ div.feature div.actions a {
   color: #888;
   text-decoration: none;
   font-weight: bold;
-  line-height: 12px; }
+  line-height: 12px;
+  cursor: pointer; }
