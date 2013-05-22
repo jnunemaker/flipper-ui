@@ -158,6 +158,37 @@ div.feature {
       }
     }
   }
+
+  .member
+  {
+    padding: 5px 0;
+  }
+
+  div.actions {
+    float:left;
+    width:148px;
+    font-size: 12px;
+  }
+
+  div.actions a, button {
+    float:right;
+    display: block;
+    background: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    -webkit-border-radius: 2px;
+    margin:0 2px 0 0;
+    padding: 7px 13px;
+    color: #888;
+    text-decoration: none;
+    font-weight: bold;
+    line-height:12px;
+    cursor: pointer;
+  }
+
+  div.actions a:hover, button:hover {
+    background: #dfdfdf;
+    border-color: #d7d7d7;
+  }
 }
 
 div.tabs ul {
@@ -189,25 +220,4 @@ div.tabs ul {
       }
     }
   }
-}
-
-div.feature div.actions {
-  float:left;
-  width:148px;
-  font-size: 12px;
-}
-
-div.feature div.actions a, div.feature button {
-  float:right;
-  display: block;
-  background: #f8f8f8;
-  border: 1px solid #e8e8e8;
-  -webkit-border-radius: 2px;
-  margin:0 2px 0 0;
-  padding: 7px 13px;
-  color: #888;
-  text-decoration: none;
-  font-weight: bold;
-  line-height:12px;
-  cursor: pointer;
 }

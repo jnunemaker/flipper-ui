@@ -94,15 +94,6 @@
     </script>
 
     <script id="gate-group-template" type="text/x-handlebars-template">
-      <ul class="members">
-        {{#each value}}
-          <li class="member" data-value="{{this}}">
-            {{this}}
-            <a href="#" class="disable">x</a>
-          </li>
-        {{/each}}
-      </ul>
-
       <form action="/features/{{feature_id}}/group" method="POST">
         <input type="hidden" name="operation" value="enable" />
         <label>
@@ -111,9 +102,6 @@
         </label>
         <button>Enable Group</button>
       </form>
-    </script>
-
-    <script id="gate-actor-template" type="text/x-handlebars-template">
       <ul class="members">
         {{#each value}}
           <li class="member" data-value="{{this}}">
@@ -122,7 +110,9 @@
           </li>
         {{/each}}
       </ul>
+    </script>
 
+    <script id="gate-actor-template" type="text/x-handlebars-template">
       <form action="/features/{{feature_id}}/actor" method="POST">
         <input type="hidden" name="operation" value="enable" />
         <label>
@@ -131,6 +121,14 @@
         </label>
         <button>Enable Actor</button>
       </form>
+      <ul class="members">
+        {{#each value}}
+          <li class="member" data-value="{{this}}">
+            {{this}}
+            <a href="#" class="disable">x</a>
+          </li>
+        {{/each}}
+      </ul>
     </script>
 
     <script id="gate-percentage-of-actors-template" type="text/x-handlebars-template">
