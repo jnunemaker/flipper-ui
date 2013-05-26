@@ -176,6 +176,22 @@ class App.Gate extends Spine.Controller
 
   render: ->
     @html @template("#gate-#{@name.replace(/_/g, '-')}-template", @gate)
+    $slider = $(".slider-range")
+    $slider_value = $slider.siblings("input[type='text']")
+
+    $slider.slider
+      range: "min",
+      value: @gate.value,
+      min: 0,
+      max: 100,
+      slide: ( event, ui ) ->
+        $slider_value.val( ui.value );
+        return
+
+    $slider_value.val $slider.slider( "value" )
+    $slider_value.change ()->
+      $slider.slider "value", $(@).val()
+      return
 
   template: (html_id, context) ->
     source   = $(html_id).html()
