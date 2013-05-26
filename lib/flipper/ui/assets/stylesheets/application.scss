@@ -159,9 +159,23 @@ div.feature {
     }
   }
 
-  .member
+  li.member
   {
-    padding: 5px 0;
+    line-height: 21px;
+    padding: 2px;
+    font-weight: bold;
+
+    &:hover
+    {
+      background: #f7f7f7;
+    }
+  }
+
+  li.member a
+  {
+    margin-right: 6px;
+    cursor: pointer;
+    text-decoration: none;
   }
 
   div.actions {

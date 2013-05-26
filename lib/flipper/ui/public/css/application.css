@@ -127,8 +127,16 @@ div.feature .stack > div {
   display: none; }
   div.feature .stack > div.active {
     display: block; }
-div.feature .member {
-  padding: 5px 0; }
+div.feature li.member {
+  line-height: 21px;
+  padding: 2px;
+  font-weight: bold; }
+  div.feature li.member:hover {
+    background: #f7f7f7; }
+div.feature li.member a {
+  margin-right: 6px;
+  cursor: pointer;
+  text-decoration: none; }
 div.feature div.actions {
   float: left;
   width: 148px;
