@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <title>Flipper</title>
-    <link rel="stylesheet" type="text/css"
-      href="<%= script_name %>/css/application.css">
+    <link rel="stylesheet" type="text/css" href="<%= script_name %>/css/application.css">
+    <link rel="stylesheet" type="text/css" href="<%= script_name %>/css/jquery-ui-1.10.3.slider.min.css">
 
     <script>
       var Flipper = {};
@@ -12,13 +12,13 @@
       }
     </script>
     <script src="<%= script_name %>/js/jquery.min.js"></script>
-
+    <script src="<%= script_name %>/js/jquery-ui-1.10.3.slider.min.js"></script>
+    
     <script src="<%= script_name %>/js/handlebars.js"></script>
     <script src="<%= script_name %>/js/spine/spine.js"></script>
     <script src="<%= script_name %>/js/spine/ajax.js"></script>
     <script src="<%= script_name %>/js/spine/route.js"></script>
     <script src="<%= script_name %>/js/spine/manager.js"></script>
-
     <script src="<%= script_name %>/js/application.js"></script>
   </head>
   <body>
@@ -87,22 +87,14 @@
 
     <script id="gate-member-template" type="text/x-handlebars-template">
       <li class="member" data-value="{{this}}">
-        {{this}}
         <a href="#" class="disable">
-          x</a>
+          <img src="/images/remove.png">
+        </a>
+        {{this}}
       </li>
     </script>
 
     <script id="gate-group-template" type="text/x-handlebars-template">
-      <ul class="members">
-        {{#each value}}
-          <li class="member" data-value="{{this}}">
-            {{this}}
-            <a href="#" class="disable">x</a>
-          </li>
-        {{/each}}
-      </ul>
-
       <form action="/features/{{feature_id}}/group" method="POST">
         <input type="hidden" name="operation" value="enable" />
         <label>
@@ -111,18 +103,19 @@
         </label>
         <button>Enable Group</button>
       </form>
-    </script>
-
-    <script id="gate-actor-template" type="text/x-handlebars-template">
       <ul class="members">
         {{#each value}}
           <li class="member" data-value="{{this}}">
+            <a href="#" class="disable">
+              <img src="/images/remove.png">
+            </a>
             {{this}}
-            <a href="#" class="disable">x</a>
           </li>
         {{/each}}
       </ul>
+    </script>
 
+    <script id="gate-actor-template" type="text/x-handlebars-template">
       <form action="/features/{{feature_id}}/actor" method="POST">
         <input type="hidden" name="operation" value="enable" />
         <label>
@@ -131,24 +124,30 @@
         </label>
         <button>Enable Actor</button>
       </form>
+      <ul class="members">
+        {{#each value}}
+          <li class="member" data-value="{{this}}">
+            <a href="#" class="disable">
+              <img src="/images/remove.png">
+            </a>
+            {{this}}
+          </li>
+        {{/each}}
+      </ul>
     </script>
 
     <script id="gate-percentage-of-actors-template" type="text/x-handlebars-template">
       <form action="/features/{{feature_id}}/percentage_of_actors" method="POST">
-        <label>
-          Percentage
-          <input type="text" name="value" value="{{value}}" />
-        </label>
+        <div class="slider-range"></div>
+        <input type="text" name="value" value="{{value}}" /> %
         <button>Save Settings</button>
       </form>
     </script>
 
     <script id="gate-percentage-of-random-template" type="text/x-handlebars-template">
       <form action="/features/{{feature_id}}/percentage_of_random" method="POST">
-        <label>
-          Percentage
-          <input type="text" name="value" value="{{value}}" />
-        </label>
+        <div class="slider-range"></div>
+        <input type="text" name="value" value="{{value}}" /> %
         <button>Save Settings</button>
       </form>
     </script>

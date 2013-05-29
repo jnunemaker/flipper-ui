@@ -115,6 +115,14 @@ div.feature h3 span.state.conditional {
   border-color:#fc0;
 }
 
+div.feature form {
+  padding: 10px 0;
+}
+
+div.feature .slider-range {
+  margin: 15px 0;
+}
+
 div.feature h3 span.state.off {
   background:#900;
   border-color:#900;
@@ -150,6 +158,51 @@ div.feature {
       }
     }
   }
+
+  li.member
+  {
+    line-height: 21px;
+    padding: 2px;
+    font-weight: bold;
+
+    &:hover
+    {
+      background: #f7f7f7;
+    }
+  }
+
+  li.member a
+  {
+    margin-right: 6px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  div.actions {
+    float:left;
+    width:148px;
+    font-size: 12px;
+  }
+
+  div.actions a, button {
+    float:right;
+    display: block;
+    background: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    -webkit-border-radius: 2px;
+    margin:0 2px 0 0;
+    padding: 7px 13px;
+    color: #888;
+    text-decoration: none;
+    font-weight: bold;
+    line-height:12px;
+    cursor: pointer;
+  }
+
+  div.actions a:hover, button:hover {
+    background: #dfdfdf;
+    border-color: #d7d7d7;
+  }
 }
 
 div.tabs ul {
@@ -181,24 +234,4 @@ div.tabs ul {
       }
     }
   }
-}
-
-div.feature div.actions {
-  float:left;
-  width:148px;
-  font-size: 12px;
-}
-
-div.feature div.actions a {
-  float:right;
-  display: block;
-  background: #f8f8f8;
-  border: 1px solid #e8e8e8;
-  -webkit-border-radius: 2px;
-  margin:0 2px 0 0;
-  padding: 7px 13px;
-  color: #888;
-  text-decoration: none;
-  font-weight: bold;
-  line-height:12px;
 }
