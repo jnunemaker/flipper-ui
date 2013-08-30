@@ -88,7 +88,7 @@
     <script id="gate-member-template" type="text/x-handlebars-template">
       <li class="member" data-value="{{this}}">
         <a href="#" class="disable">
-          <img src="/images/remove.png">
+          <img src="<%= script_name %>/images/remove.png">
         </a>
         {{this}}
       </li>
@@ -107,7 +107,7 @@
         {{#each value}}
           <li class="member" data-value="{{this}}">
             <a href="#" class="disable">
-              <img src="/images/remove.png">
+              <img src="<%= script_name %>/images/remove.png">
             </a>
             {{this}}
           </li>
@@ -128,7 +128,7 @@
         {{#each value}}
           <li class="member" data-value="{{this}}">
             <a href="#" class="disable">
-              <img src="/images/remove.png">
+              <img src="<%= script_name %>/images/remove.png">
             </a>
             {{this}}
           </li>
