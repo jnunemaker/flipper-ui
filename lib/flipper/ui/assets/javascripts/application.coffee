@@ -219,6 +219,7 @@ class App.Gate.Boolean extends App.Gate
     event.preventDefault()
     @gate.value = @input.is(':checked')
     @gate.save()
+    @navigate Flipper.Config.url
 
 class App.Gate.Set extends App.Gate
   elements:
@@ -279,6 +280,7 @@ class App.Gate.Percentage extends App.Gate
     @gate.value = @input.val()
     return unless @validate()
     @gate.save()
+    @navigate Flipper.Config.url
 
 class App.Gate.PercentageOfActors extends App.Gate.Percentage
   constructor: ->
