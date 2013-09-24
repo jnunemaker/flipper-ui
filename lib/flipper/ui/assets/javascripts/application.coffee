@@ -51,6 +51,7 @@ class Gate extends Spine.Model
   save: (opts) ->
     result = super
     @ajaxSave(opts)
+    Feature.trigger('reload')
     result
 
   ajaxSave: (opts) ->
@@ -75,6 +76,7 @@ class App.FeatureList extends Spine.Controller
     super
     @feature_controllers = {}
     Feature.bind "refresh", @addAll
+    Feature.bind "reload", @reload
 
     Feature.one 'refresh', ->
       Spine.Route.setup
@@ -110,6 +112,10 @@ class App.FeatureList extends Spine.Controller
       @addOne feature for feature in all_features
     else
       $('#no_features').show()
+
+  reload: =>
+    Feature.fetch()
+    @addAll
 
 class App.Feature extends Spine.Controller
   elements:
@@ -236,7 +242,7 @@ class App.Gate.Set extends App.Gate
     value = @dom_input.val()
     self = @
 
-    @gate.enableSetMember value, (data, status, xhr) -> 
+    @gate.enableSetMember value, (data, status, xhr) ->
       html = self.template "#gate-member-template", value
       self.dom_members.append html
       self.dom_input.val ''
