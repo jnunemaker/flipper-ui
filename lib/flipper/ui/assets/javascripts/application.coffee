@@ -185,7 +185,7 @@ class App.Gate extends Spine.Controller
       min: 0,
       max: 100,
       slide: ( event, ui ) ->
-        $slider_value.val( ui.value );
+        $slider_value.val( ui.value )
         return
 
     $slider_value.val $slider.slider( "value" )
