@@ -12,7 +12,7 @@ module Flipper
           features = flipper.features.map { |feature|
             gate_values = flipper.adapter.get(feature)
             Decorators::Feature.new(feature, gate_values)
-          }
+          }.sort_by(&:pretty_name)
 
           json_response features.map(&:as_json)
         end
