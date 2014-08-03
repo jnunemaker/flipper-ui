@@ -2,7 +2,7 @@
 
 UI for the [Flipper](https://github.com/jnunemaker/flipper) gem. __Note__: This is not fully functional yet. The end product will look like this:
 
-![flipper web](http://dribbble.s3.amazonaws.com/users/59/screenshots/704704/attachments/65188/flipper.png)
+![flipper web](./examples/flipper.png)
 
 ## Installation
 
