@@ -10,7 +10,7 @@ describe Flipper::UI::Decorators::Gate do
   let(:gate) { feature.gate(:boolean) }
 
   subject {
-    described_class.new(gate, 'false')
+    described_class.new(gate, false)
   }
 
   describe "#initialize" do
@@ -19,7 +19,7 @@ describe Flipper::UI::Decorators::Gate do
     end
 
     it "sets value" do
-      subject.value.should eq('false')
+      subject.value.should eq(false)
     end
   end
 

@@ -66,8 +66,8 @@ describe Flipper::UI do
       feature['state'].should eq('on')
       feature['description'].should eq('Enabled')
       feature['gates'].first.should eq({
-        'name' => 'boolean',
         'key' => 'boolean',
+        'name' => 'boolean',
         'value' => true,
       })
 
@@ -77,8 +77,8 @@ describe Flipper::UI do
       feature['state'].should eq('off')
       feature['description'].should eq('Disabled')
       feature['gates'].first.should eq({
-        'name' => 'boolean',
         'key' => 'boolean',
+        'name' => 'boolean',
         'value' => false,
       })
     end
@@ -339,7 +339,7 @@ describe Flipper::UI do
     end
 
     after do
-      Flipper.groups = nil
+      Flipper.unregister_groups
     end
 
     context "enable" do

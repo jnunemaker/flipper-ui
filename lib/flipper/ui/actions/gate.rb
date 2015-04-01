@@ -32,8 +32,7 @@ module Flipper
           feature = flipper[feature_name.to_sym]
           send(update_gate_method_name, feature)
           gate = feature.gate(gate_name)
-          gate_values = flipper.adapter.get(feature)
-          value = gate_values[gate.key]
+          value = feature.gate_values[gate.key]
 
           json_response Decorators::Gate.new(gate, value).as_json
         end

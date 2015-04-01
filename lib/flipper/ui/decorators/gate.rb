@@ -19,11 +19,7 @@ module Flipper
         def as_json
           value_as_json = case data_type
           when :set
-            value.to_a
-          when :boolean
-            value == 'true'
-          when :integer
-            value.to_i
+            value.to_a # json doesn't like sets
           else
             value
           end

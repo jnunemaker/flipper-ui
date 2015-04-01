@@ -8,20 +8,12 @@ describe Flipper::UI::Decorators::Feature do
   let(:feature) { flipper[:some_awesome_feature] }
 
   subject {
-    described_class.new(feature, {
-      boolean: 'false',
-    })
+    described_class.new(feature)
   }
 
   describe "#initialize" do
     it "sets the feature" do
       subject.feature.should be(feature)
-    end
-
-    it "sets the gate values" do
-      subject.gate_values.should eq({
-        boolean: 'false',
-      })
     end
   end
 
