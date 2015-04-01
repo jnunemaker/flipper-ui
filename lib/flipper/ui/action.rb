@@ -1,6 +1,7 @@
 require 'forwardable'
 require 'flipper/ui/error'
 require 'flipper/ui/eruby'
+require 'json'
 
 module Flipper
   module UI
@@ -110,7 +111,7 @@ module Flipper
       # Returns a response.
       def json_response(object)
         header 'Content-Type', 'application/json'
-        body = MultiJson.dump(object)
+        body = JSON.dump(object)
         [@code, @headers, [body]]
       end
 

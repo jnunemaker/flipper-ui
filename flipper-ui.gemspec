@@ -18,5 +18,4 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rack'
   gem.add_dependency 'flipper', '~> 0.6.0'
   gem.add_dependency 'erubis'
-  gem.add_dependency 'multi_json'
 end

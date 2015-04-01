@@ -8,6 +8,7 @@ require 'flipper-ui'
 
 require 'flipper/instrumentation/log_subscriber'
 require 'logger'
+require 'json'
 
 root = Pathname(__FILE__).dirname.join('..').expand_path
 log_path = root.join('log')
@@ -19,7 +20,7 @@ Flipper::Instrumentation::LogSubscriber.logger = logger
 
 module JsonHelpers
   def json_response
-    MultiJson.load(last_response.body)
+    JSON.load(last_response.body)
   end
 end
 
