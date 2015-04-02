@@ -77,15 +77,15 @@ module Flipper
         end
 
         def update_percentage_of_actors(feature)
-          value = (params['value'] || 0).to_i
-          feature.enable flipper.actors(value)
+          value = params['value']
+          feature.enable_percentage_of_actors value
         rescue ArgumentError => exception
           invalid_percentage value, exception
         end
 
         def update_percentage_of_random(feature)
-          value = (params['value'] || 0).to_i
-          feature.enable flipper.random(value)
+          value = params['value']
+          feature.enable_percentage_of_random value
         rescue ArgumentError => exception
           invalid_percentage value, exception
         end
