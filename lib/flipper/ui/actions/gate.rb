@@ -44,7 +44,6 @@ module Flipper
           end
         end
 
-        # FIXME: protect against invalid values (blank, empty, etc)
         def update_actor(feature)
           value = params['value']
 
@@ -63,7 +62,6 @@ module Flipper
           end
         end
 
-        # FIXME: protect against invalid values (blank, empty, etc)
         def update_group(feature)
           group_name = params['value']
           group = flipper.group(group_name)
