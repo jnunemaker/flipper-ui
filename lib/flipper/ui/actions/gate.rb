@@ -65,7 +65,7 @@ module Flipper
 
         # FIXME: protect against invalid values (blank, empty, etc)
         def update_group(feature)
-          group_name = params['value'].to_sym
+          group_name = params['value']
           group = flipper.group(group_name)
 
           case params['operation']
