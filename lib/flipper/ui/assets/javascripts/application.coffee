@@ -168,7 +168,7 @@ class App.Feature extends Spine.Controller
   hide: (event) ->
     event.preventDefault() if event
     @dom_feature.removeClass('settings')
-    @navigate Flipper.Config.url
+    @navigate "#{Flipper.Config.url}/"
 
 class App.Gate extends Spine.Controller
   constructor: ->
@@ -219,7 +219,7 @@ class App.Gate.Boolean extends App.Gate
     event.preventDefault()
     @gate.value = @input.is(':checked')
     @gate.save()
-    @navigate Flipper.Config.url
+    @navigate "#{Flipper.Config.url}/"
 
 class App.Gate.Set extends App.Gate
   elements:
@@ -280,7 +280,7 @@ class App.Gate.Percentage extends App.Gate
     @gate.value = @input.val()
     return unless @validate()
     @gate.save()
-    @navigate Flipper.Config.url
+    @navigate "#{Flipper.Config.url}/"
 
 class App.Gate.PercentageOfActors extends App.Gate.Percentage
   constructor: ->
