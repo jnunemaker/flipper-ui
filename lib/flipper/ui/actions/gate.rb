@@ -19,7 +19,6 @@ module Flipper
           run_other_action Index
         end
 
-        # FIXME: Handle gate not found by name.
         # FIXME: Return more than just the gate as json response?
         def post
           feature_name, gate_name = request.path.split('/').pop(2).map{|value| Rack::Utils.unescape value }
@@ -45,7 +44,6 @@ module Flipper
           end
         end
 
-        # FIXME: protect against invalid operations
         # FIXME: protect against invalid values (blank, empty, etc)
         def update_actor(feature)
           value = params['value']
@@ -65,7 +63,6 @@ module Flipper
           end
         end
 
-        # FIXME: protect against invalid operations
         # FIXME: protect against invalid values (blank, empty, etc)
         def update_group(feature)
           group_name = params['value'].to_sym
@@ -81,7 +78,6 @@ module Flipper
           group_not_registered group_name
         end
 
-        # FIXME: guard against percentage that doesn't fit 0 <= p <= 100
         def update_percentage_of_actors(feature)
           value = (params['value'] || 0).to_i
           feature.enable flipper.actors(value)
@@ -89,7 +85,6 @@ module Flipper
           invalid_percentage value, exception
         end
 
-        # FIXME: guard against percentage that doesn't fit 0 <= p <= 100
         def update_percentage_of_random(feature)
           value = (params['value'] || 0).to_i
           feature.enable flipper.random(value)
