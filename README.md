@@ -59,7 +59,7 @@ Another example of a route constrain using the current_user when using Devise or
 class CanAccessFlipperUI
   def self.matches?(request)
     current_user = request.env['warden'].user
-    
+
     return current_user.present? && current_user.respond_to?(:is_admin?) && current_user.is_admin?
   end
 end
@@ -94,7 +94,7 @@ See [examples/basic.ru](https://github.com/jnunemaker/flipper-ui/blob/master/exa
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. **Fire up the app** (`bundle exec rake start`)
+3. **Fire up the app** (`script/server`)
 4. **Start up guard** (`bundle exec guard` for automatic coffeescript/sass compilation and such).
 5. Commit your changes (`git commit -am 'Added some feature'`)
 6. Push to the branch (`git push origin my-new-feature`)

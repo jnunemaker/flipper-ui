@@ -16,4 +16,4 @@ cd $(dirname "$0")/..
     exit 0
 }
 
-bundle exec rake start
+bundle exec rackup examples/basic.ru -p 9999
