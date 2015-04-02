@@ -411,6 +411,27 @@ describe Flipper::UI do
         last_response.status.should be(404)
       end
     end
+
+    context "when group is empty" do
+      before do
+        feature = flipper[:some_thing]
+        params = {
+          'operation' => 'enable',
+          'value' => '',
+        }
+        post "/features/#{feature.name}/group", params
+      end
+
+      it "responds with 422" do
+        last_response.status.should be(422)
+      end
+
+      it "has message in body" do
+        hash = JSON.load(last_response.body)
+        hash["status"].should eq("error")
+        hash["message"].should eq("Group name is required.")
+      end
+    end
   end
 
   describe "GET /images/logo.png" do

@@ -114,12 +114,16 @@ module Flipper
 
         # Private: Returns error response that group was not registered.
         def group_not_registered(group_name)
-          response = {
-            status: 'error',
-            message: "The group named #{group_name.inspect} has not been registered.",
-          }
+          response = {status: 'error'}
 
-          status 404
+          if Util.blank?(group_name)
+            status 422
+            response[:message] = "Group name is required."
+          else
+            status 404
+            response[:message] = "The group named #{group_name.inspect} has not been registered."
+          end
+
           halt json_response(response)
         end
 
