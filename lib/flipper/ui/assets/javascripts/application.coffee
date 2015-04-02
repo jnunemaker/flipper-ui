@@ -39,6 +39,7 @@ class Gate extends Spine.Model
         operation: operation
         value: member
       success: (data, status, xhr) =>
+        Feature.trigger('reload')
         @value = data.value
         success_callback(data, status, xhr) if success_callback
       error: (data, status, error) =>
