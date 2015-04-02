@@ -225,7 +225,7 @@ class App.Gate.Set extends App.Gate
   elements:
     '.disable': 'dom_disable'
     '.members': 'dom_members'
-    'input[type=text]': 'dom_input'
+    '[name=value]': 'dom_input'
 
   events:
     'click .disable': 'disable'

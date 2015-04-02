@@ -13,7 +13,7 @@
     </script>
     <script src="<%= script_name %>/js/jquery.min.js"></script>
     <script src="<%= script_name %>/js/jquery-ui-1.10.3.slider.min.js"></script>
-    
+
     <script src="<%= script_name %>/js/handlebars.js"></script>
     <script src="<%= script_name %>/js/spine/spine.js"></script>
     <script src="<%= script_name %>/js/spine/ajax.js"></script>
@@ -99,7 +99,12 @@
         <input type="hidden" name="operation" value="enable" />
         <label>
           Group Name
-          <input type="text" name="value" value="" />
+          <select name="value">
+            <option value="">Select the group...</option>
+            <% Flipper.group_names.each do |name| %>
+            <option value="<%= name %>"><%= name %></option>
+            <% end %>
+          </select>
         </label>
         <button>Enable Group</button>
       </form>
