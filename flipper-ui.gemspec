@@ -16,6 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = Flipper::UI::VERSION
 
   gem.add_dependency 'rack'
-  gem.add_dependency 'flipper', '~> 0.6.0'
+  gem.add_dependency 'flipper', '~> 0.7.0.beta1'
   gem.add_dependency 'erubis'
 end
