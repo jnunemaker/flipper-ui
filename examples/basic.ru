@@ -38,7 +38,7 @@ flipper[:suits].enable Actor.new('1')
 flipper[:suits].enable Actor.new('6')
 flipper[:secrets].enable flipper.group(:admins)
 flipper[:secrets].enable flipper.group(:early_access)
-flipper[:logging].enable flipper.random(5)
+flipper[:logging].enable flipper.time(5)
 flipper[:new_cache].enable flipper.actors(15)
 
 run Flipper::UI.app(flipper)

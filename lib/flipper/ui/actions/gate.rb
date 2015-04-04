@@ -83,9 +83,9 @@ module Flipper
           invalid_percentage value, exception
         end
 
-        def update_percentage_of_random(feature)
+        def update_percentage_of_time(feature)
           value = params['value']
-          feature.enable_percentage_of_random value
+          feature.enable_percentage_of_time value
         rescue ArgumentError => exception
           invalid_percentage value, exception
         end

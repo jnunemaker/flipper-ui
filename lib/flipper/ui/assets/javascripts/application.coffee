@@ -288,9 +288,9 @@ class App.Gate.PercentageOfActors extends App.Gate.Percentage
     @name = 'percentage_of_actors'
     super
 
-class App.Gate.PercentageOfRandom extends App.Gate.Percentage
+class App.Gate.PercentageOfTime extends App.Gate.Percentage
   constructor: ->
-    @name = 'percentage_of_random'
+    @name = 'percentage_of_time'
     super
 
 class App.GateList extends Spine.Stack
@@ -299,7 +299,7 @@ class App.GateList extends Spine.Stack
     group: App.Gate.Group
     actor: App.Gate.Actor
     percentage_of_actors: App.Gate.PercentageOfActors
-    percentage_of_random: App.Gate.PercentageOfRandom
+    percentage_of_time: App.Gate.PercentageOfTime
 
 jQuery ->
   new App(el: $('#app'))

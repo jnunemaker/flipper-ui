@@ -67,8 +67,8 @@
               <li><a href="#" data-tab="actor">Actors</a></li>
               <li><a href="#" data-tab="percentage_of_actors">
                 Percentage Of Actors</a></li>
-              <li><a href="#" data-tab="percentage_of_random">
-                Percentage Of Random</a></li>
+              <li><a href="#" data-tab="percentage_of_time">
+                Percentage Of Time</a></li>
             </ul>
           </div>
 
@@ -149,8 +149,8 @@
       </form>
     </script>
 
-    <script id="gate-percentage-of-random-template" type="text/x-handlebars-template">
-      <form action="/features/{{feature_id}}/percentage_of_random" method="POST">
+    <script id="gate-percentage-of-time-template" type="text/x-handlebars-template">
+      <form action="/features/{{feature_id}}/percentage_of_time" method="POST">
         <div class="slider-range"></div>
         <input type="text" name="value" value="{{value}}" /> %
         <button>Save Settings</button>

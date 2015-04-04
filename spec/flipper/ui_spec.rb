@@ -207,14 +207,14 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:id/percentage_of_random" do
+  describe "POST /features/:id/percentage_of_time" do
     context "valid value" do
       before do
         feature = flipper[:some_thing]
         params = {
           'value' => '5',
         }
-        post "/features/#{feature.name}/percentage_of_random", params
+        post "/features/#{feature.name}/percentage_of_time", params
       end
 
       it "responds with 200" do
@@ -224,13 +224,13 @@ describe Flipper::UI do
       it "responds with json" do
         result = json_response
         result.should be_instance_of(Hash)
-        result['name'].should eq('percentage_of_random')
-        result['key'].should eq('percentage_of_random')
+        result['name'].should eq('percentage_of_time')
+        result['key'].should eq('percentage_of_time')
         result['value'].should eq(5)
       end
 
       it "updates gate state" do
-        gate_value(:some_thing, :percentage_of_random).to_i.should be(5)
+        gate_value(:some_thing, :percentage_of_time).to_i.should be(5)
       end
     end
 
@@ -240,7 +240,7 @@ describe Flipper::UI do
         params = {
           'value' => '555',
         }
-        post "/features/#{feature.name}/percentage_of_random", params
+        post "/features/#{feature.name}/percentage_of_time", params
       end
 
       it "responds with 422" do
