@@ -36,6 +36,26 @@ describe Flipper::UI do
     end
   end
 
+  describe "GET /fonts/bootstrap/glyphicons-halflings-regular.eot" do
+    before do
+      get '/fonts/bootstrap/glyphicons-halflings-regular.eot'
+    end
+
+    it "responds with 200" do
+      last_response.status.should be(200)
+    end
+  end
+
+  describe "GET /octicons/octicons.eot" do
+    before do
+      get '/octicons/octicons.eot'
+    end
+
+    it "responds with 200" do
+      last_response.status.should be(200)
+    end
+  end
+
   context "Request method unsupported by action" do
     it "raises error" do
       expect {
