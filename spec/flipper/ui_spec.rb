@@ -84,6 +84,71 @@ describe Flipper::UI do
     end
   end
 
+  describe "POST /features" do
+    context "for good value" do
+      before do
+        params = {
+          'value' => 'search',
+        }
+        post "/features", params
+      end
+
+      it "responds with 201" do
+        last_response.status.should be(201)
+      end
+
+      it "responds with json" do
+        result = json_response
+        result.should be_instance_of(Hash)
+        result['id'].should eq('search')
+        result['name'].should eq('Search')
+        result['state'].should eq('off')
+        result['description'].should eq('Disabled')
+        result['gates'].should be_instance_of(Array)
+        result['gates'].size.should be(5)
+      end
+    end
+
+    context "with blank feature name" do
+      before do
+        params = {
+          'value' => '',
+        }
+        post "/features", params
+      end
+
+      it "responds with 422" do
+        last_response.status.should be(422)
+      end
+
+      it "includes status and message" do
+        result = json_response
+        result['status'].should eq('error')
+        result['message'].should eq('"" is not a valid feature name.')
+      end
+    end
+
+    context "with already existing feature name" do
+      before do
+        flipper.enable :search
+        params = {
+          "value" => "search",
+        }
+        post "/features", params
+      end
+
+      it "responds with 422" do
+        last_response.status.should be(422)
+      end
+
+      it "includes status and message" do
+        result = json_response
+        result['status'].should eq("error")
+        result['message'].should eq("\"search\" already exists.")
+      end
+    end
+  end
+
   describe "POST /features/:id/non_existent_gate_name" do
     before do
       feature = flipper[:some_thing]
