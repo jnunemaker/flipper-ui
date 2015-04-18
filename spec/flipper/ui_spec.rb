@@ -20,7 +20,7 @@ describe Flipper::UI do
     let(:app) { described_class.app(lambda { flipper }) }
 
     it "works" do
-      get '/'
+      get "/features"
       last_response.status.should be(200)
     end
   end
@@ -29,15 +29,12 @@ describe Flipper::UI do
     before do
       flipper[:stats].enable
       flipper[:search].enable
-      get '/'
+      get "/"
     end
 
-    it "responds with 200" do
-      last_response.status.should be(200)
-    end
-
-    it "renders view" do
-      last_response.body.should match(/Flipper/)
+    it "responds with redirect" do
+      last_response.status.should be(302)
+      last_response.headers["Location"].should eq("/features")
     end
   end
 end

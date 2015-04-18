@@ -17,26 +17,17 @@
   </head>
   <body>
     <div class="container">
-      <div id="header" class="columns">
-        <!-- <h1>
-          <a href="<%= script_name %>/">
-            <img src="<%= script_name %>/images/logo.png" alt="Flipper" />
+      <div class="tabnav">
+        <a class="btn btn-sm right" href="/features/new">Add Feature</a>
+        <nav class="tabnav-tabs">
+          <a href="<%= script_name %>/features" class="tabnav-tab selected">
+            Features
           </a>
-        </h1> -->
+        </nav>
       </div>
 
-      <div id="content" class="columns">
-        <div class="one-third column">
-          <nav class="menu">
-            <span class="menu-heading">Flipper</span>
-            <a class="menu-item selected" href="/features">Features</a>
-            <a class="menu-item" href="/new">Add Feature</a>
-          </nav>
-        </div>
-
-        <div class="two-thirds column">
-          <%== yield %>
-        </div>
+      <div>
+        <%== yield %>
       </div>
     </div>
   </body>

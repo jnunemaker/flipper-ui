@@ -9,7 +9,9 @@ module Flipper
         route %r{.*}
 
         def get
-          view_response :index
+          status 302
+          header "Location", "/features"
+          [@code, @headers, [""]]
         end
       end
     end
