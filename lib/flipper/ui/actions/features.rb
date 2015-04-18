@@ -10,9 +10,15 @@ module Flipper
 
         def get
           @page_title = "Features"
-          @features = flipper.features.map { |feature|
+          features = flipper.features.map { |feature|
             Decorators::Feature.new(feature)
-          }.sort_by(&:pretty_name)
+          }.group_by { |feature| feature.state }
+
+          @enabled = features[:on].sort_by(&:pretty_name)
+          @disabled = features[:off].sort_by(&:pretty_name)
+          @conditional = features[:conditional].sort_by(&:pretty_name)
+
+          @show_blank_slate = features.empty?
 
           view_response :features
         end
