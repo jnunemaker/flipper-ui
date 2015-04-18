@@ -8,29 +8,26 @@
     <iframe width="560" height="315" src="https://www.youtube.com/embed/e-ORhEE9VVg" frameborder="0" allowfullscreen></iframe>
   </div>
 <% else %>
-  <nav class="menu">
-    <span class="menu-heading">Enabled</span>
-    <% @enabled.each do |feature| %>
-      <a href="<%= "#{script_name}/features/#{feature.key}" %>" class="menu-item">
-        <%= feature.key %></a>
-    <% end %>
-  </nav>
 
-  <nav class="menu">
-    <span class="menu-heading">Conditionally Enabled</span>
-    <% @conditional.each do |feature| %>
-      <span class="right"><%= feature.description %></span>
-      <a href="<%= "#{script_name}/features/#{feature.key}" %>" class="menu-item">
-        <%= feature.key %>
-      </a>
-    <% end %>
-  </nav>
+  <%
+  {
+    "Enable" => "enabled",
+    "Conditionally Enabled" => "conditional",
+    "Disabled" => "disabled",
+  }.each do |title, ivar| %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= title %></h3>
+    </div>
 
-  <nav class="menu">
-    <span class="menu-heading">Disabled</span>
-    <% @disabled.each do |feature| %>
-      <a href="<%= "#{script_name}/features/#{feature.key}" %>" class="menu-item">
-        <%= feature.key %></a>
-    <% end %>
-  </nav>
+    <ul class="list-group">
+      <% instance_variable_get("@#{ivar}").each do |feature| %>
+        <li class="list-group-item">
+          <a href="<%= "#{script_name}/features/#{feature.key}" %>">
+            <%= feature.key %></a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
 <% end %>
