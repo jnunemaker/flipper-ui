@@ -4,9 +4,9 @@ require 'flipper/ui/decorators/feature'
 module Flipper
   module UI
     module Actions
-      class Features < UI::Action
+      class FeaturesApi < UI::Action
 
-        route %r{features/?\Z}
+        route %r{api/features/?\Z}
 
         def get
           features = flipper.features.map { |feature|

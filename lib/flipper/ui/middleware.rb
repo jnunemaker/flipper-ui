@@ -36,8 +36,8 @@ module Flipper
 
         @action_collection = ActionCollection.new
         @action_collection.add UI::Actions::File
-        @action_collection.add UI::Actions::Features
-        @action_collection.add UI::Actions::Gate
+        @action_collection.add UI::Actions::FeaturesApi
+        @action_collection.add UI::Actions::GatesApi
 
         # Catch all, always last.
         @action_collection.add UI::Actions::Index

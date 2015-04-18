@@ -11,41 +11,16 @@ describe Flipper::UI do
   let(:adapter) { Flipper::Adapters::Memory.new(source) }
 
   let(:flipper) {
-    Flipper.new(adapter, :instrumenter => ActiveSupport::Notifications)
+    Flipper.new(adapter)
   }
 
   let(:app) { described_class.app(flipper) }
 
-  describe "Initializing middleware lazily with a block" do
-    let(:app) { described_class.app(lambda { flipper }) }
-
-    it "works" do
-      get '/features'
-      last_response.status.should be(200)
-    end
-  end
-
-  describe "GET /" do
-    before do
-      flipper[:stats].enable
-      flipper[:search].enable
-      get '/'
-    end
-
-    it "responds with 200" do
-      last_response.status.should be(200)
-    end
-
-    it "renders view" do
-      last_response.body.should match(/Flipper/)
-    end
-  end
-
-  describe "GET /features" do
+  describe "GET /api/features" do
     before do
       flipper[:new_stats].enable
       flipper[:search].disable
-      get '/features'
+      get '/api/features'
     end
 
     it "responds with 200" do
@@ -84,13 +59,13 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features" do
+  describe "POST /api/features" do
     context "for good value" do
       before do
         params = {
           'value' => 'search',
         }
-        post "/features", params
+        post "/api/features", params
       end
 
       it "responds with 201" do
@@ -114,7 +89,7 @@ describe Flipper::UI do
         params = {
           'value' => '',
         }
-        post "/features", params
+        post "/api/features", params
       end
 
       it "responds with 422" do
@@ -134,7 +109,7 @@ describe Flipper::UI do
         params = {
           "value" => "search",
         }
-        post "/features", params
+        post "/api/features", params
       end
 
       it "responds with 422" do
@@ -149,13 +124,13 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:id/non_existent_gate_name" do
+  describe "POST /api/features/:id/non_existent_gate_name" do
     before do
       feature = flipper[:some_thing]
       params = {
         'value' => 'something',
       }
-      post "/features/#{feature.name}/non_existent_gate_name", params
+      post "/api/features/#{feature.name}/non_existent_gate_name", params
     end
 
     it "responds with 404" do
@@ -169,14 +144,14 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:id/boolean" do
+  describe "POST /api/features/:id/boolean" do
     before do
       feature = flipper[:some_thing]
       feature.enable
       params = {
         'value' => 'false',
       }
-      post "/features/#{feature.name}/boolean", params
+      post "/api/features/#{feature.name}/boolean", params
     end
 
     it "responds with 200" do
@@ -196,7 +171,7 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:id/boolean for values that are URI encoded" do
+  describe "POST /api/features/:id/boolean for values that are URI encoded" do
     before do
       feature = flipper["feature:v1"]
       feature.enable
@@ -204,7 +179,7 @@ describe Flipper::UI do
         'value' => 'false',
       }
       feature_encoded_name = URI.encode_www_form_component(feature.name)
-      post "/features/#{feature_encoded_name}/boolean", params
+      post "/api/features/#{feature_encoded_name}/boolean", params
     end
 
     it "responds with 200" do
@@ -224,14 +199,14 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:id/percentage_of_actors" do
+  describe "POST /api/features/:id/percentage_of_actors" do
     context "valid value" do
       before do
         feature = flipper[:some_thing]
         params = {
           'value' => '5',
         }
-        post "/features/#{feature.name}/percentage_of_actors", params
+        post "/api/features/#{feature.name}/percentage_of_actors", params
       end
 
       it "responds with 200" do
@@ -247,7 +222,7 @@ describe Flipper::UI do
       end
 
       it "updates gate state" do
-        gate_value(:some_thing, :percentage_of_actors).to_i.should be(5)
+        flipper[:some_thing].percentage_of_actors_value.should be(5)
       end
     end
 
@@ -257,7 +232,7 @@ describe Flipper::UI do
         params = {
           'value' => '555',
         }
-        post "/features/#{feature.name}/percentage_of_actors", params
+        post "/api/features/#{feature.name}/percentage_of_actors", params
       end
 
       it "responds with 422" do
@@ -272,14 +247,14 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:id/percentage_of_time" do
+  describe "POST /api/features/:id/percentage_of_time" do
     context "valid value" do
       before do
         feature = flipper[:some_thing]
         params = {
           'value' => '5',
         }
-        post "/features/#{feature.name}/percentage_of_time", params
+        post "/api/features/#{feature.name}/percentage_of_time", params
       end
 
       it "responds with 200" do
@@ -295,7 +270,7 @@ describe Flipper::UI do
       end
 
       it "updates gate state" do
-        gate_value(:some_thing, :percentage_of_time).to_i.should be(5)
+        flipper[:some_thing].percentage_of_time_value.should be(5)
       end
     end
 
@@ -305,7 +280,7 @@ describe Flipper::UI do
         params = {
           'value' => '555',
         }
-        post "/features/#{feature.name}/percentage_of_time", params
+        post "/api/features/#{feature.name}/percentage_of_time", params
       end
 
       it "responds with 422" do
@@ -320,7 +295,7 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:id/actor" do
+  describe "POST /api/features/:id/actor" do
     context "enable" do
       before do
         feature = flipper[:some_thing]
@@ -328,7 +303,7 @@ describe Flipper::UI do
           'operation' => 'enable',
           'value' => '11',
         }
-        post "/features/#{feature.name}/actor", params
+        post "/api/features/#{feature.name}/actor", params
       end
 
       it "responds with 200" do
@@ -344,7 +319,7 @@ describe Flipper::UI do
       end
 
       it "updates gate state" do
-        gate_value(:some_thing, :actors).should include('11')
+        flipper[:some_thing].actors_value.should include('11')
       end
     end
 
@@ -356,7 +331,7 @@ describe Flipper::UI do
           'operation' => 'disable',
           'value' => '11',
         }
-        post "/features/#{feature.name}/actor", params
+        post "/api/features/#{feature.name}/actor", params
       end
 
       it "responds with 200" do
@@ -372,7 +347,7 @@ describe Flipper::UI do
       end
 
       it "updates gate state" do
-        gate_value(:some_thing, :actors).should_not include('11')
+        flipper[:some_thing].actors_value.should_not include('11')
       end
     end
 
@@ -383,7 +358,7 @@ describe Flipper::UI do
           'operation' => 'enable',
           'value' => '',
         }
-        post "/features/#{feature.name}/actor", params
+        post "/api/features/#{feature.name}/actor", params
       end
 
       it "responds with 422" do
@@ -398,7 +373,7 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:id/group" do
+  describe "POST /api/features/:id/group" do
     before do
       Flipper.register(:admins) { |user| user.admin? }
     end
@@ -414,7 +389,7 @@ describe Flipper::UI do
           'operation' => 'enable',
           'value' => 'admins',
         }
-        post "/features/#{feature.name}/group", params
+        post "/api/features/#{feature.name}/group", params
       end
 
       it "responds with 200" do
@@ -430,7 +405,7 @@ describe Flipper::UI do
       end
 
       it "updates gate state" do
-        gate_value(:some_thing, :groups).should include('admins')
+        flipper[:some_thing].groups_value.should include('admins')
       end
     end
 
@@ -442,7 +417,7 @@ describe Flipper::UI do
           'operation' => 'disable',
           'value' => 'admins',
         }
-        post "/features/#{feature.name}/group", params
+        post "/api/features/#{feature.name}/group", params
       end
 
       it "responds with 200" do
@@ -458,7 +433,7 @@ describe Flipper::UI do
       end
 
       it "updates gate state" do
-        gate_value(:some_thing, :groups).should_not include('admins')
+        flipper[:some_thing].groups_value.should_not include('admins')
       end
     end
 
@@ -469,7 +444,7 @@ describe Flipper::UI do
           'operation' => 'enable',
           'value' => 'not_here',
         }
-        post "/features/#{feature.name}/group", params
+        post "/api/features/#{feature.name}/group", params
       end
 
       it "responds with 404" do
@@ -484,7 +459,7 @@ describe Flipper::UI do
           'operation' => 'enable',
           'value' => '',
         }
-        post "/features/#{feature.name}/group", params
+        post "/api/features/#{feature.name}/group", params
       end
 
       it "responds with 422" do
@@ -497,39 +472,5 @@ describe Flipper::UI do
         hash["message"].should eq("Group name is required.")
       end
     end
-  end
-
-  describe "GET /images/logo.png" do
-    before do
-      get '/images/logo.png'
-    end
-
-    it "responds with 200" do
-      last_response.status.should be(200)
-    end
-  end
-
-  describe "GET /css/application.css" do
-    before do
-      get '/css/application.css'
-    end
-
-    it "responds with 200" do
-      last_response.status.should be(200)
-    end
-  end
-
-  context "Request method unsupported by action" do
-    it "raises error" do
-      expect {
-        post '/images/logo.png'
-      }.to raise_error(Flipper::UI::RequestMethodNotSupported)
-    end
-  end
-
-  # Gets the adapter value for a given feature name and gate key.
-  def gate_value(feature_name, gate_key)
-    values = flipper.adapter.get(flipper[feature_name])
-    values[gate_key]
   end
 end

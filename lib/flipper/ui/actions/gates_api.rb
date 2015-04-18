@@ -6,12 +6,12 @@ require 'flipper/ui/decorators/feature'
 module Flipper
   module UI
     module Actions
-      class Gate < UI::Action
+      class GatesApi < UI::Action
 
         # Private: Struct to wrap actors so they can respond to flipper_id.
         FakeActor = Struct.new(:flipper_id)
 
-        route %r{features/.*/.*/?\Z}
+        route %r{api/features/.*/.*/?\Z}
 
         # Get should run the index route. All the url does is control what is
         # opened and closed when the page is loaded.
