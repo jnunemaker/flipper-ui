@@ -9,6 +9,7 @@ module Flipper
         route %r{features/?\Z}
 
         def get
+          @page_title = "Features"
           @features = flipper.features.map { |feature|
             Decorators::Feature.new(feature)
           }.sort_by(&:pretty_name)
