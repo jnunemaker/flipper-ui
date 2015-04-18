@@ -1,3 +1,14 @@
 body {
   padding-top: 20px;
 }
+
+.boxed-group {
+  position: relative;
+  padding: 15px;
+  border: 1px solid #e5e5e5;
+  border-radius: .25rem .25rem 0 0;
+
+  h3 {
+    border:1px solid #e5e5e5;
+  }
+}
