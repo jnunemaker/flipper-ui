@@ -14,7 +14,7 @@ module Flipper
           feature = flipper[feature_name.to_sym]
           @feature = Decorators::Feature.new(feature)
 
-          unless respond_to?(update_gate_method_name)
+          unless respond_to?(update_gate_method_name, true)
             update_gate_method_undefined(gate_name)
           end
 
