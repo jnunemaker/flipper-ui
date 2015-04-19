@@ -37,7 +37,8 @@ module Flipper
 
         # Private: Returns error response that gate update method is not defined.
         def update_gate_method_undefined(gate_name)
-          halt redirect_to("/features/#{@feature.key}?gate_method_undefined")
+          error = Rack::Utils.escape("#{gate_name.inspect} gate does not exist therefore it cannot be updated.")
+          halt redirect_to("/features/#{@feature.key}?error=#{error}")
         end
       end
     end

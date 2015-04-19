@@ -1,6 +1,6 @@
-<% if params.key?("gate_method_undefined") %>
+<% if params.key?("error") %>
   <div class="flash flash-error">
-    Cannot update a gate that doesn't exist.
+    <%= params["error"] %>
   </div>
 <% end %>
 
