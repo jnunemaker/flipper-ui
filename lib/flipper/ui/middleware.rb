@@ -45,6 +45,8 @@ module Flipper
 
         # UI
         @action_collection.add UI::Actions::Features
+        @action_collection.add UI::Actions::Feature
+        @action_collection.add UI::Actions::Gate
 
         # Catch all, always last.
         @action_collection.add UI::Actions::Index
