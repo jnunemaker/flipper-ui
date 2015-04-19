@@ -24,9 +24,16 @@
     <ul class="list-group">
       <% instance_variable_get("@#{ivar}").each do |feature| %>
         <li class="list-group-item">
-          <a href="<%= "#{script_name}/features/#{feature.key}" %>">
-            <%= feature.key %>
-          </a>
+          <div class="flex-table">
+            <div class="flex-table-item flex-table-item-primary">
+              <a href="<%= "#{script_name}/features/#{feature.key}" %>">
+                <%= feature.key %>
+              </a>
+            </div>
+            <div class="flex-table-item">
+              <%= ivar == "conditional" ? feature.description : "" %>
+            </div>
+          </div>
         </li>
       <% end %>
     </ul>
