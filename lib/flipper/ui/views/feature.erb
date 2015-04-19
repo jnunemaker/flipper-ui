@@ -30,7 +30,21 @@
     <h3 class="panel-title">Actors</h3>
   </div>
   <div class="panel-body">
-
+    <% if @feature.actors_value.empty? %>
+      <div class="blankslate">
+        <span class="mega-octicon octicon-person"></span>
+        <span class="mega-octicon octicon-squirrel"></span>
+        <span class="mega-octicon octicon-zap"></span>
+        <h3>No Enabled Actors</h3>
+        <p>Enable actors using the Add Actor button above.</p>
+      </div>
+    <% else %>
+      <ul class="list-group">
+        <% @feature.actors_value.each do |item| %>
+          <li class="list-group-item"><%= item %></li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
 </div>
 
@@ -39,7 +53,21 @@
     <h3 class="panel-title">Groups</h3>
   </div>
   <div class="panel-body">
-
+    <% if @feature.groups_value.empty? %>
+      <div class="blankslate">
+        <span class="mega-octicon octicon-organization"></span>
+        <span class="mega-octicon octicon-squirrel"></span>
+        <span class="mega-octicon octicon-zap"></span>
+        <h3>No Enabled Groups</h3>
+        <p>Enable groups using the Add Group button above.</p>
+      </div>
+    <% else %>
+      <ul class="list-group">
+        <% @feature.groups_value.each do |item| %>
+          <li class="list-group-item"><%= item %></li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
 </div>
 
