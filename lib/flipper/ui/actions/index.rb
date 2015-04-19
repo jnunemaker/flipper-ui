@@ -9,9 +9,7 @@ module Flipper
         route %r{.*}
 
         def get
-          status 302
-          header "Location", "/features"
-          [@code, @headers, [""]]
+          redirect_to "/features"
         end
       end
     end
