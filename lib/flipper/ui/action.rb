@@ -130,6 +130,12 @@ module Flipper
         @headers[name] = value
       end
 
+      def redirect_to(location)
+        status 302
+        header "Location", location
+        [@code, @headers, [""]]
+      end
+
       # Private
       def view_with_layout(&block)
         view :layout, &block
