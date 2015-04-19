@@ -54,4 +54,24 @@ describe Flipper::UI do
       last_response.body.should include("search")
     end
   end
+
+  describe "GET /features/:feature" do
+    before do
+      flipper[:search].enable
+      get "/features/search"
+    end
+
+    it "responds with success" do
+      last_response.status.should be(200)
+    end
+
+    it "renders template" do
+      last_response.body.should include("search")
+      last_response.body.should include("Boolean")
+      last_response.body.should include("Actors")
+      last_response.body.should include("Groups")
+      last_response.body.should include("Percentage of Time")
+      last_response.body.should include("Percentage of Actors")
+    end
+  end
 end
