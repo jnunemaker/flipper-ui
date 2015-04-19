@@ -35,6 +35,26 @@ module Flipper
           end
         end
 
+        def update_percentage_of_actors(feature)
+          value = params["value"]
+          feature.enable_percentage_of_actors value
+        rescue ArgumentError => exception
+          invalid_percentage value, exception
+        end
+
+        def update_percentage_of_time(feature)
+          value = params["value"]
+          feature.enable_percentage_of_time value
+        rescue ArgumentError => exception
+          invalid_percentage value, exception
+        end
+
+        # Private: Returns error response for invalid percentage value.
+        def invalid_percentage(value, exception)
+          error = Rack::Utils.escape("Invalid percentage of time value: #{exception.message}")
+          redirect_to("/features/#{@feature.key}?error=#{error}")
+        end
+
         # Private: Returns error response that gate update method is not defined.
         def update_gate_method_undefined(gate_name)
           error = Rack::Utils.escape("#{gate_name.inspect} gate does not exist therefore it cannot be updated.")
