@@ -100,7 +100,7 @@ module Flipper
       def view_response(name)
         header 'Content-Type', 'text/html'
         body = view_with_layout { view_without_layout name }
-        [@code, @headers, [body]]
+        halt [@code, @headers, [body]]
       end
 
       # Public: Dumps an object as json and returns rack response with that as
@@ -112,7 +112,16 @@ module Flipper
       def json_response(object)
         header 'Content-Type', 'application/json'
         body = JSON.dump(object)
-        [@code, @headers, [body]]
+        halt [@code, @headers, [body]]
+      end
+
+      # Public: Redirect to a new location.
+      #
+      # location - The String location to set the Location header to.
+      def redirect_to(location)
+        status 302
+        header "Location", location
+        halt [@code, @headers, [""]]
       end
 
       # Public: Set the status code for the response.
@@ -128,12 +137,6 @@ module Flipper
       # value - The value of the header.
       def header(name, value)
         @headers[name] = value
-      end
-
-      def redirect_to(location)
-        status 302
-        header "Location", location
-        [@code, @headers, [""]]
       end
 
       # Private
