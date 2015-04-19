@@ -49,7 +49,7 @@ describe Flipper::UI do
       last_response.status.should be(200)
     end
 
-    it "lists the features by name" do
+    it "renders template" do
       last_response.body.should include("stats")
       last_response.body.should include("search")
     end
