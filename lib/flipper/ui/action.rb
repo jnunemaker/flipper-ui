@@ -149,6 +149,11 @@ module Flipper
       # Private
       def view(name)
         path = views_path.join("#{name}.erb")
+
+        unless path.exist?
+          raise "Template does not exist: #{path}"
+        end
+
         contents = path.read
         compiled = Eruby.new(contents)
         compiled.result Proc.new {}.binding
