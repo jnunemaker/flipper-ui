@@ -21,7 +21,7 @@ module Flipper
 
         # FIXME: Return more than just the gate as json response?
         def post
-          feature_name, gate_name = request.path.split('/').pop(2).map{|value| Rack::Utils.unescape value }
+          feature_name, gate_name = request.path.split('/').pop(2).map{ |value| Rack::Utils.unescape value }
           update_gate_method_name = "update_#{gate_name}"
 
           unless respond_to?(update_gate_method_name)
