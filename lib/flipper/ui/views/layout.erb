@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="/octicons/octicons.css">
     <link rel="stylesheet" href="<%= script_name %>/css/application.css">
 
-    <script src="<%= script_name %>/js/jquery.min.js"></script>
-    <script src="<%= script_name %>/js/application.js"></script>
   </head>
   <body>
     <div class="container">
@@ -27,5 +25,8 @@
         <%== yield %>
       </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="<%= script_name %>/js/application.js"></script>
   </body>
 </html>
