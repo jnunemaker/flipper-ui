@@ -9,9 +9,12 @@
     <h3 class="panel-title">Enable Actor for <%= @feature.key %></h3>
   </div>
   <div class="panel-body">
+    <p>
+      Turn on this feature for an individual actor.
+    </p>
     <form action="/features/<%= @feature.key %>/actors" method="post">
       <input type="hidden" name="operation" value="enable">
-      <input type="text" name="value">
+      <input type="text" name="value" placeholder="ie: User:6">
       <input type="submit" value="Enable" class="btn btn-primary">
     </form>
   </div>

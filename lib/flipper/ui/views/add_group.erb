@@ -12,6 +12,9 @@
     <% if @feature.disabled_groups.empty? %>
       <p>All groups are enabled for this feature which means there is nothing to add.</p>
     <% else %>
+      <p>
+        Turn on this feature for an entire group of actors.
+      </p>
       <form action="/features/<%= @feature.key %>/groups" method="post">
         <input type="hidden" name="operation" value="enable">
         <select name="value">
