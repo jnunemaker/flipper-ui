@@ -191,4 +191,48 @@ describe Flipper::UI do
       end
     end
   end
+
+  describe "POST /features/:feature/actor" do
+    context "enabling an actor" do
+      before do
+        post "features/search/actor", "value" => "User:6", "operation" => "enable"
+      end
+
+      it "adds item to members" do
+        flipper[:search].actors_value.should include("User:6")
+      end
+
+      it "redirects back to feature" do
+        last_response.status.should be(302)
+        last_response.headers["Location"].should eq("/features/search")
+      end
+    end
+
+    context "disabling an actor" do
+      before do
+        flipper[:search].enable_actor Flipper::UI::Actions::Gate::FakeActor.new("User:6")
+        post "features/search/actor", "value" => "User:6", "operation" => "disable"
+      end
+
+      it "removes item from members" do
+        flipper[:search].actors_value.should_not include("User:6")
+      end
+
+      it "redirects back to feature" do
+        last_response.status.should be(302)
+        last_response.headers["Location"].should eq("/features/search")
+      end
+    end
+
+    context "for an invalid actor value" do
+      before do
+        post "features/search/actor", "value" => "", "operation" => "enable"
+      end
+
+      it "redirects back to feature" do
+        last_response.status.should be(302)
+        last_response.headers["Location"].should eq("/features/search?error=%22%22+is+not+a+valid+actor+value.")
+      end
+    end
+  end
 end

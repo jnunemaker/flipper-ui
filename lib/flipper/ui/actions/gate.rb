@@ -5,6 +5,10 @@ module Flipper
   module UI
     module Actions
       class Gate < UI::Action
+
+        # Private: Struct to wrap actors so they can respond to flipper_id.
+        FakeActor = Struct.new(:flipper_id)
+
         route %r{features/[^/]*/[^/]*/?\Z}
 
         def post
@@ -35,6 +39,22 @@ module Flipper
           end
         end
 
+        def update_actor(feature)
+          value = params["value"]
+
+          if Util.blank?(value)
+            invalid_actor_value(value)
+          end
+
+          thing = FakeActor.new(value)
+
+          case params["operation"]
+          when "enable"
+            feature.enable_actor thing
+          when "disable"
+            feature.disable_actor thing
+          end
+        end
         def update_percentage_of_actors(feature)
           value = params["value"]
           feature.enable_percentage_of_actors value
@@ -49,6 +69,11 @@ module Flipper
           invalid_percentage value, exception
         end
 
+        # Private: Returns error response for invalid actor value.
+        def invalid_actor_value(value)
+          error = Rack::Utils.escape("#{value.inspect} is not a valid actor value.")
+          redirect_to("/features/#{@feature.key}?error=#{error}")
+        end
         # Private: Returns error response for invalid percentage value.
         def invalid_percentage(value, exception)
           error = Rack::Utils.escape("Invalid percentage of time value: #{exception.message}")
