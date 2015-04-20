@@ -103,11 +103,20 @@
     <% end %>
 
     <h3>Add Group</h3>
-    <form action="/features/<%= @feature.key %>/group" method="post">
-      <input type="hidden" name="operation" value="enable">
-      <input type="text" name="value" class="input-mini">
-      <input type="submit" value="Enable" class="btn btn-sm btn-primary">
-    </form>
+    <% if @feature.disabled_groups.empty? %>
+      <p>All groups are enabled for this feature which means there is nothing to add.</p>
+    <% else %>
+      <form action="/features/<%= @feature.key %>/group" method="post">
+        <input type="hidden" name="operation" value="enable">
+        <select name="value">
+          <option value="">Select a group...</option>
+          <% @feature.disabled_groups.each do |group| %>
+            <option value="<%= group.name %>"><%= group.name %></option>
+          <% end %>
+        </select>
+        <input type="submit" value="Enable" class="btn btn-sm btn-primary">
+      </form>
+    <% end %>
   </div>
 </div>
 
