@@ -45,6 +45,7 @@ module Flipper
 
         # UI
         @action_collection.add UI::Actions::Features
+        @action_collection.add UI::Actions::AddFeature
         @action_collection.add UI::Actions::Feature
         @action_collection.add UI::Actions::AddActor
         @action_collection.add UI::Actions::AddGroup

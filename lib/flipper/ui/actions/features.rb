@@ -24,6 +24,19 @@ module Flipper
 
           view_response :features
         end
+
+        def post
+          value = params["value"]
+
+          if Util.blank?(value)
+            error = Rack::Utils.escape("#{value.inspect} is not a valid feature name.")
+            redirect_to("/features/new?error=#{error}")
+          end
+
+          flipper.adapter.add(flipper[value])
+
+          redirect_to "/features"
+        end
       end
     end
   end

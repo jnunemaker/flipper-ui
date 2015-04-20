@@ -56,6 +56,34 @@ describe Flipper::UI do
     end
   end
 
+  describe "GET /features/new" do
+    before do
+      get "/features/new"
+    end
+
+    it "responds with success" do
+      last_response.status.should be(200)
+    end
+
+    it "renders template" do
+      last_response.body.should include('<form action="/features" method="post">')
+    end
+  end
+
+  describe "POST /features" do
+    before do
+      post "/features", "value" => "notifications_next"
+    end
+
+    it "adds feature" do
+      flipper.features.map(&:key).should include("notifications_next")
+    end
+
+    it "redirects to features" do
+      last_response.status.should be(302)
+      last_response.headers["Location"].should eq("/features")
+    end
+  end
   describe "GET /features/:feature" do
     before do
       get "/features/search"
