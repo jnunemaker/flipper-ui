@@ -58,7 +58,6 @@ describe Flipper::UI do
 
   describe "GET /features/:feature" do
     before do
-      flipper[:search].enable
       get "/features/search"
     end
 
@@ -68,7 +67,8 @@ describe Flipper::UI do
 
     it "renders template" do
       last_response.body.should include("search")
-      last_response.body.should include("Boolean")
+      last_response.body.should include("Enable")
+      last_response.body.should include("Disable")
       last_response.body.should include("Actors")
       last_response.body.should include("Groups")
       last_response.body.should include("Percentage of Time")
