@@ -2590,3 +2590,7 @@ a.list-group-item-danger {
 .breadcrumb {
   background-color: #fff;
   border: 1px solid #dddddd; }
+
+.header .btn.right {
+  margin-top: 5px;
+  margin-right: 15px; }

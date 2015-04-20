@@ -16,22 +16,20 @@
     <![endif]-->
   </head>
   <body>
-    <div class="container">
+    <div class="container header">
       <a class="btn btn-sm right" href="/features/new">Add Feature</a>
 
-      <% unless @breadcrumbs.empty? %>
-        <ol class="breadcrumb">
-          <% @breadcrumbs.each do |breadcrumb| %>
-            <li<% if breadcrumb.active? %> class="active"<% end %>>
-              <% if breadcrumb.active? %>
-                <%= breadcrumb.text %>
-              <% else %>
-                <a href="<%= breadcrumb.href %>"><%= breadcrumb.text %></a>
-              <% end %>
-            </li>
-          <% end %>
-        </ol>
-      <% end %>
+      <ol class="breadcrumb">
+        <% @breadcrumbs.each do |breadcrumb| %>
+          <li<% if breadcrumb.active? %> class="active"<% end %>>
+            <% if breadcrumb.active? %>
+              <%= breadcrumb.text %>
+            <% else %>
+              <a href="<%= breadcrumb.href %>"><%= breadcrumb.text %></a>
+            <% end %>
+          </li>
+        <% end %>
+      </ol>
 
       <div>
         <%== yield %>
