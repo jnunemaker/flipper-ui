@@ -18,6 +18,10 @@ body {
   margin-top:-5px;
 }
 
+.panel-body :first-child {
+  margin-top:0;
+}
+
 .button-inv {
   background:none;
   border:0;

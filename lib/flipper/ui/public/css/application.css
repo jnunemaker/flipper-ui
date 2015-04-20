@@ -2557,6 +2557,9 @@ a.list-group-item-danger {
 .panel-heading .btn.btn-sm.right {
   margin-top: -5px; }
 
+.panel-body :first-child {
+  margin-top: 0; }
+
 .button-inv {
   background: none;
   border: 0; }
