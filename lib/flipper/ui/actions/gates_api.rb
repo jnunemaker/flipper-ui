@@ -1,6 +1,7 @@
 require 'flipper/ui/util'
 require 'flipper/ui/action'
 require 'flipper/ui/actions/index'
+require 'flipper/ui/actor'
 require 'flipper/ui/decorators/feature'
 
 module Flipper
