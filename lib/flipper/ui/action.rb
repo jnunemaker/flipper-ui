@@ -56,6 +56,7 @@ module Flipper
         @flipper, @request = flipper, request
         @code = 200
         @headers = {}
+        @breadcrumbs = []
       end
 
       # Public: Runs the request method for the provided request.
@@ -137,6 +138,28 @@ module Flipper
       # value - The value of the header.
       def header(name, value)
         @headers[name] = value
+      end
+
+      class Breadcrumb
+        attr_reader :text, :href
+
+        def initialize(text, href = nil)
+          @text = text
+          @href = href
+        end
+
+        def active?
+          @href.nil?
+        end
+      end
+
+      # Public: Add a breadcrumb to the trail.
+      #
+      # text - The String text for the breadcrumb.
+      # href - The String href for the anchor tag (optional). If nil, breadcrumb
+      #        is assumed to be the end of the trail.
+      def breadcrumb(text, href = nil)
+        @breadcrumbs << Breadcrumb.new(text, href)
       end
 
       # Private

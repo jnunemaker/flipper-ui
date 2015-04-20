@@ -17,8 +17,9 @@ module Flipper
           @enabled = Array(features[:on]).sort_by(&:pretty_name)
           @disabled = Array(features[:off]).sort_by(&:pretty_name)
           @conditional = Array(features[:conditional]).sort_by(&:pretty_name)
-
           @show_blank_slate = features.empty?
+
+          breadcrumb "Features", "/features"
 
           view_response :features
         end

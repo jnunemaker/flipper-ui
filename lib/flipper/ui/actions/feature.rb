@@ -14,6 +14,9 @@ module Flipper
           @page_title = "#{@feature.key} // Features"
           @percentages = [0, 1, 5, 10, 15, 25, 50, 75, 100]
 
+          breadcrumb "Features", "/features"
+          breadcrumb @feature.key
+
           view_response :feature
         end
       end

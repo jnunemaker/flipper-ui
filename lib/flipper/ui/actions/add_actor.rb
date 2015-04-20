@@ -12,6 +12,10 @@ module Flipper
           feature = flipper[feature_name.to_sym]
           @feature = Decorators::Feature.new(feature)
 
+          breadcrumb "Features", "/features"
+          breadcrumb @feature.key, "/features/#{@feature.key}"
+          breadcrumb "Add Actor"
+
           view_response :add_actor
         end
 
