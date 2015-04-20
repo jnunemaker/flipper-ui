@@ -104,7 +104,9 @@
                     <form action="/features/<%= @feature.key %>/groups" method="post">
                       <input type="hidden" name="operation" value="disable">
                       <input type="hidden" name="value" value="<%= item %>">
-                      <input type="submit" value="Disable" class="btn btn-sm btn-danger">
+                      <button type="submit" value="Disable" class="button-inv danger tooltipped tooltipped-w" aria-label="Disable <%= item %>">
+                        <span class="octicon octicon-trashcan"></span>
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -140,7 +142,9 @@
                     <form action="/features/<%= @feature.key %>/actors" method="post">
                       <input type="hidden" name="operation" value="disable">
                       <input type="hidden" name="value" value="<%= item %>">
-                      <input type="submit" value="Disable" class="btn btn-sm btn-danger">
+                      <button type="submit" value="Disable" class="button-inv danger tooltipped tooltipped-w" aria-label="Disable <%= item %>">
+                        <span class="octicon octicon-trashcan"></span>
+                      </button>
                     </form>
                   </div>
                 </div>
