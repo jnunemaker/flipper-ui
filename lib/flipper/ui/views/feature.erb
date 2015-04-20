@@ -79,15 +79,35 @@
         <span class="mega-octicon octicon-squirrel"></span>
         <span class="mega-octicon octicon-zap"></span>
         <h3>No Enabled Groups</h3>
-        <p>Enable groups using the Add Group button above.</p>
+        <p>Enable groups using the form below.</p>
       </div>
     <% else %>
       <ul class="list-group">
         <% @feature.groups_value.each do |item| %>
-          <li class="list-group-item"><%= item %></li>
+          <li class="list-group-item">
+            <div class="flex-table">
+              <div class="flex-table-item flex-table-item-primary">
+                <%= item %>
+              </div>
+              <div class="flex-table-item">
+                <form action="/features/<%= @feature.key %>/group" method="post">
+                  <input type="hidden" name="operation" value="disable">
+                  <input type="hidden" name="value" value="<%= item %>">
+                  <input type="submit" value="Disable" class="btn btn-sm btn-danger">
+                </form>
+              </div>
+            </div>
+          </li>
         <% end %>
       </ul>
     <% end %>
+
+    <h3>Add Group</h3>
+    <form action="/features/<%= @feature.key %>/group" method="post">
+      <input type="hidden" name="operation" value="enable">
+      <input type="text" name="value" class="input-mini">
+      <input type="submit" value="Enable" class="btn btn-sm btn-primary">
+    </form>
   </div>
 </div>
 

@@ -235,4 +235,56 @@ describe Flipper::UI do
       end
     end
   end
+
+  describe "POST /features/:feature/group" do
+    before do
+      Flipper.register(:admins) { |user| user.admin? }
+    end
+
+    after do
+      Flipper.unregister_groups
+    end
+
+    context "enabling a group" do
+      before do
+        post "features/search/group", "value" => "admins", "operation" => "enable"
+      end
+
+      it "adds item to members" do
+        flipper[:search].groups_value.should include("admins")
+      end
+
+      it "redirects back to feature" do
+        last_response.status.should be(302)
+        last_response.headers["Location"].should eq("/features/search")
+      end
+    end
+
+    context "disabling a group" do
+      before do
+        flipper[:search].enable_group :admins
+        post "features/search/group", "value" => "admins", "operation" => "disable"
+      end
+
+      it "removes item from members" do
+        flipper[:search].groups_value.should_not include("admins")
+      end
+
+      it "redirects back to feature" do
+        last_response.status.should be(302)
+        last_response.headers["Location"].should eq("/features/search")
+      end
+    end
+
+    context "for an unregistered group" do
+      before do
+        post "features/search/group", "value" => "not_here", "operation" => "enable"
+      end
+
+      it "redirects back to feature" do
+        last_response.status.should be(302)
+        last_response.headers["Location"].should eq("/features/search?error=The+group+named+%22not_here%22+has+not+been+registered.")
+      end
+    end
+  end
 end
