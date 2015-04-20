@@ -251,7 +251,7 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:feature/group" do
+  describe "POST /features/:feature/groups" do
     before do
       Flipper.register(:admins) { |user| user.admin? }
     end
@@ -262,7 +262,7 @@ describe Flipper::UI do
 
     context "enabling a group" do
       before do
-        post "features/search/group", "value" => "admins", "operation" => "enable"
+        post "features/search/groups", "value" => "admins", "operation" => "enable"
       end
 
       it "adds item to members" do
@@ -278,7 +278,7 @@ describe Flipper::UI do
     context "disabling a group" do
       before do
         flipper[:search].enable_group :admins
-        post "features/search/group", "value" => "admins", "operation" => "disable"
+        post "features/search/groups", "value" => "admins", "operation" => "disable"
       end
 
       it "removes item from members" do
@@ -293,12 +293,12 @@ describe Flipper::UI do
 
     context "for an unregistered group" do
       before do
-        post "features/search/group", "value" => "not_here", "operation" => "enable"
+        post "features/search/groups", "value" => "not_here", "operation" => "enable"
       end
 
       it "redirects back to feature" do
         last_response.status.should be(302)
-        last_response.headers["Location"].should eq("/features/search?error=The+group+named+%22not_here%22+has+not+been+registered.")
+        last_response.headers["Location"].should eq("/features/search/groups?error=The+group+named+%22not_here%22+has+not+been+registered.")
       end
     end
   end

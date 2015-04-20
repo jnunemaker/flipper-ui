@@ -34,19 +34,6 @@ module Flipper
           end
         end
 
-        def update_group(feature)
-          group_name = params["value"]
-
-          case params["operation"]
-          when "enable"
-            feature.enable_group group_name
-          when "disable"
-            feature.disable_group group_name
-          end
-        rescue Flipper::GroupNotRegistered => e
-          group_not_registered group_name
-        end
-
         def update_percentage_of_actors(feature)
           value = params["value"]
           feature.enable_percentage_of_actors value
@@ -59,12 +46,6 @@ module Flipper
           feature.enable_percentage_of_time value
         rescue ArgumentError => exception
           invalid_percentage value, exception
-        end
-
-        # Private: Returns error response that group was not registered.
-        def group_not_registered(group_name)
-          error = Rack::Utils.escape("The group named #{group_name.inspect} has not been registered.")
-          redirect_to("/features/#{@feature.key}?error=#{error}")
         end
 
         # Private: Returns error response for invalid percentage value.
