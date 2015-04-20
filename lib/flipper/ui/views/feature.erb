@@ -84,36 +84,34 @@
           <a href="/features/<%= @feature.key %>/groups" class="btn btn-sm right">Add Group</a>
           <h3 class="panel-title">Groups</h3>
         </div>
-        <div class="panel-body">
-          <% if @feature.groups_value.empty? %>
-            <div class="blankslate">
-              <span class="mega-octicon octicon-organization"></span>
-              <span class="mega-octicon octicon-squirrel"></span>
-              <span class="mega-octicon octicon-zap"></span>
-              <h3>No Enabled Groups</h3>
-              <p>Enable groups using the form below.</p>
-            </div>
-          <% else %>
-            <ul>
-              <% @feature.groups_value.each do |item| %>
-                <li class="list-group-item">
-                  <div class="flex-table">
-                    <div class="flex-table-item flex-table-item-primary">
-                      <%= item %>
-                    </div>
-                    <div class="flex-table-item">
-                      <form action="/features/<%= @feature.key %>/groups" method="post">
-                        <input type="hidden" name="operation" value="disable">
-                        <input type="hidden" name="value" value="<%= item %>">
-                        <input type="submit" value="Disable" class="btn btn-sm btn-danger">
-                      </form>
-                    </div>
+        <% if @feature.groups_value.empty? %>
+          <div class="blankslate">
+            <span class="mega-octicon octicon-organization"></span>
+            <span class="mega-octicon octicon-squirrel"></span>
+            <span class="mega-octicon octicon-zap"></span>
+            <h3>No Enabled Groups</h3>
+            <p>Enable groups using the form below.</p>
+          </div>
+        <% else %>
+          <ul class="list-group">
+            <% @feature.groups_value.each do |item| %>
+              <li class="list-group-item">
+                <div class="flex-table">
+                  <div class="flex-table-item flex-table-item-primary">
+                    <%= item %>
                   </div>
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-        </div>
+                  <div class="flex-table-item">
+                    <form action="/features/<%= @feature.key %>/groups" method="post">
+                      <input type="hidden" name="operation" value="disable">
+                      <input type="hidden" name="value" value="<%= item %>">
+                      <input type="submit" value="Disable" class="btn btn-sm btn-danger">
+                    </form>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
     </div>
     <div class="column one-half">
@@ -122,36 +120,34 @@
           <a href="/features/<%= @feature.key %>/actors" class="btn btn-sm right">Add Actor</a>
           <h3 class="panel-title">Actors</h3>
         </div>
-        <div class="panel-body">
-          <% if @feature.actors_value.empty? %>
-            <div class="blankslate">
-              <span class="mega-octicon octicon-person"></span>
-              <span class="mega-octicon octicon-squirrel"></span>
-              <span class="mega-octicon octicon-zap"></span>
-              <h3>No Enabled Actors</h3>
-              <p>Enable actors using the form below.</p>
-            </div>
-          <% else %>
-            <ul>
-              <% @feature.actors_value.each do |item| %>
-                <li class="list-group-item">
-                  <div class="flex-table">
-                    <div class="flex-table-item flex-table-item-primary">
-                      <%= item %>
-                    </div>
-                    <div class="flex-table-item">
-                      <form action="/features/<%= @feature.key %>/actors" method="post">
-                        <input type="hidden" name="operation" value="disable">
-                        <input type="hidden" name="value" value="<%= item %>">
-                        <input type="submit" value="Disable" class="btn btn-sm btn-danger">
-                      </form>
-                    </div>
+        <% if @feature.actors_value.empty? %>
+          <div class="blankslate">
+            <span class="mega-octicon octicon-person"></span>
+            <span class="mega-octicon octicon-squirrel"></span>
+            <span class="mega-octicon octicon-zap"></span>
+            <h3>No Enabled Actors</h3>
+            <p>Enable actors using the form below.</p>
+          </div>
+        <% else %>
+          <ul class="list-group">
+            <% @feature.actors_value.each do |item| %>
+              <li class="list-group-item">
+                <div class="flex-table">
+                  <div class="flex-table-item flex-table-item-primary">
+                    <%= item %>
                   </div>
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-        </div>
+                  <div class="flex-table-item">
+                    <form action="/features/<%= @feature.key %>/actors" method="post">
+                      <input type="hidden" name="operation" value="disable">
+                      <input type="hidden" name="value" value="<%= item %>">
+                      <input type="submit" value="Disable" class="btn btn-sm btn-danger">
+                    </form>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
     </div>
   </div>
