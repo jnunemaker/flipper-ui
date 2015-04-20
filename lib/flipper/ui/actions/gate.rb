@@ -5,10 +5,6 @@ module Flipper
   module UI
     module Actions
       class Gate < UI::Action
-
-        # Private: Struct to wrap actors so they can respond to flipper_id.
-        FakeActor = Struct.new(:flipper_id)
-
         route %r{features/[^/]*/[^/]*/?\Z}
 
         def post
@@ -46,13 +42,13 @@ module Flipper
             invalid_actor_value(value)
           end
 
-          thing = FakeActor.new(value)
+          actor = Flipper::UI::Actor.new(value)
 
           case params["operation"]
           when "enable"
-            feature.enable_actor thing
+            feature.enable_actor actor
           when "disable"
-            feature.disable_actor thing
+            feature.disable_actor actor
           end
         end
 

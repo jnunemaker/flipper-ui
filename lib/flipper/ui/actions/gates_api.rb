@@ -7,10 +7,6 @@ module Flipper
   module UI
     module Actions
       class GatesApi < UI::Action
-
-        # Private: Struct to wrap actors so they can respond to flipper_id.
-        FakeActor = Struct.new(:flipper_id)
-
         route %r{api/features/.*/.*/?\Z}
 
         # Get should run the index route. All the url does is control what is
@@ -51,8 +47,7 @@ module Flipper
             invalid_actor_value(value)
           end
 
-          thing = FakeActor.new(value)
-          actor = flipper.actor(thing)
+          actor = Flipper::UI::Actor.new(value)
 
           case params['operation']
           when 'enable'

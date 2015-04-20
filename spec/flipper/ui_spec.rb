@@ -2,6 +2,7 @@ require 'helper'
 require 'rack/test'
 require 'flipper'
 require 'flipper/adapters/memory'
+require 'flipper/ui/actor'
 require 'open-uri'
 
 describe Flipper::UI do
@@ -210,7 +211,7 @@ describe Flipper::UI do
 
     context "disabling an actor" do
       before do
-        flipper[:search].enable_actor Flipper::UI::Actions::Gate::FakeActor.new("User:6")
+        flipper[:search].enable_actor Flipper::UI::Actor.new("User:6")
         post "features/search/actor", "value" => "User:6", "operation" => "disable"
       end
 
