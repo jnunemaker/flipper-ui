@@ -27,7 +27,8 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Actors</h3>
+    <a href="/features/<%= @feature.key %>/actors" class="btn btn-sm right">Add Actor</a>
+    <h3 class="panel-title" class="left">Actors</h3>
   </div>
   <div class="panel-body">
     <% if @feature.actors_value.empty? %>
@@ -47,7 +48,7 @@
                 <%= item %>
               </div>
               <div class="flex-table-item">
-                <form action="/features/<%= @feature.key %>/actor" method="post">
+                <form action="/features/<%= @feature.key %>/actors" method="post">
                   <input type="hidden" name="operation" value="disable">
                   <input type="hidden" name="value" value="<%= item %>">
                   <input type="submit" value="Disable" class="btn btn-sm btn-danger">
@@ -58,13 +59,6 @@
         <% end %>
       </ul>
     <% end %>
-
-    <h3>Add Actor</h3>
-    <form action="/features/<%= @feature.key %>/actor" method="post">
-      <input type="hidden" name="operation" value="enable">
-      <input type="text" name="value" class="input-mini">
-      <input type="submit" value="Enable" class="btn btn-sm btn-primary">
-    </form>
   </div>
 </div>
 

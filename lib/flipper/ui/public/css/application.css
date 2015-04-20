@@ -2553,3 +2553,6 @@ a.list-group-item-danger {
 
 .flash {
   margin-bottom: 15px; }
+
+.panel-heading .btn.btn-sm.right {
+  margin-top: -5px; }

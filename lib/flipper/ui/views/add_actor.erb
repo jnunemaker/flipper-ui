@@ -1,0 +1,18 @@
+<% if params.key?("error") %>
+  <div class="flash flash-error">
+    <%= params["error"] %>
+  </div>
+<% end %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Enable Actor for <%= @feature.key %></h3>
+  </div>
+  <div class="panel-body">
+    <form action="/features/<%= @feature.key %>/actors" method="post">
+      <input type="hidden" name="operation" value="enable">
+      <input type="text" name="value">
+      <input type="submit" value="Enable" class="btn btn-primary">
+    </form>
+  </div>
+</div>

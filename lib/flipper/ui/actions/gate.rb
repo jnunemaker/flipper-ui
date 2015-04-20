@@ -15,13 +15,11 @@ module Flipper
           feature = flipper[feature_name.to_sym]
           @feature = Decorators::Feature.new(feature)
 
-          unless respond_to?(update_gate_method_name, true)
+          if respond_to?(update_gate_method_name, true)
+            send(update_gate_method_name, feature)
+          else
             update_gate_method_undefined(gate_name)
           end
-
-          send(update_gate_method_name, feature)
-          gate = feature.gate(gate_name)
-          value = feature.gate_values[gate.key]
 
           redirect_to "/features/#{@feature.key}"
         end
@@ -33,23 +31,6 @@ module Flipper
             feature.enable
           else
             feature.disable
-          end
-        end
-
-        def update_actor(feature)
-          value = params["value"]
-
-          if Util.blank?(value)
-            invalid_actor_value(value)
-          end
-
-          actor = Flipper::UI::Actor.new(value)
-
-          case params["operation"]
-          when "enable"
-            feature.enable_actor actor
-          when "disable"
-            feature.disable_actor actor
           end
         end
 
@@ -78,12 +59,6 @@ module Flipper
           feature.enable_percentage_of_time value
         rescue ArgumentError => exception
           invalid_percentage value, exception
-        end
-
-        # Private: Returns error response for invalid actor value.
-        def invalid_actor_value(value)
-          error = Rack::Utils.escape("#{value.inspect} is not a valid actor value.")
-          redirect_to("/features/#{@feature.key}?error=#{error}")
         end
 
         # Private: Returns error response that group was not registered.

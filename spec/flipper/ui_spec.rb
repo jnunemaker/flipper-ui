@@ -193,10 +193,24 @@ describe Flipper::UI do
     end
   end
 
-  describe "POST /features/:feature/actor" do
+  describe "GET /features/:feature/actors" do
+    before do
+      get "features/search/actors"
+    end
+
+    it "responds with success" do
+      last_response.status.should be(200)
+    end
+
+    it "renders add new actor form" do
+      last_response.body.should include("")
+    end
+  end
+
+  describe "POST /features/:feature/actors" do
     context "enabling an actor" do
       before do
-        post "features/search/actor", "value" => "User:6", "operation" => "enable"
+        post "features/search/actors", "value" => "User:6", "operation" => "enable"
       end
 
       it "adds item to members" do
@@ -212,7 +226,7 @@ describe Flipper::UI do
     context "disabling an actor" do
       before do
         flipper[:search].enable_actor Flipper::UI::Actor.new("User:6")
-        post "features/search/actor", "value" => "User:6", "operation" => "disable"
+        post "features/search/actors", "value" => "User:6", "operation" => "disable"
       end
 
       it "removes item from members" do
@@ -227,12 +241,12 @@ describe Flipper::UI do
 
     context "for an invalid actor value" do
       before do
-        post "features/search/actor", "value" => "", "operation" => "enable"
+        post "features/search/actors", "value" => "", "operation" => "enable"
       end
 
       it "redirects back to feature" do
         last_response.status.should be(302)
-        last_response.headers["Location"].should eq("/features/search?error=%22%22+is+not+a+valid+actor+value.")
+        last_response.headers["Location"].should eq("/features/search/actors?error=%22%22+is+not+a+valid+actor+value.")
       end
     end
   end
