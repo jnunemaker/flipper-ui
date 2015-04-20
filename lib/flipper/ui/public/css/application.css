@@ -2551,6 +2551,21 @@ a.list-group-item-danger {
   margin-bottom: 0;
   line-height: 1.3; }
 
+.breadcrumb {
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: whitesmoke;
+  border-radius: 4px; }
+  .breadcrumb > li {
+    display: inline-block; }
+    .breadcrumb > li + li:before {
+      content: "/\00a0";
+      padding: 0 5px;
+      color: #cccccc; }
+  .breadcrumb > .active {
+    color: #777777; }
+
 .flash {
   margin-bottom: 15px; }
 
@@ -2563,3 +2578,7 @@ a.list-group-item-danger {
 .button-inv {
   background: none;
   border: 0; }
+
+.breadcrumb {
+  background-color: #fff;
+  border: 1px solid #dddddd; }

@@ -12,6 +12,7 @@ module Flipper
           feature = flipper[feature_name.to_sym]
           @feature = Decorators::Feature.new(feature)
 
+          breadcrumb "Home", "/"
           breadcrumb "Features", "/features"
           breadcrumb @feature.key, "/features/#{@feature.key}"
           breadcrumb "Add Group"
@@ -22,18 +23,18 @@ module Flipper
         def post
           feature_name = Rack::Utils.unescape(request.path.split('/')[-2])
           feature = flipper[feature_name.to_sym]
-          group_name = params["value"]
+          value = params["value"]
 
           case params["operation"]
           when "enable"
-            feature.enable_group group_name
+            feature.enable_group value
           when "disable"
-            feature.disable_group group_name
+            feature.disable_group value
           end
 
           redirect_to("/features/#{feature.key}")
         rescue Flipper::GroupNotRegistered => e
-          error = Rack::Utils.escape("The group named #{group_name.inspect} has not been registered.")
+          error = Rack::Utils.escape("The group named #{value.inspect} has not been registered.")
           redirect_to("/features/#{feature.key}/groups?error=#{error}")
         end
       end

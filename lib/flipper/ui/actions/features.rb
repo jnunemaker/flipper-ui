@@ -19,7 +19,8 @@ module Flipper
           @conditional = Array(features[:conditional]).sort_by(&:pretty_name)
           @show_blank_slate = features.empty?
 
-          breadcrumb "Features", "/features"
+          breadcrumb "Home", "/"
+          breadcrumb "Features"
 
           view_response :features
         end

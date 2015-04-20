@@ -9,6 +9,7 @@ body {
 @import "bootstrap/tables";
 @import "bootstrap/panels";
 @import "bootstrap/list-group";
+@import "bootstrap/breadcrumbs";
 
 .flash {
   margin-bottom:15px;
@@ -25,4 +26,9 @@ body {
 .button-inv {
   background:none;
   border:0;
+}
+
+.breadcrumb {
+  background-color: #fff;
+  border: 1px solid #ddd;
 }
