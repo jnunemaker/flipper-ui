@@ -35,7 +35,7 @@
         <div class="panel-body">
           <form action="/features/<%= @feature.key %>/percentage_of_actors" method="post">
             <div class="btn-group">
-              <% [0, 1, 5, 10, 25, 50, 75, 100].each do |number| %>
+              <% @percentages.each do |number| %>
                 <input type="submit" name="value" value="<%= number %>%" class="btn" <% if number == @feature.percentage_of_actors_value %>disabled<% end %>>
               <% end %>
             </div>
@@ -58,7 +58,7 @@
         <div class="panel-body">
           <form action="/features/<%= @feature.key %>/percentage_of_time" method="post">
             <div class="btn-group">
-              <% [0, 1, 5, 10, 25, 50, 75, 100].each do |number| %>
+              <% @percentages.each do |number| %>
                 <input type="submit" name="value" value="<%= number %>%" class="btn" <% if number == @feature.percentage_of_time_value %>disabled<% end %>>
               <% end %>
             </div>
