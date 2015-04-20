@@ -2569,8 +2569,16 @@ a.list-group-item-danger {
 .flash {
   margin-bottom: 15px; }
 
-.panel-heading .btn.btn-sm.right {
+.panel-heading .btn.btn-sm.right,
+.panel-heading form.right {
   margin-top: -5px; }
+
+.panel-heading p.right {
+  margin-top: 0; }
+
+.panel-heading form.right input[type=text],
+.panel-heading form.right select {
+  width: 150px; }
 
 .panel-body :first-child {
   margin-top: 0; }

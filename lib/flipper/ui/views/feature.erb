@@ -92,7 +92,20 @@
       <div class="column one-half">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <a href="/features/<%= @feature.key %>/groups" class="btn btn-sm right">Add Group</a>
+            <% if @feature.disabled_groups.empty? %>
+              <p class="right">All groups enabled.</p>
+            <% else %>
+              <form action="/features/<%= @feature.key %>/groups" method="post" class="right">
+                <input type="hidden" name="operation" value="enable">
+                <select name="value">
+                  <option value="">Select a group...</option>
+                  <% @feature.disabled_groups.each do |group| %>
+                    <option value="<%= group.name %>"><%= group.name %></option>
+                  <% end %>
+                </select>
+                <input type="submit" value="Add Group" class="btn btn-sm">
+              </form>
+            <% end %>
             <h3 class="panel-title">Groups</h3>
           </div>
           <% if @feature.groups_value.empty? %>
@@ -130,7 +143,11 @@
       <div class="column one-half">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <a href="/features/<%= @feature.key %>/actors" class="btn btn-sm right">Add Actor</a>
+            <form action="/features/<%= @feature.key %>/actors" method="post" class="right">
+              <input type="hidden" name="operation" value="enable">
+              <input type="text" name="value" placeholder="ie: User:6" class="input-mini">
+              <input type="submit" value="Add Actor" class="btn btn-sm">
+            </form>
             <h3 class="panel-title">Actors</h3>
           </div>
           <% if @feature.actors_value.empty? %>
