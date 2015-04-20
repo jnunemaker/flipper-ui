@@ -101,6 +101,22 @@ describe Flipper::UI do
     end
   end
 
+  describe "POST /features/:feature with _method=DELETE" do
+    before do
+      flipper.enable :search
+      post "/features/search", "_method" => "DELETE"
+    end
+
+    it "removes feature" do
+      flipper.features.map(&:key).should_not include("search")
+    end
+
+    it "redirects to features" do
+      last_response.status.should be(302)
+      last_response.headers["Location"].should eq("/features")
+    end
+  end
+
   describe "GET /features/:feature" do
     before do
       get "/features/search"

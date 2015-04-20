@@ -185,3 +185,19 @@
     </div>
   </div>
 <% end %>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Danger Zone</h3>
+  </div>
+  <div class="panel-body">
+    <p>
+      Deleting a feature removes it from the list of features and disables it for everyone.
+    </p>
+
+    <form action="/features/<%= @feature.key %>" method="delete">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit" name="action" value="Delete" class="btn btn-danger tooltipped tooltipped-ne" aria-label="Remove feature from list of features and disable it.">Delete</button>
+    </form>
+  </div>
+</div>
