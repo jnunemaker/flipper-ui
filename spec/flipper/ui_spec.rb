@@ -84,6 +84,23 @@ describe Flipper::UI do
       last_response.headers["Location"].should eq("/features")
     end
   end
+
+  describe "DELETE /features/:feature" do
+    before do
+      flipper.enable :search
+      delete "/features/search"
+    end
+
+    it "removes feature" do
+      flipper.features.map(&:key).should_not include("search")
+    end
+
+    it "redirects to features" do
+      last_response.status.should be(302)
+      last_response.headers["Location"].should eq("/features")
+    end
+  end
+
   describe "GET /features/:feature" do
     before do
       get "/features/search"

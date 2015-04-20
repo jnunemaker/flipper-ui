@@ -19,6 +19,13 @@ module Flipper
 
           view_response :feature
         end
+
+        def delete
+          feature_name = Rack::Utils.unescape(request.path.split("/").last)
+          feature = flipper[feature_name]
+          flipper.adapter.remove(feature)
+          redirect_to "/features"
+        end
       end
     end
   end
