@@ -2594,3 +2594,9 @@ a.list-group-item-danger {
 .header .btn.right {
   margin-top: 5px;
   margin-right: 15px; }
+
+.feature-state {
+  width: 40px; }
+
+.feature-enabled-gates {
+  width: 380px; }

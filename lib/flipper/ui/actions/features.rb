@@ -10,14 +10,11 @@ module Flipper
 
         def get
           @page_title = "Features"
-          features = flipper.features.map { |feature|
+          @features = flipper.features.map { |feature|
             Decorators::Feature.new(feature)
-          }.group_by { |feature| feature.state }
+          }.sort
 
-          @enabled = Array(features[:on]).sort_by(&:key)
-          @disabled = Array(features[:off]).sort_by(&:key)
-          @conditional = Array(features[:conditional]).sort_by(&:key)
-          @show_blank_slate = features.empty?
+          @show_blank_slate = @features.empty?
 
           breadcrumb "Home", "/"
           breadcrumb "Features"

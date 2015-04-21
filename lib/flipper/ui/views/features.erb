@@ -10,33 +10,37 @@
     </div>
   </div>
 <% else %>
-  <%
-  {
-    "Enabled" => "enabled",
-    "Conditionally Enabled" => "conditional",
-    "Disabled" => "disabled",
-  }.each do |title, ivar| %>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title"><%= title %></h3>
+      <h3 class="panel-title">Features</h3>
     </div>
 
-    <ul class="list-group">
-      <% instance_variable_get("@#{ivar}").each do |feature| %>
-        <li class="list-group-item">
-          <div class="flex-table">
-            <div class="flex-table-item flex-table-item-primary">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="feature-state">
+            <span class="octicon octicon-squirrel"></span>
+          </th>
+          <th>Feature</th>
+          <th class="feature-enabled-gates">Enabled Gates</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @features.each do |feature| %>
+          <tr>
+            <td class="feature-state">
+              <span class="octicon octicon-squirrel <%= feature.color_class %>"></span>
+            </td>
+            <td>
               <a href="<%= "#{script_name}/features/#{feature.key}" %>">
-                <%= feature.key %>
-              </a>
-            </div>
-            <div class="flex-table-item">
-              <%= feature.conditional? ? feature.description : "" %>
-            </div>
-          </div>
-        </li>
-      <% end %>
-    </ul>
+                <%= feature.key %></a>
+            </td>
+            <td class="feature-enabled-gates">
+              <%= feature.enabled_gate_names %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
-  <% end %>
 <% end %>
