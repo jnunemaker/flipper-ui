@@ -5,6 +5,8 @@ module Flipper
   module UI
     module Decorators
       class Feature < SimpleDelegator
+        include Comparable
+
         # Public: The feature being decorated.
         alias_method :feature, :__getobj__
 
@@ -25,6 +27,20 @@ module Flipper
               Decorators::Gate.new(gate, gate_values[gate.key]).as_json
             },
           }
+        end
+
+        StateSortMap = {
+          :on => 1,
+          :conditional => 2,
+          :off => 3,
+        }
+
+        def <=>(other)
+          if state == other.state
+            key <=> other.key
+          else
+            StateSortMap[state] <=> StateSortMap[other.state]
+          end
         end
       end
     end
