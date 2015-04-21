@@ -14,9 +14,9 @@ module Flipper
             Decorators::Feature.new(feature)
           }.group_by { |feature| feature.state }
 
-          @enabled = Array(features[:on]).sort_by(&:pretty_name)
-          @disabled = Array(features[:off]).sort_by(&:pretty_name)
-          @conditional = Array(features[:conditional]).sort_by(&:pretty_name)
+          @enabled = Array(features[:on]).sort_by(&:key)
+          @disabled = Array(features[:off]).sort_by(&:key)
+          @conditional = Array(features[:conditional]).sort_by(&:key)
           @show_blank_slate = features.empty?
 
           breadcrumb "Home", "/"
