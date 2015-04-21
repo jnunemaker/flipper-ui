@@ -1,6 +1,7 @@
 require 'pathname'
 require 'rack'
 require 'flipper'
+require 'flipper/middleware/memoizer'
 
 module Flipper
   module UI
@@ -12,6 +13,7 @@ module Flipper
       app = lambda { |env| [200, {'Content-Type' => 'text/html'}, ['']] }
       builder = Rack::Builder.new
       yield builder if block_given?
+      builder.use Flipper::Middleware::Memoizer, flipper
       builder.use Middleware, flipper
       builder.run app
       builder
