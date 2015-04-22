@@ -77,8 +77,8 @@ module Flipper
       #
       # Examples
       #
-      #   run_other_action Index
-      #   # => result of running Index action
+      #   run_other_action Home
+      #   # => result of running Home action
       #
       # Returns result of other action.
       def run_other_action(action_class)

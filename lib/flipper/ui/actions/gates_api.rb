@@ -1,6 +1,5 @@
 require 'flipper/ui/util'
 require 'flipper/ui/action'
-require 'flipper/ui/actions/index'
 require 'flipper/ui/actor'
 require 'flipper/ui/decorators/feature'
 
@@ -10,13 +9,6 @@ module Flipper
       class GatesApi < UI::Action
         route %r{api/features/.*/.*/?\Z}
 
-        # Get should run the index route. All the url does is control what is
-        # opened and closed when the page is loaded.
-        def get
-          run_other_action Index
-        end
-
-        # FIXME: Return more than just the gate as json response?
         def post
           feature_name, gate_name = request.path.split('/').pop(2).map{ |value| Rack::Utils.unescape value }
           update_gate_method_name = "update_#{gate_name}"

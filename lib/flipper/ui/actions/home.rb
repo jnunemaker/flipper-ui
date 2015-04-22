@@ -4,9 +4,9 @@ require 'flipper/ui/decorators/feature'
 module Flipper
   module UI
     module Actions
-      class Index < UI::Action
+      class Home < UI::Action
 
-        route %r{.*}
+        route %r{/?\Z}
 
         def get
           redirect_to "/features"

@@ -53,9 +53,7 @@ module Flipper
         @action_collection.add UI::Actions::PercentageOfTimeGate
         @action_collection.add UI::Actions::PercentageOfActorsGate
         @action_collection.add UI::Actions::Gate
-
-        # Catch all, always last.
-        @action_collection.add UI::Actions::Index
+        @action_collection.add UI::Actions::Home
       end
 
       def flipper

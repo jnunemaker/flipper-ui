@@ -2,9 +2,8 @@ require 'helper'
 require 'rack/test'
 require 'flipper'
 require 'flipper/adapters/memory'
-require 'flipper/ui/actor'
 
-describe Flipper::UI::Actions::Index do
+describe Flipper::UI::Actions::Home do
   include Rack::Test::Methods
 
   let(:adapter) { Flipper::Adapters::Memory.new }
