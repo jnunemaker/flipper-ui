@@ -4,17 +4,12 @@ require 'flipper'
 require 'flipper/adapters/memory'
 require 'open-uri'
 
-describe Flipper::UI do
+describe Flipper::UI::Actions::File do
   include Rack::Test::Methods
 
-  let(:source)  { {} }
-  let(:adapter) { Flipper::Adapters::Memory.new(source) }
-
-  let(:flipper) {
-    Flipper.new(adapter)
-  }
-
-  let(:app) { described_class.app(flipper) }
+  let(:adapter) { Flipper::Adapters::Memory.new }
+  let(:flipper) { Flipper.new(adapter) }
+  let(:app)     { Flipper::UI.app(flipper) }
 
   describe "GET /images/logo.png" do
     before do
