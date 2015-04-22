@@ -4,44 +4,33 @@
   </div>
 <% end %>
 
-<% if @feature.on? %>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        <span class="octicon octicon-squirrel <%= @feature.color_class %>"></span>
-        <%= @feature.key %>
-      </h3>
-    </div>
-    <div class="panel-body">
-      <p>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <span class="octicon octicon-squirrel <%= @feature.color_class %>"></span>
+      <%= @feature.key %>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <p>
+      <% if @feature.on? %>
         The feature is enabled for <strong>everyone</strong>. Disable this feature with one click.
-      </p>
-
-      <form action="<%= script_name %>/features/<%= @feature.key %>/boolean" method="post">
-        <button type="submit" name="action" value="Disable" class="btn tooltipped tooltipped-n" <% if @feature.off? %>disabled aria-label="Already disabled for everyone"<% else %>aria-label="Disable for everyone by clearing all percentages, groups and actors."<% end %>>Disable</button>
-      </form>
-    </div>
-  </div>
-<% else %>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        <span class="octicon octicon-squirrel <%= @feature.color_class %>"></span>
-        <%= @feature.key %>
-      </h3>
-    </div>
-    <div class="panel-body">
-      <p>
+      <% else %>
         Enable or disable this feature for <strong>everyone</strong> with one click.
-      </p>
+      <% end %>
+    </p>
 
-      <form action="<%= script_name %>/features/<%= @feature.key %>/boolean" method="post">
+    <form action="<%= script_name %>/features/<%= @feature.key %>/boolean" method="post">
+      <% unless @feature.on? %>
         <button type="submit" name="action" value="Enable" class="btn btn-danger tooltipped tooltipped-n" aria-label="Enable for everyone">Enable</button>
-        <button type="submit" name="action" value="Disable" class="btn tooltipped tooltipped-n" <% if @feature.off? %>disabled aria-label="Already disabled for everyone"<% else %>aria-label="Disable for everyone by clearing all percentages, groups and actors."<% end %>>Disable</button>
-      </form>
-    </div>
-  </div>
+      <% end %>
 
+      <button type="submit" name="action" value="Disable" class="btn tooltipped tooltipped-n" <% if @feature.off? %>disabled aria-label="Already disabled for everyone"<% else %>aria-label="Disable for everyone by clearing all percentages, groups and actors."<% end %>>Disable</button>
+    </form>
+  </div>
+</div>
+
+<% unless @feature.on? %>
   <div class="container">
     <div class="columns">
       <div class="column one-half">
