@@ -4,7 +4,7 @@ require 'flipper/ui/decorators/feature'
 module Flipper
   module UI
     module Actions
-      class AddGroup < UI::Action
+      class GroupsGate < UI::Action
         route %r{features/[^/]*/groups/?\Z}
 
         def get

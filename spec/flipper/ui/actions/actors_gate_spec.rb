@@ -4,7 +4,7 @@ require 'flipper'
 require 'flipper/adapters/memory'
 require 'flipper/ui/actor'
 
-describe Flipper::UI::Actions::AddActor do
+describe Flipper::UI::Actions::ActorsGate do
   include Rack::Test::Methods
 
   let(:adapter) { Flipper::Adapters::Memory.new }

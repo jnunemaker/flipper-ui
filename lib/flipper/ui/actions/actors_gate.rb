@@ -4,7 +4,7 @@ require 'flipper/ui/decorators/feature'
 module Flipper
   module UI
     module Actions
-      class AddActor < UI::Action
+      class ActorsGate < UI::Action
         route %r{features/[^/]*/actors/?\Z}
 
         def get
