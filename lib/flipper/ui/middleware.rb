@@ -39,10 +39,6 @@ module Flipper
         # Static Assets/Files
         @action_collection.add UI::Actions::File
 
-        # API
-        @action_collection.add UI::Actions::FeaturesApi
-        @action_collection.add UI::Actions::GatesApi
-
         # UI
         @action_collection.add UI::Actions::Features
         @action_collection.add UI::Actions::AddFeature
