@@ -29,6 +29,27 @@ module Flipper
           }
         end
 
+        def color_class
+          case feature.state
+          when :on
+            "text-open"
+          when :off
+            "text-closed"
+          when :conditional
+            "text-pending"
+          end
+        end
+
+        def enabled_gates
+          feature.gates.select { |gate|
+            gate.enabled?(feature.gate_values[gate.key])
+          }
+        end
+
+        def enabled_gate_names
+          enabled_gates.map { |gate| Util.titleize(gate.key) }.sort.join(', ')
+        end
+
         StateSortMap = {
           :on => 1,
           :conditional => 2,
