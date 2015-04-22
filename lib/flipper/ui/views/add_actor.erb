@@ -12,7 +12,7 @@
     <p>
       Turn on this feature for an individual actor.
     </p>
-    <form action="/features/<%= @feature.key %>/actors" method="post">
+    <form action="<%= script_name %>/features/<%= @feature.key %>/actors" method="post">
       <input type="hidden" name="operation" value="enable">
       <input type="text" name="value" placeholder="ie: User:6">
       <input type="submit" value="Add Actor" class="btn">
