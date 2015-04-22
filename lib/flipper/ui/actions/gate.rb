@@ -26,14 +26,6 @@ module Flipper
 
         private
 
-        def update_boolean(feature)
-          if params["action"] == "Enable"
-            feature.enable
-          else
-            feature.disable
-          end
-        end
-
         def update_percentage_of_actors(feature)
           value = params["value"]
           feature.enable_percentage_of_actors value
