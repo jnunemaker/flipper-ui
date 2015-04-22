@@ -202,11 +202,7 @@ module Flipper
 
       # Private: Returns the request method converted to an action method.
       def request_method_name
-        @request_method_name ||= if @request.params["_method"] == "DELETE"
-          params["_method"].downcase
-        else
-          @request.request_method.downcase
-        end
+        @request_method_name ||= @request.request_method.downcase
       end
     end
   end

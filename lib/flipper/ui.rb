@@ -1,5 +1,6 @@
 require 'pathname'
 require 'rack'
+require 'rack/methodoverride'
 require 'flipper'
 require 'flipper/middleware/memoizer'
 
@@ -13,6 +14,7 @@ module Flipper
       app = lambda { |env| [200, {'Content-Type' => 'text/html'}, ['']] }
       builder = Rack::Builder.new
       yield builder if block_given?
+      builder.use Rack::MethodOverride
       builder.use Flipper::Middleware::Memoizer, flipper
       builder.use Middleware, flipper
       builder.run app
