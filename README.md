@@ -2,8 +2,6 @@
 
 UI for the [Flipper](https://github.com/jnunemaker/flipper) gem. __Note__: This is not fully functional yet. The end product will look like this:
 
-![flipper web](./examples/flipper.png)
-
 ## Installation
 
 Add this line to your application's Gemfile:
