@@ -1,6 +1,6 @@
 # Flipper::UI
 
-UI for the [Flipper](https://github.com/jnunemaker/flipper) gem. __Note__: This is not fully functional yet. The end product will look like this:
+UI for the [Flipper](https://github.com/jnunemaker/flipper) gem.
 
 ## Installation
 
