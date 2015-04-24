@@ -1,19 +1,12 @@
 require 'helper'
-require 'rack/test'
-require 'flipper'
-require 'flipper/adapters/memory'
 
 describe Flipper::UI::Actions::PercentageOfTimeGate do
-  include Rack::Test::Methods
-
-  let(:adapter) { Flipper::Adapters::Memory.new }
-  let(:flipper) { Flipper.new(adapter) }
-  let(:app)     { Flipper::UI.app(flipper) }
-
   describe "POST /features/:feature/percentage_of_time" do
     context "with valid value" do
       before do
-        post "features/search/percentage_of_time", "value" => "24"
+        post "features/search/percentage_of_time",
+          {"value" => "24", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "enables the feature" do
@@ -28,7 +21,9 @@ describe Flipper::UI::Actions::PercentageOfTimeGate do
 
     context "with invalid value" do
       before do
-        post "features/search/percentage_of_time", "value" => "555"
+        post "features/search/percentage_of_time",
+          {"value" => "555", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "does not change value" do

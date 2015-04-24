@@ -1,15 +1,6 @@
 require 'helper'
-require 'rack/test'
-require 'flipper'
-require 'flipper/adapters/memory'
 
 describe Flipper::UI::Actions::Home do
-  include Rack::Test::Methods
-
-  let(:adapter) { Flipper::Adapters::Memory.new }
-  let(:flipper) { Flipper.new(adapter) }
-  let(:app)     { Flipper::UI.app(flipper) }
-
   describe "GET /" do
     before do
       flipper[:stats].enable

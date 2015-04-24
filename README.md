@@ -32,7 +32,7 @@ you can mount `Flipper::UI` to a route of your choice:
 # config/routes.rb
 
 YourRailsApp::Application.routes.draw do
-  mount Flipper::UI.app($flipper) => '/flipper'
+  mount Flipper::UI.app($flipper, secret: "_your_session_secret") => '/flipper'
 end
 ```
 
@@ -45,7 +45,7 @@ You almost certainly want to limit access when using Flipper::UI in production. 
 
 flipper_constraint = lambda { |request| request.remote_ip == '127.0.0.1' }
 constraints flipper_constraint do
-  mount Flipper::UI.app($flipper) => '/flipper'
+  mount Flipper::UI.app($flipper, secret: "_your_session_secret") => '/flipper'
 end
 ```
 
@@ -65,7 +65,7 @@ end
 # config/routes.rb
 
 constraints CanAccessFlipperUI do
-  mount Flipper::UI.app($flipper) => '/flipper'
+  mount Flipper::UI.app($flipper, secret: "_your_session_secret") => '/flipper'
 end
 ```
 
@@ -83,7 +83,7 @@ require 'flipper/adapters/memory'
 adapter = Flipper::Adapters::Memory.new
 flipper = Flipper.new(adapter)
 
-run Flipper::UI.app(flipper)
+run Flipper::UI.app(flipper, secret: "_your_session_secret")
 ```
 
 See [examples/basic.ru](https://github.com/jnunemaker/flipper-ui/blob/master/examples/basic.ru) for a more full example

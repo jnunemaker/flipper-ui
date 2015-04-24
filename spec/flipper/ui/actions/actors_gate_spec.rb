@@ -1,16 +1,7 @@
 require 'helper'
-require 'rack/test'
-require 'flipper'
-require 'flipper/adapters/memory'
 require 'flipper/ui/actor'
 
 describe Flipper::UI::Actions::ActorsGate do
-  include Rack::Test::Methods
-
-  let(:adapter) { Flipper::Adapters::Memory.new }
-  let(:flipper) { Flipper.new(adapter) }
-  let(:app)     { Flipper::UI.app(flipper) }
-
   describe "GET /features/:feature/actors" do
     before do
       get "features/search/actors"
@@ -28,7 +19,9 @@ describe Flipper::UI::Actions::ActorsGate do
   describe "POST /features/:feature/actors" do
     context "enabling an actor" do
       before do
-        post "features/search/actors", "value" => "User:6", "operation" => "enable"
+        post "features/search/actors",
+          {"value" => "User:6", "operation" => "enable", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "adds item to members" do
@@ -44,7 +37,9 @@ describe Flipper::UI::Actions::ActorsGate do
     context "disabling an actor" do
       before do
         flipper[:search].enable_actor Flipper::UI::Actor.new("User:6")
-        post "features/search/actors", "value" => "User:6", "operation" => "disable"
+        post "features/search/actors",
+          {"value" => "User:6", "operation" => "disable", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "removes item from members" do
@@ -59,7 +54,9 @@ describe Flipper::UI::Actions::ActorsGate do
 
     context "for an invalid actor value" do
       before do
-        post "features/search/actors", "value" => "", "operation" => "enable"
+        post "features/search/actors",
+          {"value" => "", "operation" => "enable", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "redirects back to feature" do

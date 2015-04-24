@@ -5,7 +5,7 @@ require 'flipper/ui/decorators/gate'
 describe Flipper::UI::Decorators::Gate do
   let(:source)  { {} }
   let(:adapter) { Flipper::Adapters::Memory.new(source) }
-  let(:flipper) { Flipper.new(adapter) }
+  let(:flipper) { build_flipper }
   let(:feature) { flipper[:some_awesome_feature] }
   let(:gate) { feature.gate(:boolean) }
 

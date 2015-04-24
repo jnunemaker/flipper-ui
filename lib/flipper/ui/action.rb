@@ -204,6 +204,10 @@ module Flipper
       def request_method_name
         @request_method_name ||= @request.request_method.downcase
       end
+
+      def csrf_input_tag
+        %Q(<input type="hidden" name="authenticity_token" value="#{@request.session[:csrf]}">)
+      end
     end
   end
 end

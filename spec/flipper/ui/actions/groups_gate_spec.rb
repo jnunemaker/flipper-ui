@@ -1,16 +1,6 @@
 require 'helper'
-require 'rack/test'
-require 'flipper'
-require 'flipper/adapters/memory'
-require 'flipper/ui/actor'
 
 describe Flipper::UI::Actions::GroupsGate do
-  include Rack::Test::Methods
-
-  let(:adapter) { Flipper::Adapters::Memory.new }
-  let(:flipper) { Flipper.new(adapter) }
-  let(:app)     { Flipper::UI.app(flipper) }
-
   describe "GET /features/:feature/groups" do
     before do
       Flipper.register(:admins) { |user| user.admin? }
@@ -41,7 +31,9 @@ describe Flipper::UI::Actions::GroupsGate do
 
     context "enabling a group" do
       before do
-        post "features/search/groups", "value" => "admins", "operation" => "enable"
+        post "features/search/groups",
+          {"value" => "admins", "operation" => "enable", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "adds item to members" do
@@ -57,7 +49,9 @@ describe Flipper::UI::Actions::GroupsGate do
     context "disabling a group" do
       before do
         flipper[:search].enable_group :admins
-        post "features/search/groups", "value" => "admins", "operation" => "disable"
+        post "features/search/groups",
+          {"value" => "admins", "operation" => "disable", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "removes item from members" do
@@ -72,7 +66,9 @@ describe Flipper::UI::Actions::GroupsGate do
 
     context "for an unregistered group" do
       before do
-        post "features/search/groups", "value" => "not_here", "operation" => "enable"
+        post "features/search/groups",
+          {"value" => "not_here", "operation" => "enable", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "redirects back to feature" do

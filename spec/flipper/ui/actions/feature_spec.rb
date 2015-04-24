@@ -1,20 +1,12 @@
 require 'helper'
-require 'rack/test'
-require 'flipper'
-require 'flipper/adapters/memory'
-require 'flipper/ui/actor'
 
 describe Flipper::UI::Actions::Feature do
-  include Rack::Test::Methods
-
-  let(:adapter) { Flipper::Adapters::Memory.new }
-  let(:flipper) { Flipper.new(adapter) }
-  let(:app)     { Flipper::UI.app(flipper) }
-
   describe "DELETE /features/:feature" do
     before do
       flipper.enable :search
-      delete "/features/search"
+      delete "/features/search",
+        {"authenticity_token" => "a"},
+        "rack.session" => {:csrf => "a"}
     end
 
     it "removes feature" do
@@ -30,7 +22,9 @@ describe Flipper::UI::Actions::Feature do
   describe "POST /features/:feature with _method=DELETE" do
     before do
       flipper.enable :search
-      post "/features/search", "_method" => "DELETE"
+      post "/features/search",
+        {"_method" => "DELETE", "authenticity_token" => "a"},
+        "rack.session" => {:csrf => "a"}
     end
 
     it "removes feature" do

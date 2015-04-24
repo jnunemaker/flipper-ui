@@ -21,6 +21,8 @@
     </p>
 
     <form action="<%= script_name %>/features/<%= @feature.key %>/boolean" method="post">
+      <%== csrf_input_tag %>
+
       <% unless @feature.on? %>
         <button type="submit" name="action" value="Enable" class="btn btn-danger tooltipped tooltipped-n" aria-label="Enable for everyone">Enable</button>
       <% end %>
@@ -40,6 +42,7 @@
           </div>
           <div class="panel-body">
             <form action="<%= script_name %>/features/<%= @feature.key %>/percentage_of_actors" method="post">
+              <%== csrf_input_tag %>
               <div class="btn-group">
                 <% @percentages.each do |number| %>
                   <input type="submit" name="value" value="<%= number %>%" class="btn" <% if number == @feature.percentage_of_actors_value %>disabled<% end %>>
@@ -50,6 +53,7 @@
             <h4>- or -</h4>
 
             <form action="<%= script_name %>/features/<%= @feature.key %>/percentage_of_actors" method="post">
+              <%== csrf_input_tag %>
               <input type="text" name="value" <% if @feature.percentage_of_actors_value > 0 %>value="<%= @feature.percentage_of_actors_value %>"<% end %> placeholder="custom (ie: 26, 32, etc.)" class="input-mini">
               <input type="submit" name="action" value="Enable" class="btn btn-sm">
             </form>
@@ -63,6 +67,7 @@
           </div>
           <div class="panel-body">
             <form action="<%= script_name %>/features/<%= @feature.key %>/percentage_of_time" method="post">
+              <%== csrf_input_tag %>
               <div class="btn-group">
                 <% @percentages.each do |number| %>
                   <input type="submit" name="value" value="<%= number %>%" class="btn" <% if number == @feature.percentage_of_time_value %>disabled<% end %>>
@@ -73,6 +78,7 @@
             <h4>- or -</h4>
 
             <form action="<%= script_name %>/features/<%= @feature.key %>/percentage_of_time" method="post">
+              <%== csrf_input_tag %>
               <input type="text" name="value" <% if @feature.percentage_of_time_value > 0 %>value="<%= @feature.percentage_of_time_value %>"<% end %> placeholder="custom (ie: 26, 32, etc.)" class="input-mini">
               <input type="submit" name="action" value="Enable" class="btn btn-sm">
             </form>
@@ -91,6 +97,7 @@
               <p class="right">All groups enabled.</p>
             <% else %>
               <form action="<%= script_name %>/features/<%= @feature.key %>/groups" method="post" class="right">
+                <%== csrf_input_tag %>
                 <input type="hidden" name="operation" value="enable">
                 <select name="value">
                   <option value="">Select a group...</option>
@@ -121,6 +128,7 @@
                     </div>
                     <div class="flex-table-item">
                       <form action="<%= script_name %>/features/<%= @feature.key %>/groups" method="post">
+                        <%== csrf_input_tag %>
                         <input type="hidden" name="operation" value="disable">
                         <input type="hidden" name="value" value="<%= item %>">
                         <button type="submit" value="Disable" class="button-inv danger tooltipped tooltipped-w" aria-label="Disable <%= item %>">
@@ -139,6 +147,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <form action="<%= script_name %>/features/<%= @feature.key %>/actors" method="post" class="right">
+              <%== csrf_input_tag %>
               <input type="hidden" name="operation" value="enable">
               <input type="text" name="value" placeholder="ie: User:6" class="input-mini">
               <input type="submit" value="Add Actor" class="btn btn-sm">
@@ -163,6 +172,7 @@
                     </div>
                     <div class="flex-table-item">
                       <form action="<%= script_name %>/features/<%= @feature.key %>/actors" method="post">
+                        <%== csrf_input_tag %>
                         <input type="hidden" name="operation" value="disable">
                         <input type="hidden" name="value" value="<%= item %>">
                         <button type="submit" value="Disable" class="button-inv danger tooltipped tooltipped-w" aria-label="Disable <%= item %>">
@@ -190,7 +200,8 @@
       Deleting a feature removes it from the list of features and disables it for everyone.
     </p>
 
-    <form action="<%= script_name %>/features/<%= @feature.key %>" method="delete">
+    <form action="<%= script_name %>/features/<%= @feature.key %>" method="post">
+      <%== csrf_input_tag %>
       <input type="hidden" name="_method" value="DELETE">
       <button type="submit" name="action" value="Delete" class="btn btn-danger tooltipped tooltipped-ne" aria-label="Remove feature from list of features and disable it.">Delete</button>
     </form>

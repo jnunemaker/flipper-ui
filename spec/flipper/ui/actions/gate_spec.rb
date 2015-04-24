@@ -1,19 +1,11 @@
 require 'helper'
-require 'rack/test'
-require 'flipper'
-require 'flipper/adapters/memory'
-require 'flipper/ui/actor'
 
 describe Flipper::UI::Actions::Gate do
-  include Rack::Test::Methods
-
-  let(:adapter) { Flipper::Adapters::Memory.new }
-  let(:flipper) { Flipper.new(adapter) }
-  let(:app)     { Flipper::UI.app(flipper) }
-
   describe "POST /features/:feature/non-existent-gate" do
     before do
-      post "/features/search/non-existent-gate"
+      post "/features/search/non-existent-gate",
+        {"authenticity_token" => "a"},
+        "rack.session" => {:csrf => "a"}
     end
 
     it "responds with redirect" do

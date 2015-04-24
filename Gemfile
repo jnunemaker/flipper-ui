@@ -3,6 +3,8 @@ gemspec
 
 gem 'rake'
 gem 'shotgun'
+gem 'redis'
+gem 'flipper-redis', path: "~/projects/flipper-redis"
 gem 'rspec'
 gem 'rack-test'
 gem 'activesupport'

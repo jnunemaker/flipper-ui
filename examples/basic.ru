@@ -12,7 +12,7 @@ lib_path  = root_path.join('lib')
 $:.unshift(lib_path)
 
 require 'flipper-ui'
-require 'flipper/adapters/memory'
+require 'flipper-redis'
 
 Flipper.register(:admins) { |actor|
   actor.respond_to?(:admin?) && actor.admin?
@@ -23,22 +23,22 @@ Flipper.register(:early_access) { |actor|
 }
 
 # Setup logging of flipper calls.
+$logger = Logger.new(STDOUT)
+require "active_support/notifications"
 require 'flipper/instrumentation/log_subscriber'
-Flipper::Instrumentation::LogSubscriber.logger = Logger.new(STDOUT)
+Flipper::Instrumentation::LogSubscriber.logger = $logger
 
-adapter = Flipper::Adapters::Memory.new({})
-flipper = Flipper.new(adapter, :instrumenter => ActiveSupport::Notifications)
+adapter = Flipper::Adapters::Redis.new(Redis.new(port: ENV["GH_REDIS_PORT"]))
+flipper = Flipper.new(adapter, instrumenter: ActiveSupport::Notifications)
 
-Actor = Struct.new(:flipper_id)
+# flipper[:search_performance_another_long_thing].enable
+# flipper[:gauges_tracking].enable
+# flipper[:unused].disable
+# flipper[:suits].enable_actor Flipper::UI::Actor.new('1')
+# flipper[:suits].enable_actor Flipper::UI::Actor.new('6')
+# flipper[:secrets].enable_group :admins
+# flipper[:secrets].enable_group :early_access
+# flipper[:logging].enable_percentage_of_time 5
+# flipper[:new_cache].enable_percentage_of_actors 15
 
-flipper[:search_performance_another_long_thing].enable
-flipper[:gauges_tracking].enable
-flipper[:unused].disable
-flipper[:suits].enable Actor.new('1')
-flipper[:suits].enable Actor.new('6')
-flipper[:secrets].enable flipper.group(:admins)
-flipper[:secrets].enable flipper.group(:early_access)
-flipper[:logging].enable flipper.time(5)
-flipper[:new_cache].enable flipper.actors(15)
-
-run Flipper::UI.app(flipper)
+run Flipper::UI.app(flipper, secret: SecureRandom.hex(16))

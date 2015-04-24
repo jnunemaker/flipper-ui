@@ -1,21 +1,13 @@
 require 'helper'
-require 'rack/test'
-require 'flipper'
-require 'flipper/adapters/memory'
-require 'flipper/ui/actor'
 
 describe Flipper::UI::Actions::BooleanGate do
-  include Rack::Test::Methods
-
-  let(:adapter) { Flipper::Adapters::Memory.new }
-  let(:flipper) { Flipper.new(adapter) }
-  let(:app)     { Flipper::UI.app(flipper) }
-
   describe "POST /features/:feature/boolean" do
     context "with enable" do
       before do
         flipper.disable :search
-        post "features/search/boolean", "action" => "Enable"
+        post "features/search/boolean",
+          {"action" => "Enable", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "enables the feature" do
@@ -31,7 +23,9 @@ describe Flipper::UI::Actions::BooleanGate do
     context "with disable" do
       before do
         flipper.enable :search
-        post "features/search/boolean", "action" => "Disable"
+        post "features/search/boolean",
+          {"action" => "Disable", "authenticity_token" => "a"},
+          "rack.session" => {:csrf => "a"}
       end
 
       it "disables the feature" do

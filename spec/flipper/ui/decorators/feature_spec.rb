@@ -4,7 +4,7 @@ require 'flipper/adapters/memory'
 describe Flipper::UI::Decorators::Feature do
   let(:source)  { {} }
   let(:adapter) { Flipper::Adapters::Memory.new(source) }
-  let(:flipper) { Flipper.new(adapter) }
+  let(:flipper) { build_flipper }
   let(:feature) { flipper[:some_awesome_feature] }
 
   subject {

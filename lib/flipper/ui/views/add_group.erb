@@ -16,6 +16,7 @@
         Turn on this feature for an entire group of actors.
       </p>
       <form action="<%= script_name %>/features/<%= @feature.key %>/groups" method="post">
+        <%== csrf_input_tag %>
         <input type="hidden" name="operation" value="enable">
         <select name="value">
           <option value="">Select a group...</option>
