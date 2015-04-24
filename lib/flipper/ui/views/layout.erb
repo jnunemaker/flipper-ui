@@ -1,161 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Flipper</title>
-    <link rel="stylesheet" type="text/css" href="<%= script_name %>/css/application.css">
-    <link rel="stylesheet" type="text/css" href="<%= script_name %>/css/jquery-ui-1.10.3.slider.min.css">
+    <title><%= @page_title ? "#{@page_title} // " : "" %>Flipper</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script>
-      var Flipper = {};
-      Flipper.Config = {
-        url: "<%= script_name %>"
-      }
-    </script>
-    <script src="<%= script_name %>/js/jquery.min.js"></script>
-    <script src="<%= script_name %>/js/jquery-ui-1.10.3.slider.min.js"></script>
+    <link rel="stylesheet" href="<%= script_name %>/octicons/octicons.css">
+    <link rel="stylesheet" href="<%= script_name %>/css/application.css">
 
-    <script src="<%= script_name %>/js/handlebars.js"></script>
-    <script src="<%= script_name %>/js/spine/spine.js"></script>
-    <script src="<%= script_name %>/js/spine/ajax.js"></script>
-    <script src="<%= script_name %>/js/spine/route.js"></script>
-    <script src="<%= script_name %>/js/spine/manager.js"></script>
-    <script src="<%= script_name %>/js/application.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <div id="app">
-      <div id="header">
-        <h1>
-          <a href="<%= script_name %>/">
-            <img src="<%= script_name %>/images/logo.png" alt="Flipper" />
-          </a>
-        </h1>
-      </div>
+    <div class="container header">
+      <a class="btn btn-sm right" href="<%= script_name %>/features/new">Add Feature</a>
 
-      <div id="content">
+      <ol class="breadcrumb">
+        <% @breadcrumbs.each do |breadcrumb| %>
+          <li<% if breadcrumb.active? %> class="active"<% end %>>
+            <% if breadcrumb.active? %>
+              <%= breadcrumb.text %>
+            <% else %>
+              <a href="<%= script_name %><%= breadcrumb.href %>"><%= breadcrumb.text %></a>
+            <% end %>
+          </li>
+        <% end %>
+      </ol>
+
+      <div>
         <%== yield %>
       </div>
     </div>
 
-    <script id="feature-template" type="text/x-handlebars-template">
-      <div class="feature" id="feature-{{id}}">
-        <div class="show">
-          <h3>
-            <span class="state {{state}}"></span>
-            {{name}}
-            <span class="description">{{description}}</span>
-          </h3>
-
-          <div class="actions">
-            <a href="#" class="show-settings">Change Settings</a>
-          </div>
-        </div>
-
-        <div class="edit">
-          <h3>
-            {{name}}
-            <span class="description">Settings</span>
-          </h3>
-
-          <div class="actions">
-            <a href="#" class="hide-settings">Cancel</a>
-          </div>
-
-          <div class="tabs">
-            <ul>
-              <li><a href="#" data-tab="boolean">All On/All Off</a></li>
-              <li><a href="#" data-tab="group">Groups</a></li>
-              <li><a href="#" data-tab="actor">Actors</a></li>
-              <li><a href="#" data-tab="percentage_of_actors">
-                Percentage Of Actors</a></li>
-              <li><a href="#" data-tab="percentage_of_time">
-                Percentage Of Time</a></li>
-            </ul>
-          </div>
-
-          <div class="gates"></div>
-        </div>
-      </div>
-    </script>
-
-    <script id="gate-boolean-template" type="text/x-handlebars-template">
-      <form action="/features/{{feature_id}}/boolean" method="POST">
-        <input type="radio" name="value" value="true" {{#value}}checked="checked"{{/value}} /> On
-        <input type="radio" name="value" value="false" {{^value}}checked="checked"{{/value}} /> Off
-        <button>Save Settings</button>
-      </form>
-    </script>
-
-    <script id="gate-member-template" type="text/x-handlebars-template">
-      <li class="member" data-value="{{this}}">
-        <a href="#" class="disable">
-          <img src="<%= script_name %>/images/remove.png">
-        </a>
-        {{this}}
-      </li>
-    </script>
-
-    <script id="gate-group-template" type="text/x-handlebars-template">
-      <form action="/features/{{feature_id}}/group" method="POST">
-        <input type="hidden" name="operation" value="enable" />
-        <label>
-          Group Name
-          <select name="value">
-            <option value="">Select the group...</option>
-            <% Flipper.group_names.each do |name| %>
-            <option value="<%= name %>"><%= name %></option>
-            <% end %>
-          </select>
-        </label>
-        <button>Enable Group</button>
-      </form>
-      <ul class="members">
-        {{#each value}}
-          <li class="member" data-value="{{this}}">
-            <a href="#" class="disable">
-              <img src="<%= script_name %>/images/remove.png">
-            </a>
-            {{this}}
-          </li>
-        {{/each}}
-      </ul>
-    </script>
-
-    <script id="gate-actor-template" type="text/x-handlebars-template">
-      <form action="/features/{{feature_id}}/actor" method="POST">
-        <input type="hidden" name="operation" value="enable" />
-        <label>
-          Flipper Id
-          <input type="text" name="value" value="" />
-        </label>
-        <button>Enable Actor</button>
-      </form>
-      <ul class="members">
-        {{#each value}}
-          <li class="member" data-value="{{this}}">
-            <a href="#" class="disable">
-              <img src="<%= script_name %>/images/remove.png">
-            </a>
-            {{this}}
-          </li>
-        {{/each}}
-      </ul>
-    </script>
-
-    <script id="gate-percentage-of-actors-template" type="text/x-handlebars-template">
-      <form action="/features/{{feature_id}}/percentage_of_actors" method="POST">
-        <div class="slider-range"></div>
-        <input type="text" name="value" value="{{value}}" /> %
-        <button>Save Settings</button>
-      </form>
-    </script>
-
-    <script id="gate-percentage-of-time-template" type="text/x-handlebars-template">
-      <form action="/features/{{feature_id}}/percentage_of_time" method="POST">
-        <div class="slider-range"></div>
-        <input type="text" name="value" value="{{value}}" /> %
-        <button>Save Settings</button>
-      </form>
-    </script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="<%= script_name %>/js/bootstrap.min.js"></script>
+    <script src="<%= script_name %>/js/application.js"></script>
   </body>
 </html>

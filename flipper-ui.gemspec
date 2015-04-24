@@ -4,8 +4,9 @@ require File.expand_path('../lib/flipper/ui/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["John Nunemaker"]
   gem.email         = ["nunemaker@gmail.com"]
-  gem.description   = %q{UI for the Flipper gem}
   gem.summary       = %q{UI for the Flipper gem}
+  gem.description   = %q{Rack middleware that provides a fully featured web interface for the flipper gem.}
+  gem.license       = "MIT"
   gem.homepage      = "https://github.com/jnunemaker/flipper-ui"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
@@ -15,7 +16,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Flipper::UI::VERSION
 
-  gem.add_dependency 'rack'
+  gem.add_dependency 'rack', '~> 1.5', '< 1.7'
+  gem.add_dependency 'rack-protection', '~> 1.5.3'
   gem.add_dependency 'flipper', '~> 0.7.0.beta1'
-  gem.add_dependency 'erubis'
+  gem.add_dependency 'erubis', '~> 2.7.0'
 end

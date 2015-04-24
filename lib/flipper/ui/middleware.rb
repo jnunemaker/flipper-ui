@@ -35,12 +35,21 @@ module Flipper
         end
 
         @action_collection = ActionCollection.new
-        @action_collection.add UI::Actions::File
-        @action_collection.add UI::Actions::Features
-        @action_collection.add UI::Actions::Gate
 
-        # Catch all, always last.
-        @action_collection.add UI::Actions::Index
+        # Static Assets/Files
+        @action_collection.add UI::Actions::File
+
+        # UI
+        @action_collection.add UI::Actions::Features
+        @action_collection.add UI::Actions::AddFeature
+        @action_collection.add UI::Actions::Feature
+        @action_collection.add UI::Actions::ActorsGate
+        @action_collection.add UI::Actions::GroupsGate
+        @action_collection.add UI::Actions::BooleanGate
+        @action_collection.add UI::Actions::PercentageOfTimeGate
+        @action_collection.add UI::Actions::PercentageOfActorsGate
+        @action_collection.add UI::Actions::Gate
+        @action_collection.add UI::Actions::Home
       end
 
       def flipper

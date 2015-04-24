@@ -1,16 +1,19 @@
 require 'delegate'
 require 'flipper/ui/decorators/gate'
+require 'flipper/ui/util'
 
 module Flipper
   module UI
     module Decorators
       class Feature < SimpleDelegator
+        include Comparable
+
         # Public: The feature being decorated.
         alias_method :feature, :__getobj__
 
         # Public: Returns name titleized.
         def pretty_name
-          @pretty_name ||= titleize(name)
+          @pretty_name ||= Util.titleize(name)
         end
 
         # Public: Returns instance as hash that is ready to be json dumped.
@@ -27,9 +30,39 @@ module Flipper
           }
         end
 
-        # Private
-        def titleize(str)
-          str.to_s.split('_').map { |word| word.capitalize }.join(' ')
+        def color_class
+          case feature.state
+          when :on
+            "text-open"
+          when :off
+            "text-closed"
+          when :conditional
+            "text-pending"
+          end
+        end
+
+        def enabled_gates
+          feature.gates.select { |gate|
+            gate.enabled?(feature.gate_values[gate.key])
+          }
+        end
+
+        def enabled_gate_names
+          enabled_gates.map { |gate| Util.titleize(gate.key) }.sort.join(', ')
+        end
+
+        StateSortMap = {
+          :on => 1,
+          :conditional => 2,
+          :off => 3,
+        }
+
+        def <=>(other)
+          if state == other.state
+            key <=> other.key
+          else
+            StateSortMap[state] <=> StateSortMap[other.state]
+          end
         end
       end
     end

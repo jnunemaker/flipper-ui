@@ -4,7 +4,7 @@ require 'flipper/adapters/memory'
 describe Flipper::UI::Decorators::Feature do
   let(:source)  { {} }
   let(:adapter) { Flipper::Adapters::Memory.new(source) }
-  let(:flipper) { Flipper.new(adapter) }
+  let(:flipper) { build_flipper }
   let(:feature) { flipper[:some_awesome_feature] }
 
   subject {
@@ -54,6 +54,43 @@ describe Flipper::UI::Decorators::Feature do
         Flipper::UI::Decorators::Gate.new(gate, value).as_json
       }
       @result['gates'].should eq(gates)
+    end
+  end
+
+  describe "#<=>" do
+    let(:on) {
+      flipper.enable(:on_a)
+      described_class.new(flipper[:on_a])
+    }
+
+    let(:on_b) {
+      flipper.enable(:on_b)
+      described_class.new(flipper[:on_b])
+    }
+
+    let(:conditional) {
+      flipper.enable_percentage_of_time :conditional_a, 5
+      described_class.new(flipper[:conditional_a])
+    }
+
+    let(:off) {
+      described_class.new(flipper[:off_a])
+    }
+
+    it "sorts :on before :conditional" do
+      (on <=> conditional).should be(-1)
+    end
+
+    it "sorts :on before :off" do
+      (on <=> conditional).should be(-1)
+    end
+
+    it "sorts :conditional before :off" do
+      (on <=> conditional).should be(-1)
+    end
+
+    it "sorts on key for identical states" do
+      (on <=> on_b).should be(-1)
     end
   end
 end

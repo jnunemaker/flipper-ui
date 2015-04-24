@@ -56,6 +56,7 @@ module Flipper
         @flipper, @request = flipper, request
         @code = 200
         @headers = {}
+        @breadcrumbs = []
       end
 
       # Public: Runs the request method for the provided request.
@@ -76,8 +77,8 @@ module Flipper
       #
       # Examples
       #
-      #   run_other_action Index
-      #   # => result of running Index action
+      #   run_other_action Home
+      #   # => result of running Home action
       #
       # Returns result of other action.
       def run_other_action(action_class)
@@ -100,7 +101,7 @@ module Flipper
       def view_response(name)
         header 'Content-Type', 'text/html'
         body = view_with_layout { view_without_layout name }
-        [@code, @headers, [body]]
+        halt [@code, @headers, [body]]
       end
 
       # Public: Dumps an object as json and returns rack response with that as
@@ -112,7 +113,16 @@ module Flipper
       def json_response(object)
         header 'Content-Type', 'application/json'
         body = JSON.dump(object)
-        [@code, @headers, [body]]
+        halt [@code, @headers, [body]]
+      end
+
+      # Public: Redirect to a new location.
+      #
+      # location - The String location to set the Location header to.
+      def redirect_to(location)
+        status 302
+        header "Location", location
+        halt [@code, @headers, [""]]
       end
 
       # Public: Set the status code for the response.
@@ -130,6 +140,28 @@ module Flipper
         @headers[name] = value
       end
 
+      class Breadcrumb
+        attr_reader :text, :href
+
+        def initialize(text, href = nil)
+          @text = text
+          @href = href
+        end
+
+        def active?
+          @href.nil?
+        end
+      end
+
+      # Public: Add a breadcrumb to the trail.
+      #
+      # text - The String text for the breadcrumb.
+      # href - The String href for the anchor tag (optional). If nil, breadcrumb
+      #        is assumed to be the end of the trail.
+      def breadcrumb(text, href = nil)
+        @breadcrumbs << Breadcrumb.new(text, href)
+      end
+
       # Private
       def view_with_layout(&block)
         view :layout, &block
@@ -143,6 +175,11 @@ module Flipper
       # Private
       def view(name)
         path = views_path.join("#{name}.erb")
+
+        unless path.exist?
+          raise "Template does not exist: #{path}"
+        end
+
         contents = path.read
         compiled = Eruby.new(contents)
         compiled.result Proc.new {}.binding
@@ -166,6 +203,10 @@ module Flipper
       # Private: Returns the request method converted to an action method.
       def request_method_name
         @request_method_name ||= @request.request_method.downcase
+      end
+
+      def csrf_input_tag
+        %Q(<input type="hidden" name="authenticity_token" value="#{@request.session[:csrf]}">)
       end
     end
   end

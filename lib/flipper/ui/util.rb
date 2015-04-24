@@ -7,6 +7,10 @@ module Flipper
       def self.blank?(str)
         str.to_s !~ NON_WHITESPACE_REGEXP
       end
+
+      def self.titleize(str)
+        str.to_s.split("_").map { |word| word.capitalize }.join(" ")
+      end
     end
   end
 end
