@@ -3,16 +3,16 @@
 #   bundle exec rackup examples/basic.ru
 #   http://localhost:9292/
 #
-require 'pp'
-require 'logger'
-require 'pathname'
+require "pp"
+require "logger"
+require "pathname"
 
-root_path = Pathname(__FILE__).dirname.join('..').expand_path
-lib_path  = root_path.join('lib')
+root_path = Pathname(__FILE__).dirname.join("..").expand_path
+lib_path  = root_path.join("lib")
 $:.unshift(lib_path)
 
-require 'flipper-ui'
-require 'flipper-redis'
+require "flipper-ui"
+require "flipper-redis"
 
 Flipper.register(:admins) { |actor|
   actor.respond_to?(:admin?) && actor.admin?
@@ -25,12 +25,13 @@ Flipper.register(:early_access) { |actor|
 # Setup logging of flipper calls.
 $logger = Logger.new(STDOUT)
 require "active_support/notifications"
-require 'flipper/instrumentation/log_subscriber'
+require "flipper/instrumentation/log_subscriber"
 Flipper::Instrumentation::LogSubscriber.logger = $logger
 
 adapter = Flipper::Adapters::Redis.new(Redis.new(port: ENV["GH_REDIS_PORT"]))
 flipper = Flipper.new(adapter, instrumenter: ActiveSupport::Notifications)
 
+# You can uncomment these to get some default data:
 # flipper[:search_performance_another_long_thing].enable
 # flipper[:gauges_tracking].enable
 # flipper[:unused].disable
@@ -41,4 +42,4 @@ flipper = Flipper.new(adapter, instrumenter: ActiveSupport::Notifications)
 # flipper[:logging].enable_percentage_of_time 5
 # flipper[:new_cache].enable_percentage_of_actors 15
 
-run Flipper::UI.app(flipper, secret: SecureRandom.hex(16))
+run Flipper::UI.app(flipper, secret: "example_secret_dont_use_this")
