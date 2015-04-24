@@ -55,7 +55,7 @@ module Flipper
       def initialize(flipper, request)
         @flipper, @request = flipper, request
         @code = 200
-        @headers = {}
+        @headers = {"Content-Type" => "text/plain"}
         @breadcrumbs = []
       end
 
@@ -99,7 +99,7 @@ module Flipper
       #
       # Returns a response.
       def view_response(name)
-        header 'Content-Type', 'text/html'
+        header "Content-Type", "text/html"
         body = view_with_layout { view_without_layout name }
         halt [@code, @headers, [body]]
       end
