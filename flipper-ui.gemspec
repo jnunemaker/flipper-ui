@@ -4,8 +4,8 @@ require File.expand_path('../lib/flipper/ui/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["John Nunemaker"]
   gem.email         = ["nunemaker@gmail.com"]
-  gem.summary       = %q{UI for the Flipper gem}
-  gem.description   = %q{Rack middleware that provides a fully featured web interface for the flipper gem.}
+  gem.summary       = "UI for the Flipper gem"
+  gem.description   = "Rack middleware that provides a fully featured web interface for the flipper gem."
   gem.license       = "MIT"
   gem.homepage      = "https://github.com/jnunemaker/flipper-ui"
 
