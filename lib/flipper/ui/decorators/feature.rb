@@ -41,13 +41,7 @@ module Flipper
           end
         end
 
-        def enabled_gates
-          feature.gates.select { |gate|
-            gate.enabled?(feature.gate_values[gate.key])
-          }
-        end
-
-        def enabled_gate_names
+        def pretty_enabled_gate_names
           enabled_gates.map { |gate| Util.titleize(gate.key) }.sort.join(', ')
         end
 
