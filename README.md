@@ -57,8 +57,7 @@ Another example of a route constrain using the current_user when using Devise or
 class CanAccessFlipperUI
   def self.matches?(request)
     current_user = request.env['warden'].user
-
-    return current_user.present? && current_user.respond_to?(:is_admin?) && current_user.is_admin?
+    current_user.present? && current_user.respond_to?(:admin?) && current_user.admin?
   end
 end
 
