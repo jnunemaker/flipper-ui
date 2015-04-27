@@ -33,7 +33,7 @@ module Flipper
 
           flipper.adapter.add(flipper[value])
 
-          redirect_to "/features"
+          redirect_to "/features/#{Rack::Utils.escape_path(value)}"
         end
       end
     end

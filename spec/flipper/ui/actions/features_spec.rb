@@ -29,9 +29,9 @@ describe Flipper::UI::Actions::Features do
       flipper.features.map(&:key).should include("notifications_next")
     end
 
-    it "redirects to features" do
+    it "redirects to feature" do
       last_response.status.should be(302)
-      last_response.headers["Location"].should eq("/features")
+      last_response.headers["Location"].should eq("/features/notifications_next")
     end
   end
 end
