@@ -44,10 +44,6 @@ describe Flipper::UI::Decorators::Feature do
       @result['state'].should eq('off')
     end
 
-    it "includes description" do
-      @result['description'].should eq('Disabled')
-    end
-
     it "includes gates" do
       gates = subject.gates.map { |gate|
         value = subject.gate_values[gate.key]

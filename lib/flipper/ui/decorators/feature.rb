@@ -23,7 +23,6 @@ module Flipper
             'id' => name.to_s,
             'name' => pretty_name,
             'state' => state.to_s,
-            'description' => description,
             'gates' => gates.map { |gate|
               Decorators::Gate.new(gate, gate_values[gate.key]).as_json
             },
